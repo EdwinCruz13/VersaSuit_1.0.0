@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "an user service api create for the billing and inventory apps",
   "main": "index.js",
-  "type": "module",
+  "type": "cjs",
   "scripts": {
-    "dev": "nodemon --exec ts-node dist/index.js",
+    "dev": "nodemon --exec ts-node src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js"
   },
