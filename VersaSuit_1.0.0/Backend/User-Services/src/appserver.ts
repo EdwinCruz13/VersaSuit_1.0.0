@@ -10,7 +10,7 @@ const AppServer = express();
 AppServer.set("port", 4000);
 AppServer.use(express.json());
 
-//create http direction from router
+// API ENDPOINTS
 AppServer.use("/api/v1/users", UserRouter)
 
 

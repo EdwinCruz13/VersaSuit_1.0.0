@@ -1,0 +1,28 @@
+version: '3.9'
+volumes:
+  postgres-data:
+services:
+  postgresdb:
+    image: postgres
+    container_name: VersaSuit_PostgresServer
+    environment:
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: Ik4ro$13
+      POSTGRES_DB: VersaSuitDB
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+  user-service:
+    container_name: VersaSuit_UsersServices
+    build:
+      context: ./User-Services
+      target: userservice
+    ports:
+      - "4000:4000"
+    environment:
+      DATABASE_URL: postgres://sa:Ik4ro$13@postgres:5432/VersaSuitDB
+      JWT_SECRET: versa$uit_130691$
+    depends_on:
+      - postgresdb
