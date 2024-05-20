@@ -1,0 +1,24 @@
+version: '3.9'
+services:
+  user-service:
+    container_name: UserService_VersaSuit
+    build: .
+    ports:
+      - "4000:4000"
+    environment:
+      - JWT_SECRET= versa$uit_130691$
+#   links:
+#     - postgresdb
+# postgresdb:
+#   container_name: PostgreSQL_SERVER
+#   image: postgres
+#   environment:
+#     - POSTGRES_USER:sa
+#     - POSTGRES_PASSWORD:Ikaros13
+#     - POSTGRES_HOST_AUTH_METHOD:trust
+#     - POSTGRES_DB:VersaSuit
+#   volumes:
+#     - postgres-data:/var/lib/postgresql/data
+#volumes:
+#  postgres-data:
+   
