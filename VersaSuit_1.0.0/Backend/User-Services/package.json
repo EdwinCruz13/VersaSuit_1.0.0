@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "an user service api create for the billing and inventory apps",
   "main": "index.js",
-  "type": "cjs",
+  "type": "commonjs",
   "scripts": {
     "dev": "nodemon --exec ts-node src/index.ts",
     "build": "tsc",
@@ -25,6 +25,7 @@
     "bcryptjs": "^2.4.3",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
+    "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.5"
   },
