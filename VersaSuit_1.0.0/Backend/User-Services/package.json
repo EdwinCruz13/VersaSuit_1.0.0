@@ -1,0 +1,28 @@
+{
+  "name": "user-services",
+  "version": "1.0.0",
+  "description": "an user service api create for the billing and inventory apps",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [
+    "user",
+    "models",
+    "schema",
+    "pern"
+  ],
+  "author": "EdwinCruz from NewBegins",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.14.0",
+    "bcryptjs": "^2.4.3",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
