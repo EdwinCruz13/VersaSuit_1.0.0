@@ -1,0 +1,59 @@
+-------------------------------
+Ventas
+-------------------------------
+Gestión de promociones
+Factura
+	Tipo de pagos
+
+Gestión de devolución
+
+Gestión de Cierre
+
+Gestión de cotizaciones
+
+Pedidos	
+
+Monedas
+	Tasa de cambio
+
+Clientes
+	Genéricos
+	Real
+	
+
+Bitacoras
+	Gestión Arqueos
+		Estados de Estados
+		Usuario
+		Usuario que arquea
+		Fecha de registro
+		Observaciones
+		Rango de fecha Inicial - Final
+		Tipo de arqueo
+
+
+
+
+Ventas
+Inventario
+Almacen
+Gestion Impuestos
+Gestion de Promociones
+Factura
+Clientes
+Devoluciones
+Monedas
+Contabilidad
+Presupuesto
+Empleado
+Tipo de Pagos
+Cotizaciones
+Bitacoras
+Cierres
+Compras
+Proveedores
+Cuentas por pagar
+Cuentas por cobrar
+
+
+

@@ -1,0 +1,25 @@
+Inventario
+	1- Gestión de almacenes.
+	2- Gestión de productos/servicios
+		Agrupador dinámico
+			por categorias.
+			por lineas de productos.
+			por colores.
+			otros.
+		Agrupador combos (restaurantes).
+		Unidades de medidas.
+		Historial de cambios.
+	3- Gestión de precios.
+	4- Gestión de impuestos.
+	5- Ordenes de compras.
+	6- Entrada y salida
+		Envios de productos (delivery).
+		Recepción de productos.
+	7- Proveedores
+	8- Inventario RMA (return merchandise authorization)
+	9- Ajuste de Inventario.
+	10- Alertas y Notificaciones.
+		Stock bajo.
+		Vencimientos.
+		Pedidos no entregados (empresa a cliente)
+		Fecha de entrega atrasadas (proveedores)

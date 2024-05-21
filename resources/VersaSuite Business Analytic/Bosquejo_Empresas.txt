@@ -1,0 +1,49 @@
+-------------------------------
+Configuraciones
+-------------------------------
+Gestion de usuarios
+	Usuarios
+	Roles
+	Permisos
+Gestion de empresa
+	Configuracion general
+		Nombre
+		Logo de empresa
+		Estado/Pais
+		Ciudad
+		Dirección Principal
+		Coordenadas de cede
+		Codigo Postal
+		Telefono
+		Correo electronico
+		Pagina Web
+		Pagina fb
+		Pagina instragran
+		Pagina tittok
+		Tags
+	Configuracion fiscal
+		RUC/Registro Unico
+		Impuesto Aplicable
+			Tasa de impuesto
+		Certificado fiscales
+	Configuracion contable
+		Moneda Principal
+		Periodo Fiscal
+	Configuracion Contactos
+		Contacto Principal
+		Telefono de contacto
+		Correo de contacto
+		Cargo de contacto
+	Configuracion Surcursales ?
+		Direccion de sucursal
+		Coordenadas de sucursal
+		telefono de sucursal
+		pais de sucursal
+		ciudad de sucursal
+		horarios de operacion
+		Administrador de sucursal
+	Configuracion Metodos de pagos
+	Serie de facturacion
+	Configuracion de plantilla factura
+	Auditoria de cambios
+	
