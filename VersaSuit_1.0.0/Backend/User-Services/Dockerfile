@@ -4,20 +4,19 @@
 FROM node:16.17.0 as userservice
 
 # create a folder on usr/app
-RUN mkdir -p /usr/app/userservice
+# RUN mkdir -p /usr/app/userservice
 
-#set the working directory
+#set the working directory, if the directory does not exits, workdir will create the directory
 WORKDIR /usr/app/userservice
 
-#copy package.jsons to the working directory
+#copy only the package.json to the working directory
 COPY package*.json ./
 
 #install dependenciy
 RUN npm install
 
 #copy the files from the project to the working directory 
-#check the dockerignore because we donnt want to
-#copy all the node_module folder
+#check the dockerignore because we donnt want to copy all the node_module folder
 COPY . .
 
 #expose a port 
