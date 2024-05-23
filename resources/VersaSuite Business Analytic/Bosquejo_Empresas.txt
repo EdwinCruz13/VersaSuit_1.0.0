@@ -6,42 +6,42 @@ Gestion de usuarios
 	Roles
 	Permisos
 Gestion de empresa
-	Configuracion general
+	- Configuracion general
 		Nombre
 		Logo de empresa
 		Estado/Pais
 		Ciudad
 		Dirección Principal
-		Coordenadas de cede
-		Codigo Postal
-		Telefono
-		Correo electronico
-		Pagina Web
-		Pagina fb
-		Pagina instragran
-		Pagina tittok
-		Tags
-	Configuracion fiscal
-		RUC/Registro Unico
-		Impuesto Aplicable
-			Tasa de impuesto
-		Certificado fiscales
-	Configuracion contable
-		Moneda Principal
-		Periodo Fiscal
-	Configuracion Contactos
+		Coordenadas de cede principal
+		Código Postal
+		Telefonos
+		Correo electronicos
+		Paginas Web
+		Paginas fb
+		Paginas instragran
+		Paginas tittok
+	- Configuracion Contactos
 		Contacto Principal
 		Telefono de contacto
 		Correo de contacto
 		Cargo de contacto
-	Configuracion Surcursales ?
+	- Configuracion contable
+		Moneda Principal
+		Periodo Fiscal
+	- Configuracion Surcursales ?
 		Direccion de sucursal
 		Coordenadas de sucursal
-		telefono de sucursal
+		telefonos de sucursal
+		correos de sucursal
 		pais de sucursal
 		ciudad de sucursal
 		horarios de operacion
 		Administrador de sucursal
+	- Configuracion fiscal
+		RUC/Registro Unico
+		Impuesto Aplicable
+			Tasa de impuesto
+		Certificado fiscales
 	Configuracion Metodos de pagos
 	Serie de facturacion
 	Configuracion de plantilla factura
