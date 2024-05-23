@@ -25,9 +25,6 @@ Gestion de empresa
 		Telefono de contacto
 		Correo de contacto
 		Cargo de contacto
-	- Configuracion contable
-		Moneda Principal
-		Periodo Fiscal
 	- Configuracion Surcursales ?
 		Direccion de sucursal
 		Coordenadas de sucursal
@@ -37,6 +34,14 @@ Gestion de empresa
 		ciudad de sucursal
 		horarios de operacion
 		Administrador de sucursal
+	- Configuracion contable
+		Moneda Principal
+		Periodo Fiscal
+		Bancos
+		Cuentas bancarias
+		Tipo de comprobantes
+		Cuentas contables
+		Cuentas auxiliares
 	- Configuracion fiscal
 		RUC/Registro Unico
 		Impuesto Aplicable
