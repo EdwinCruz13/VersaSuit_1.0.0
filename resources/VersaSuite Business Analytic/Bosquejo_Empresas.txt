@@ -42,6 +42,14 @@ Gestion de empresa
 		Tipo de comprobantes
 		Cuentas contables
 		Cuentas auxiliares
+	- Configuracion contable
+		Moneda Principal
+		Periodo Fiscal
+		Bancos
+		Cuentas bancarias
+		Tipo de comprobantes
+		Cuentas contables
+		Cuentas auxiliares
 	- Configuracion fiscal
 		Tipo de Regimen Fiscal
 			Regimen general	
