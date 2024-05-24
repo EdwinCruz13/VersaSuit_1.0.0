@@ -43,12 +43,34 @@ Gestion de empresa
 		Cuentas contables
 		Cuentas auxiliares
 	- Configuracion fiscal
-		RUC/Registro Unico
-		Impuesto Aplicable
-			Tasa de impuesto
-		Certificado fiscales
-	Configuracion Metodos de pagos
-	Serie de facturacion
-	Configuracion de plantilla factura
-	Auditoria de cambios
+		Tipo de Regimen Fiscal
+			Regimen general	
+			Regimen Simplificado
+			Regimen Pequeños contribuyentes
+			Regimen de exportadores
+		#Id fiscal
+		Razon SOcial
+		Direccion fiscal
+		Certificados digitales
+		Series y folios de facturación
+			Series: identificador de facturas emitida por empresa, cada sucursal puede tener su propia serie
+			Folios: numero secuenciales asociados a cada serie, control de inicio y fin de folios de cada serie
+		Impuestos
+			Nacionales
+			Locales
+			Especiales
+			Importación
+		Tasa de Impuestos
+			Tasa estandar
+			Tasa exentas
+			Configuracion por productos
+		Retenciones/Percepciones
+			Retenciones:  Impuestos que la empresa retiene a proveedores o clientes.
+			Percepciones; Impuestos adicionales que la empresa cobra a sus clientes.
+			Reglas: Especificar cuándo y cómo se aplican las retenciones y percepciones según la normativa fiscal.
+	- Configuración de facturación
+		Configuracion Metodos de pagos
+		Serie de facturacion
+		Configuracion de plantilla factura
+	- Auditoria de cambios
 	
