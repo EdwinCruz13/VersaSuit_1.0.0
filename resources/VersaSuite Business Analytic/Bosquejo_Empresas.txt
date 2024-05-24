@@ -20,15 +20,11 @@ Gestion de empresa
 		Paginas fb
 		Paginas instragran
 		Paginas tittok
-		RUC/Registro Unico
 	- Configuracion Contactos
 		Contacto Principal
 		Telefono de contacto
 		Correo de contacto
 		Cargo de contacto
-	- Configuracion contable
-		Moneda Principal
-		Periodo Fiscal
 	- Configuracion Surcursales ?
 		Direccion de sucursal
 		Coordenadas de sucursal
@@ -38,18 +34,42 @@ Gestion de empresa
 		ciudad de sucursal
 		horarios de operacion
 		Administrador de sucursal
-	- Configuracion facturación
-		Métodos de pagoss
-		Serie de factura
-		Plantilla de factura
-		Impuesto Aplicable
-			Tasa de impuesto
-		Certificado fiscales
-	- Configuración contabilidad
-		Grupos de cuenta
-		Tipo de cuentas
-		Catalogo contable
+	- Configuracion contable
+		Moneda Principal
+		Periodo Fiscal
+		Bancos
+		Cuentas bancarias
+		Tipo de comprobantes
 		Cuentas contables
-		Auxiliares contables
+		Cuentas auxiliares
+	- Configuracion fiscal
+		Tipo de Regimen Fiscal
+			Regimen general	
+			Regimen Simplificado
+			Regimen Pequeños contribuyentes
+			Regimen de exportadores
+		#Id fiscal
+		Razon SOcial
+		Direccion fiscal
+		Certificados digitales
+		Series y folios de facturación
+			Series: identificador de facturas emitida por empresa, cada sucursal puede tener su propia serie
+			Folios: numero secuenciales asociados a cada serie, control de inicio y fin de folios de cada serie
+		Impuestos
+			Nacionales
+			Locales
+			Especiales
+			Importación
+		Tasa de Impuestos
+			Tasa estandar
+			Tasa exentas
+			Configuracion por productos
+		Retenciones/Percepciones
+			Retenciones:  Impuestos que la empresa retiene a proveedores o clientes.
+			Percepciones; Impuestos adicionales que la empresa cobra a sus clientes.
+			Reglas: Especificar cuándo y cómo se aplican las retenciones y percepciones según la normativa fiscal.
+	- Configuración de facturación
+		Configuracion Metodos de pagos
+		Serie de facturacion
+		Configuracion de plantilla factura
 	- Auditoria de cambios
-	
