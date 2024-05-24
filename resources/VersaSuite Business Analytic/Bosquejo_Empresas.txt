@@ -20,6 +20,7 @@ Gestion de empresa
 		Paginas fb
 		Paginas instragran
 		Paginas tittok
+		RUC/Registro Unico
 	- Configuracion Contactos
 		Contacto Principal
 		Telefono de contacto
@@ -37,13 +38,18 @@ Gestion de empresa
 		ciudad de sucursal
 		horarios de operacion
 		Administrador de sucursal
-	- Configuracion fiscal
-		RUC/Registro Unico
+	- Configuracion facturación
+		Métodos de pagoss
+		Serie de factura
+		Plantilla de factura
 		Impuesto Aplicable
 			Tasa de impuesto
 		Certificado fiscales
-	Configuracion Metodos de pagos
-	Serie de facturacion
-	Configuracion de plantilla factura
-	Auditoria de cambios
+	- Configuración contabilidad
+		Grupos de cuenta
+		Tipo de cuentas
+		Catalogo contable
+		Cuentas contables
+		Auxiliares contables
+	- Auditoria de cambios
 	
