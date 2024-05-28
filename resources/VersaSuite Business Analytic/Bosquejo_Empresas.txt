@@ -34,14 +34,6 @@ Gestion de empresa
 		ciudad de sucursal
 		horarios de operacion
 		Administrador de sucursal
-	- Configuracion contable
-		Moneda Principal
-		Periodo Fiscal
-		Bancos
-		Cuentas bancarias
-		Tipo de comprobantes
-		Cuentas contables
-		Cuentas auxiliares
 	- Configuracion fiscal
 		Tipo de Regimen Fiscal
 			Regimen general	
@@ -72,4 +64,16 @@ Gestion de empresa
 		Configuracion Metodos de pagos
 		Serie de facturacion
 		Configuracion de plantilla factura
+		
+	- Configuracion contable
+		Periodo Fiscal
+		Moneda Principal
+		Bancos
+		Cuentas bancarias
+		Tipo de comprobantes
+		Catalogo de cuenta contable
+		Tipo de cuenta contable
+		Grupo de cuenta contable
+		Cuentas contables
+		Cuentas auxiliares
 	- Auditoria de cambios

@@ -14,11 +14,11 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
     restart: unless-stopped
-  user-service:
-    container_name: VersaSuit_UsersServices
-    build:
-      context: ./User-Services
-      target: userservice
+  company-service:
+    container_name: VersaSuit_CompaniesServices
+    build: 
+      context: ./Company-Services
+      target: companyservice
     ports:
       - "4000:4000"
     environment:
@@ -26,3 +26,16 @@ services:
       JWT_SECRET: versa$uit_130691$
     depends_on:
       - postgresdb
+  user-service:
+    container_name: VersaSuit_UsersServices
+    build:
+      context: ./User-Services
+      target: userservice
+    ports:
+      - "4001:4001"
+    environment:
+      DATABASE_URL: postgres://sa:Ik4ro$13@postgres:5432/VersaSuitDB
+      JWT_SECRET: versa$uit_130691$
+    depends_on:
+      - postgresdb
+      

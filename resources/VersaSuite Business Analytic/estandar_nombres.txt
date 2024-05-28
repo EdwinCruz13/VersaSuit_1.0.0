@@ -1,0 +1,7 @@
+setting -> tablas de Configuraciones
+Inventory -> tablas de inventario
+Sales -> tabla de facturacion y ventas
+Purchase -> tabla de compras y carrito
+Person -> tabla de personas
+Employees -> tabla de empleados
+

@@ -1,0 +1,40 @@
+{
+  "name": "company-services",
+  "version": "1.0.0",
+  "description": "Company configuration that allow create parameters for the managment in the company",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run build && node build/index.js",
+    "build": "tsc -p .",
+    "dev": "npm run build && nodemon src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EdwinCruz13/VersaSuit_1.0.0.git#main"
+  },
+  "keywords": [
+    "Company",
+    "settings"
+  ],
+  "author": "EdwinCruz by Newbegin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EdwinCruz13/VersaSuit_1.0.0/issues"
+  },
+  "homepage": "https://github.com/EdwinCruz13/VersaSuit_1.0.0/tree/main#readme",
+  "dependencies": {
+    "@prisma/client": "^5.14.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/node": "^20.12.12",
+    "bcryptjs": "^2.4.3",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
