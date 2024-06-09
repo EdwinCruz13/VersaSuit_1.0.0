@@ -1,0 +1,48 @@
+Telebox
+
+Paleta de Colores
+Azul (#3F51B5): Confianza y estabilidad
+Blanco (#ffffff): Pureza y simplicidad
+Rojo (#B52B2B): Energía y pasión
+Azul Oscuro (#3A526B): Profesionalismo y elegancia
+Uso Sugerido de los Colores
+Azul (#3F51B5)
+
+Encabezados y Menús Principales: Utiliza este color para los títulos, la barra de navegación y los menús principales. Ayuda a establecer jerarquía visual y dirige la atención a las secciones clave.
+Botones Primarios: Puedes usar este color para los botones de acción principal, como "Guardar", "Enviar" o "Aceptar".
+Blanco (#ffffff)
+
+Fondo: Ideal para el fondo de la aplicación para mantener un aspecto limpio y despejado.
+Espacios Negativos: Utiliza el blanco para los márgenes y los espacios entre secciones, asegurando que la interfaz no se vea sobrecargada.
+Rojo (#B52B2B)
+
+Botones Importantes y Alertas: Usa el rojo para los botones críticos, como "Eliminar" o "Cancelar", y para las alertas y notificaciones. Este color debe atraer la atención inmediata del usuario.
+Indicadores de Estado: Utiliza el rojo para los indicadores de error o estados críticos en la aplicación.
+Azul Oscuro (#3A526B)
+
+Elementos Secundarios: Este color es perfecto para elementos secundarios como subtítulos, bordes y divisores. Aporta contraste y profundidad sin ser tan dominante como el azul principal.
+Fondo de Secciones: Puedes usarlo como color de fondo para secciones específicas o paneles laterales, proporcionando una distinción clara entre diferentes áreas de contenido.
+Ejemplo de Implementación:
+Barra de Navegación
+Fondo: Azul (#3F51B5)
+Texto: Blanco (#ffffff)
+Hover: Azul Oscuro (#3A526B)
+Botones
+Principal (ej. "Guardar"): Fondo Azul (#3F51B5), Texto Blanco (#ffffff)
+Peligro (ej. "Eliminar"): Fondo Rojo (#B52B2B), Texto Blanco (#ffffff)
+Secundario: Fondo Azul Oscuro (#3A526B), Texto Blanco (#ffffff)
+Alertas y Notificaciones
+Error: Fondo Rojo (#B52B2B), Texto Blanco (#ffffff)
+Información: Fondo Azul (#3F51B5), Texto Blanco (#ffffff)
+Prototipo Visual:
+Puedes crear un prototipo visual de tu aplicación utilizando herramientas como Figma o Adobe XD para ver cómo se combinan estos colores en la interfaz y hacer ajustes si es necesario.
+
+Consistencia de Marca:
+Asegúrate de mantener la consistencia en el uso de estos colores en toda la aplicación para lograr una experiencia de usuario coherente y profesional. Usa el mismo tono de azul y rojo en todos los botones y alertas para evitar confusiones y asegurar una identidad visual fuerte.
+
+Resumen:
+Azul (#3F51B5): Encabezados, menús, botones principales.
+Blanco (#ffffff): Fondo, espacios negativos.
+Rojo (#B52B2B): Botones importantes, alertas.
+Azul Oscuro (#3A526B): Elementos secundarios, fondo de secciones específicas.
+Esta paleta de colores no solo es visualmente atractiva, sino que también refleja los valores de confianza, estabilidad, claridad y energía, lo que es ideal para una aplicación ERP dirigida a emprendedores nicaragüenses.
