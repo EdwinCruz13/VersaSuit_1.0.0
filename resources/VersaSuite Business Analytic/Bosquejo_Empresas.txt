@@ -20,6 +20,7 @@ Gestion de empresa
 		Paginas fb
 		Paginas instragran
 		Paginas tittok
+		TieneSucursal?
 	- Configuracion Contactos
 		Contacto Principal
 		Telefono de contacto
@@ -73,7 +74,32 @@ Gestion de empresa
 		Tipo de comprobantes
 		Catalogo de cuenta contable
 		Tipo de cuenta contable
-		Grupo de cuenta contable
 		Cuentas contables
+			-   Cuenta, SubCuenta, subsubCuenta, auxiliar, Cuenta analítica
+				Nivel1, Nivel2,    Nivel3, 		 Nivel4,   Nivel5
+				
+				- 2000 Cuenta
+				- 3000 Cuenta
+				- 4000 Cuenta
+					4001 SubCuenta
+						4001 001 subsubCuenta
+					4002 SubCuenta
+						4002 001 subsubCuenta
+							 4002 001 001 auxiliar
+							 4002 001 002 auxiliar
+							 4002 001 003 auxiliar
+						4002 002 subsubCuenta
+						4002 003 subsubCuenta
+						4002 004 subsubCuenta
+						4002 005 subsubCuenta
+							 4002 005 001 auxiliar
+							 	  4002 005 001 001 Cuenta analítica
+								  4002 005 001 002 Cuenta analítica
+					4003 SubCuenta
+						4003 001 subsubCuenta
+							 4003 001 001 auxiliar
+							 4003 001 002 auxiliar
+						4003 002 subsubCuenta
+			  	
 		Cuentas auxiliares
 	- Auditoria de cambios
