@@ -1,0 +1,31 @@
+{
+  "name": "api-gateway",
+  "version": "1.0.0",
+  "description": "a simple gateway that controlls the microservices api built up on nodejs",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run build && node build/index.js",
+    "build": "tsc -p .",
+    "dev": "npm run build && nodemon src/index.ts"
+  },
+  "keywords": [
+    "gateway",
+    "api",
+    "versasuiit"
+  ],
+  "author": "EdwinCruz",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "@types/http-proxy-middleware": "^1.0.0",
+    "@types/node": "^20.14.2",
+    "express": "^4.19.2",
+    "http-proxy-middleware": "^3.0.0",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.3"
+  }
+}
