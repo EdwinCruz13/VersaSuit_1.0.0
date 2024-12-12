@@ -1,0 +1,78 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+  schemas  = ["Settings"]
+}
+
+model City {
+  CityID        Int
+  CountryID     Int
+  nCity         String          @db.VarChar(30)
+  StateCode     String          @db.VarChar(30)
+  Timezone      String          @db.VarChar(45)
+  Country       Country         @relation(fields: [CountryID], references: [CountryID], onUpdate: NoAction, map: "FK_CountryID_Country")
+  CompanyBranch CompanyBranch[]
+
+  @@id([CountryID, CityID], map: "PKc_CountryIDCityID")
+  @@schema("Settings")
+}
+
+model Company {
+  CompanyID       Int             @id(map: "PKc_CompanyID")
+  nCompany        String          @db.VarChar(100)
+  Abbre           String          @db.VarChar(25)
+  FiscalNumber    String          @db.VarChar(25)
+  RLogo           Bytes?
+  LLogo           Bytes?
+  PrimaryHeader   String?         @db.VarChar(100)
+  SecondaryHeader String?         @db.VarChar(100)
+  PrimaryFooter   String?         @db.VarChar(100)
+  SecondaryFooter String?         @db.VarChar(100)
+  HasBranch       Boolean
+  Website         String?         @db.VarChar(100)
+  Email           String?         @db.VarChar(100)
+  PhoneNumber     Int?
+  UTC_CreateAT    DateTime?       @default(dbgenerated("getutcdate()"), map: "DFc_CompanyCreateAtUTC") @db.DateTime
+  GTMM6_CreateAT  DateTime?       @default(dbgenerated("switchoffset(CONVERT([datetimeoffset],getutcdate()),'-06:00')"), map: "DFc_CompanyCreateAtGTM") @db.DateTime
+  CompanyBranch   CompanyBranch[]
+
+  @@schema("Settings")
+}
+
+model CompanyBranch {
+  CompanyID    Int
+  BranchID     Int
+  CityID       Int
+  CountryID    Int
+  ManagerID    Int
+  Address      String   @db.NVarChar(100)
+  PhoneNumber  Int?
+  ExtNumber    Int?
+  PostalCode   String   @db.VarChar(100)
+  HasWarehouse Boolean
+  IsMainBranch Boolean
+  Latitude     Decimal? @db.Decimal(9, 6)
+  Longitude    Decimal? @db.Decimal(9, 6)
+  City         City     @relation(fields: [CountryID, CityID], references: [CountryID, CityID], onUpdate: NoAction, map: "FK_CityID_City")
+  Company      Company  @relation(fields: [CompanyID], references: [CompanyID], onUpdate: NoAction, map: "FK_CompanyID_Company")
+
+  @@id([CompanyID, BranchID], map: "PKc_BranchID")
+  @@schema("Settings")
+}
+
+model Country {
+  CountryID    Int     @id(map: "PKc_Country")
+  eName        String  @db.VarChar(30)
+  sName        String  @db.VarChar(30)
+  Abbreviation String  @db.VarChar(15)
+  FlagUrl      String? @db.VarChar(150)
+  Region       String? @db.VarChar(25)
+  City         City[]
+
+  @@schema("Settings")
+}

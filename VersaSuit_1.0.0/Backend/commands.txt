@@ -1,0 +1,22 @@
+----------------------------------------
+Prisma
+----------------------------------------
+create the file and main path
+	npx prisma init
+
+
+generate client
+    npx prisma generate
+    npx prisma generate --schema=src/models/schema.prisma
+
+Migrate schema to database: 
+    npx prisma migrate dev --name init
+    npx prisma migrate dev --schema=src/models/schema.prisma
+
+Bring schema from database
+    npx prisma db pull
+    npx prisma db pull --schema=src/models/schema.prisma
+
+sincronize changes
+    npx prisma db push
+    npx prisma db push --schema=src/models/schema.prisma
