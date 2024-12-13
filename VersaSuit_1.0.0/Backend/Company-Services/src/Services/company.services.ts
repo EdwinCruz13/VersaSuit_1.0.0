@@ -26,4 +26,14 @@ export class CompanyService
         //get the data from repository
         return this.CompanyRepository.FindByID(CompanyID);
     }
+
+    /**
+     * create a new company, 
+     * @param companyData 
+     * @returns 
+     */
+    async CreateCompany(companyData: any): Promise<any> {
+      return await this.CompanyRepository.Create(companyData);
+    }
+  
 }

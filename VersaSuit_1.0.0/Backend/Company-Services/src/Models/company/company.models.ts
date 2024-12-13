@@ -2,7 +2,7 @@ import { Branch } from "./branch.models";
 
 export class Company {
   CompanyID: number = 0;
-  nCompany: String = "";
+  nCompany: string = "";
   Abbre: string = "";
   FiscalNumber: string = "";
   RLogo: any;

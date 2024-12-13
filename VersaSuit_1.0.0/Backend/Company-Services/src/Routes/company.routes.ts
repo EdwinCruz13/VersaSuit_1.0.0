@@ -24,7 +24,9 @@ companyRouter.get("/getcompany/:CompanyID", controller.GetCompany.bind(controlle
 //  * POST /api/v1/users/createcompany                 ------>(create a new company)
 //  * save a company, return the companyID
 //  */
-// companyRouter.post("/createcompany", CreateCompany);
+companyRouter.post("/createcompany", controller.CreateCompany.bind(controller));
+
+
 
 // /**
 //  * PUT  /api/v1/users/editcompany/:CompanyID        ------>(update a company)

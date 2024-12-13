@@ -49,6 +49,32 @@ export class CompanyController {
       return resp.status(500).json({ Error: true, Message: "There is a fatal error finding the company: " + error, data: null });
     }
   }
+
+  /**
+   * this method create a new company
+   * the main company automatically create the main branch
+   * @param req 
+   * @param res 
+   */
+  async CreateCompany(req: Request, resp: Response): Promise<any> {
+    const { company } = req.body;
+
+    try {
+      const result = await this.CompanyService.CreateCompany(company);
+      console.log(result)
+      if(result.data == 0)
+          return resp.status(409).json({ Error: true, Message: "There is a problem creating a company" + result.Message, data: null });
+        
+      else
+        return resp.status(201).json({ Error: false, Message: "The company has been created", data: result.data });
+
+    } catch (error) {
+      return resp.status(500).json({ Error: true, Message: "There is a fatal error creating the company: " + error, data: null });
+    }
+  }
+
+
+
 }
 
 // /**
