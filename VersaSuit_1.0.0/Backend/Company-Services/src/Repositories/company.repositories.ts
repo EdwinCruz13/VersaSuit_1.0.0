@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { Company } from "../Models/company/company.model";
+import { Company } from "../Models/company/company.models";
 
 /**
  * class that contain all the functions to get and set the
@@ -14,13 +14,13 @@ export class CompanyRepository {
    * function that return the list of companies
    * @returns
    */
-  async FindAll(): Promise<Company[]> {
+  async FindAll(): Promise<Company[] | null> {
     //look up for companies
     const companies = await this.prisma.company.findMany();
 
     //return the list of company => map all the result
     //if the array is empty then return null
-    return companies.map((item) => new Company(item));
+    return (!companies || companies.length === 0) ? null:  companies.map((item) => new Company(item));
   }
 
   /**

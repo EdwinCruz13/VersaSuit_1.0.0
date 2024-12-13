@@ -517,6 +517,186 @@ ALTER TABLE [Settings].[CompanyBranch] ADD CONSTRAINT [FK_CityID_City] FOREIGN K
 -- AddForeignKey
 ALTER TABLE [Settings].[CompanyBranch] ADD CONSTRAINT [FK_CompanyID_Company] FOREIGN KEY ([CompanyID]) REFERENCES [Settings].[Company]([CompanyID]) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+DROP PROCEDURE IF EXISTS dbo.CompanyCreate
+GO
+CREATE PROCEDURE dbo.CompanyCreate(
+	@Message		 NVARCHAR(MAX) OUTPUT,
+	@CompanyID		 INT OUTPUT,
+	@nCompany        NVARCHAR(100),
+	@Abbre			 NVARCHAR(25),
+	@FiscalNumber	 NVARCHAR(25),
+	@Address		 NVARCHAR(100),
+	@PhoneNumber	 INT,
+	@PostalCode		 NVARCHAR(100),
+	@Email			 NVARCHAR(100),
+	@Website		 NVARCHAR(100),
+	@PrimaryHeader   NVARCHAR(100),
+	@SecondaryHeader NVARCHAR(100),
+	@PrimaryFooter   NVARCHAR(100),
+	@SecondaryFooter NVARCHAR(100),
+	@HasBranch       BIT,
+	@HasWarehouse	 BIT,
+	@CityID			 INT,		
+	@CountryID		 INT, 
+	@ManagerID		 INT,
+	@RLogo			 VARBINARY(MAX) = NULL,
+	@LLogo			 VARBINARY(MAX) = NULL,
+	@Latitude		 DECIMAL(9,6) = NULL,
+	@Longitude		 DECIMAL(9,6) = NULL
+)
+AS
+BEGIN
+	SET NOCOUNT ON
+	SET DATEFORMAT DMY
+
+	DECLARE @MaxCompanyID INT
+	DECLARE @MaxBranchID INT
+
+	BEGIN TRY
+		-- initialize transaction
+		BEGIN TRANSACTION
+			-- validate company
+			IF EXISTS(SELECT * FROM Settings.Company WHERE Abbre = @Abbre OR nCompany = @nCompany)
+			BEGIN
+				SET @Message = 'The company already exists, check the name or abbreviation'
+				SET @CompanyID = 0
+				COMMIT
+				RETURN -- end store procedure abruptly
+			END
+
+			----------------------------------------------------------------------------------------------------------------------------
+			-- Create the company according the sent params
+			----------------------------------------------------------------------------------------------------------------------------
+			-- get the max CompanyID
+			SELECT @MaxCompanyID= ISNULL(MAX(CompanyID),0) + 1 FROM Settings.Company
+			SELECT @MaxBranchID = ISNULL(MAX(BranchID),0) + 1  FROM settings.CompanyBranch WHERE CompanyID = @MaxCompanyID
+
+			-- insert into company
+			INSERT INTO Settings.Company(CompanyID, nCompany,Abbre, FiscalNumber,Website, Email, PhoneNumber,
+										 RLogo,LLogo,PrimaryHeader,SecondaryHeader,PrimaryFooter,SecondaryFooter,HasBranch)
+			VALUES (@MaxCompanyID, @nCompany, UPPER(@Abbre), @FiscalNumber, @Website, @Email, @PhoneNumber, 
+					@RLogo, @LLogo, @PrimaryHeader, @SecondaryHeader, @PrimaryFooter, @SecondaryFooter, @HasBranch)
+
+			-- insert into the branch
+			-- as the first record then this branch will be the main branch
+			INSERT INTO Settings.CompanyBranch(BranchID, CompanyID, CityID, CountryID,
+											   ManagerID, [Address], PhoneNumber, ExtNumber, 
+											   PostalCode, 
+											   HasWarehouse, IsMainBranch, Latitude, Longitude)
+			VALUES (@MaxBranchID, @MaxCompanyID, @CityID, @CountryID, 
+					@ManagerID, @Address, NULL, NULL,
+					@PostalCode, 
+					0, 1, @Latitude, @Longitude)
+
+
+		----------------------------------------------------------------------------------------------------------------------------
+		-- execute transaction
+		----------------------------------------------------------------------------------------------------------------------------
+		COMMIT
+
+		-- set the output
+		SET @Message = 'Company has been saved'
+		SELECT @CompanyID = CompanyID FROM Settings.Company WHERE Abbre = @Abbre ORDER BY CompanyID DESC 
+
+	END TRY
+
+	BEGIN CATCH
+		ROLLBACK
+		SELECT @Message = ERROR_MESSAGE()
+	END CATCH
+END
+GO
+
+DROP PROCEDURE IF EXISTS dbo.CompanyUpdate
+GO
+CREATE PROCEDURE dbo.CompanyUpdate(
+	@Message		 NVARCHAR(MAX) OUTPUT,
+	@CompanyID		 INT,
+	@nCompany        NVARCHAR(100),
+	@Abbre			 NVARCHAR(25),
+	@FiscalNumber	 NVARCHAR(25),
+	@Address		 NVARCHAR(100),
+	@PhoneNumber	 INT,
+	@PostalCode		 NVARCHAR(100),
+	@Email			 NVARCHAR(100),
+	@Website		 NVARCHAR(100),
+	@PrimaryHeader   NVARCHAR(100),
+	@SecondaryHeader NVARCHAR(100),
+	@PrimaryFooter   NVARCHAR(100),
+	@SecondaryFooter NVARCHAR(100),
+	@HasBranch       BIT,
+	@HasWarehouse	 BIT,
+	@CityID			 INT,		
+	@CountryID		 INT, 
+	@ManagerID		 INT,
+	@RLogo			 VARBINARY(MAX) = NULL,
+	@LLogo			 VARBINARY(MAX) = NULL,
+	@Latitude		 DECIMAL(9,6) = NULL,
+	@Longitude		 DECIMAL(9,6) = NULL
+)
+AS
+BEGIN
+	SET NOCOUNT ON
+	SET DATEFORMAT DMY
+
+	DECLARE @MainBranchID INT
+
+	BEGIN TRY
+		-- initialize transaction
+		BEGIN TRANSACTION
+			-- validate company
+			IF EXISTS(SELECT * FROM Settings.Company WHERE (Abbre = @Abbre OR nCompany = @nCompany) and CompanyID <> @CompanyID)
+			BEGIN
+				SET @Message = 'The company already exists, check the name or abbreviation'
+				SET @CompanyID = 0
+				COMMIT
+				RETURN -- end store procedure abruptly
+			END
+
+			----------------------------------------------------------------------------------------------------------------------------
+			-- update the company according the sent params
+			----------------------------------------------------------------------------------------------------------------------------
+
+			-- get the main branch, due to we must to change values
+			SELECT @MainBranchID = BranchID	FROM settings.CompanyBranch WHERE CompanyID = @CompanyID and IsMainBranch = 1
+
+			-- updating the company
+			UPDATE Settings.Company SET     nCompany= @nCompany,Abbre = UPPER(@Abbre), FiscalNumber = @FiscalNumber, 
+										    RLogo = @RLogo,LLogo = @LLogo,
+											PrimaryHeader = @PrimaryHeader, SecondaryHeader = @SecondaryHeader,
+											PrimaryFooter = @PrimaryFooter,SecondaryFooter = @SecondaryFooter,HasBranch = @HasBranch,
+											Website = @Website, Email = @Email
+			WHERE CompanyID = @CompanyID
+
+
+
+			-- update the main branch
+			UPDATE Settings.CompanyBranch SET CityID= @CityID, CountryID = @CountryID, 
+											  ManagerID = @ManagerID, 
+										      [Address] = @Address, PhoneNumber = @PhoneNumber,
+											  PostalCode = @PostalCode, HasWarehouse = @HasWarehouse,
+											  Latitude = @Latitude, Longitude = @Longitude
+			WHERE CompanyID = @CompanyID and BranchID = @MainBranchID
+
+
+
+		----------------------------------------------------------------------------------------------------------------------------
+		-- execute transaction
+		----------------------------------------------------------------------------------------------------------------------------
+		COMMIT
+
+		-- set the output
+		SET @Message = 'Company has been saved'
+		SELECT @CompanyID = CompanyID FROM Settings.Company WHERE CompanyID = @CompanyID ORDER BY CompanyID DESC 
+
+	END TRY
+
+	BEGIN CATCH
+		ROLLBACK
+		SELECT @Message = ERROR_MESSAGE()
+	END CATCH
+END
+
 
 
 

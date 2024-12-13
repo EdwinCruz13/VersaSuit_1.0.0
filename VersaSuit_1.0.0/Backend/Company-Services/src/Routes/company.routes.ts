@@ -1,16 +1,41 @@
 import Router from "express";
-import { GetCompanies } from "../Controllers/company.controllers";
+import { CompanyController } from "../Controllers/company.controllers";
 
-//create routers
+//create routers for all the endpoints
 const companyRouter = Router();
 
-//create the enpoints request
-// GET  /api/v1/users/getcompanies                  ------>(gets all users)
-// GET  /api/v1/users/getcompany/:CompanyID         ------>(gets a single user)
-// POST /api/v1/users/createcompany                 ------>(create a new user)
-// PUT  /api/v1/users/editcompany/:CompanyID        ------>(update a user)
-// DELETE /api/v1/users/deletecompany/:CompanyID    ------>(delete a user)
-companyRouter.get("/getcompanies", GetCompanies);
+//initializa the controller
+const controller = new CompanyController();
+
+
+/**
+ * GET  /api/v1/users/getcompanies                  ------>(gets all company)
+ * return a list of the companies
+ */
+companyRouter.get("/getcompanies", controller.GetCompanies.bind(controller));
+
+/**
+ * GET  /api/v1/users/getcompany/:CompanyID         ------>(gets a single company)
+ * return an specific company
+ */
+companyRouter.get("/getcompany/:CompanyID", controller.GetCompany.bind(controller));
+
+// /**
+//  * POST /api/v1/users/createcompany                 ------>(create a new company)
+//  * save a company, return the companyID
+//  */
+// companyRouter.post("/createcompany", CreateCompany);
+
+// /**
+//  * PUT  /api/v1/users/editcompany/:CompanyID        ------>(update a company)
+//  * update the company, return the changes applied
+//  * update a company, return the companyID
+//  */
+// companyRouter.put("/updatecompany", UpdateCompany);
+
+
+// DELETE /api/v1/users/deletecompany/:CompanyID    ------>(delete a company)
+
 
 //export the router
 export default companyRouter;

@@ -1,20 +1,23 @@
+import { Branch } from "./branch.models";
+
 export class Company {
-  CompanyID: Number = 0;
+  CompanyID: number = 0;
   nCompany: String = "";
-  Abbre: String = "";
-  FiscalNumber: String = "";
+  Abbre: string = "";
+  FiscalNumber: string = "";
   RLogo: any;
   LLogo: any;
-  PrimaryHeader: String = "";
-  SecondaryHeader: String = "";
-  PrimaryFooter: String = "";
-  SecondaryFooter: String = "";
-  HasBranch: Boolean = false;
-  Website: String = "";
-  Email: String = "";
-  PhoneNumber: Number = 0;
+  PrimaryHeader: string = "";
+  SecondaryHeader: string = "";
+  PrimaryFooter: string = "";
+  SecondaryFooter: string = "";
+  HasBranch: boolean = false;
+  Website: string = "";
+  Email: string = "";
+  PhoneNumber: number = 0;
   UTC_CreateAT: Date = new Date();
   GTMM6_CreateAT: Date = new Date();
+  CompanyBranch: [Branch] = [new Branch(null)];
 
   constructor(data: any) {
     this.CompanyID = data.CompanyID;

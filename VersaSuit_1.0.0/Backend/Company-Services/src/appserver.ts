@@ -7,7 +7,7 @@ import companyRouter from "./Routes/company.routes";
 const AppServer = express();
 
 // set a new port and type of http request
-AppServer.set("port", 4003);
+AppServer.set("port", 4000);
 AppServer.use(express.json());
 
 // API ENDPOINTS

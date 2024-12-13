@@ -1,5 +1,5 @@
 import { CompanyRepository } from "../Repositories/company.repositories";
-import { Company } from "../Models/company/company.model";
+import { Company } from "../Models/company/company.models";
 
 /**
  * class that contain all the functions to get and set the 
@@ -15,7 +15,7 @@ export class CompanyService
      * this method return all the companies
      * @returns 
      */
-    async GetAllCompanies () : Promise<Company[]> 
+    async GetAllCompanies () : Promise<Company[] | null> 
     {
         //get the data from repository
         return this.CompanyRepository.FindAll();
