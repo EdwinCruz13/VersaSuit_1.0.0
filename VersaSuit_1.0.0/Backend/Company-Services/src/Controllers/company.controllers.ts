@@ -19,24 +19,12 @@ export class CompanyController {
     try {
       const companies = await this.CompanyService.GetAllCompanies();
       if (!companies)
-        return resp
-          .status(200)
-          .json({
-            Error: false,
-            Message: "There is not companies saved",
-            data: null
-          });
+        return resp.status(200).json({Error: false, Message: "There is not companies saved",data: null});
 
       //return the list
       return resp.status(200).json(companies);
     } catch (error) {
-      return resp
-        .status(500)
-        .json({
-          Error: true,
-          Message: "There is a fatal error finding the company: " + error,
-          data: null
-        });
+      return resp.status(500).json({ Error: true, Message: "There is a fatal error finding the company: " + error, data: null});
     }
   }
 
@@ -52,25 +40,13 @@ export class CompanyController {
 
       //validate the result, in any case is null, send status 409
       if (!company) {
-        return resp
-          .status(200)
-          .json({
-            Error: false,
-            Message: "company has not been found",
-            data: null
-          });
+        return resp.status(200).json({Error: false,Message: "company has not been found",data: null});
       }
 
       //return the list
       resp.status(200).json(company);
     } catch (error) {
-      return resp
-        .status(500)
-        .json({
-          Error: true,
-          Message: "There is a fatal error finding the company: " + error,
-          data: null
-        });
+      return resp.status(500).json({Error: true, Message: "There is a fatal error finding the company: " + error, data: null});
     }
   }
 

@@ -17,7 +17,7 @@ export class Company {
   PhoneNumber: number = 0;
   UTC_CreateAT: Date = new Date();
   GTMM6_CreateAT: Date = new Date();
-  CompanyBranch: [Branch] = [new Branch(null)];
+  CompanyBranch: Branch[] = [];
 
   constructor(data: any) {
     this.CompanyID = data.CompanyID;
@@ -36,5 +36,8 @@ export class Company {
     this.PhoneNumber = data.PhoneNumber;
     this.UTC_CreateAT = data.UTC_CreateAT;
     this.GTMM6_CreateAT = data.GTMM6_CreateAT;
+    if (Array.isArray(data.CompanyBranch)) {
+      this.CompanyBranch = data.CompanyBranch.map((branchData: any) => new Branch(branchData));
+    }
   }
 }

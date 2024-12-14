@@ -13,14 +13,26 @@ export class CompanyService {
    * this method return all the companies
    * @returns
    */
-  async GetAllCompanies(): Promise<Company[] | null> {
-    //get the data from repository
-    return this.CompanyRepository.FindAll();
-  }
+  async GetAllCompanies(): Promise<Company[] | null> 
+  {
+    //get the result from repository
+    const dt = await this.CompanyRepository.FindAll();
+    
+    //map the result to Company
+    return !dt || dt.length === 0? null: dt.map((item: any) => new Company(item));
 
+  }
+  /**
+  * get the company by ID
+  * Map to CompanyModel
+  * @param CompanyID 
+  * @returns 
+  */
   async GetByID(CompanyID: number): Promise<Company | null> {
+
     //get the data from repository
-    return this.CompanyRepository.FindByID(CompanyID);
+    const dt = await this.CompanyRepository.FindByID(CompanyID);
+    return dt ? new Company(dt) : null;
   }
 
   /**

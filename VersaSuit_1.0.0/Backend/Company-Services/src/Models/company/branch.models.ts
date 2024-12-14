@@ -14,7 +14,8 @@ export class Branch {
     IsMainBranch: boolean = false;
     Latitude: number = 0.00;
     Longitude: number = 0.00;
-    Company: Company = new Company(null);
+    Company?: Company; // optional to avoid the circle dependency
+    
     
   
     constructor(data: any) {
@@ -30,6 +31,6 @@ export class Branch {
         this.IsMainBranch= data.IsMainBranch;
         this.Latitude= data.Latitude;
         this.Longitude= data.Longitude;
-        this.Company= data.Company;
+        this.Company = data.Company ? new Company(data.Company) : undefined;
     }
   }
