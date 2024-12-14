@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 import { Company } from "../Models/company/company.models";
 
 /**
@@ -20,13 +20,15 @@ export class CompanyRepository {
 
     //return the list of company => map all the result
     //if the array is empty then return null
-    return (!companies || companies.length === 0) ? null:  companies.map((item) => new Company(item));
+    return !companies || companies.length === 0
+      ? null
+      : companies.map((item) => new Company(item));
   }
 
   /**
    * return a company by Id as an param
-   * @param CompanyID 
-   * @returns 
+   * @param CompanyID
+   * @returns
    */
   async FindByID(CompanyID: number): Promise<Company | null> {
     //look up for companies
@@ -42,14 +44,12 @@ export class CompanyRepository {
    * create a company and its main branch
    * use a stored procedure in order to save the register
    */
-  async Create(company: Company): Promise<any>{
+  async CreateCompany(company: Company): Promise<any> {
 
     //execute a stored procedure in order to create a company and its main branch
     //the stored procedure validate the creating
     //it includes a transaction
-    const result: any = await this.prisma.$queryRaw<
-      {Message: String, CompanyID: number, } //define the output
-    >
+    const result: any = await this.prisma.$queryRaw<{Message: String;CompanyID: number;}> //define the output
     `
     --this order must be fit according the stored procedure
     DECLARE @CompanyID INT, @Message NVARCHAR(50);
@@ -63,19 +63,56 @@ export class CompanyRepository {
       SELECT @CompanyID AS CompanyID, @Message AS Message;
     `;
 
-
     // Extraer los valores de salida
     const { CompanyID, Message } = result[0];
-    
-    if(CompanyID == 0)
-      return {Message: Message, data: 0}
-      
+
+    if (CompanyID == 0) return { Message: Message, data: 0 };
     //return the last company created
-    else{
-      const data = await this.prisma.company.findFirst({where: { CompanyID: CompanyID}})
-      return {Message: Message, data: data}
+    else {
+      const data = await this.prisma.company.findFirst({
+        where: { CompanyID: CompanyID }
+      });
+      return { Message: Message, data: data };
     }
-      
+  }
+
+  /**
+   * update a company and its main branch
+   * use a stored procedure in order to save the register
+   * return the message
+   */
+  async UpdateCompany(_company: Company): Promise<any> {
+    //execute a stored procedure in order to create a company and its main branch
+    //the stored procedure validate the creating
+    //it includes a transaction
+    const result: any = await this.prisma.$queryRaw<{
+      Message: String;
+    }> //define the output
+    `
+      --this order must be fit according the stored procedure
+      DECLARE @CompanyID INT, @Message NVARCHAR(50);
+      EXEC CompanyUpdate  @Message OUTPUT, ${_company.CompanyID}, ${_company.nCompany}, ${_company.Abbre}, ${_company.FiscalNumber}, 
+                          ${_company.CompanyBranch[0].Address}, ${_company.CompanyBranch[0].PhoneNumber},
+                          ${_company.CompanyBranch[0].PostalCode}, ${_company.Email}, ${_company.Website},
+                          ${_company.PrimaryHeader}, ${_company.SecondaryHeader}, ${_company.PrimaryFooter}, ${_company.SecondaryFooter},
+                          ${_company.HasBranch}, ${_company.CompanyBranch[0].HasWarehouse}, ${_company.CompanyBranch[0].CityID}, ${_company.CompanyBranch[0].CountryID}, 
+                          ${_company.CompanyBranch[0].ManagerID}, ${_company.RLogo}, ${_company.LLogo},
+                          ${_company.CompanyBranch[0].Latitude}, ${_company.CompanyBranch[0].Longitude};
+        SELECT @CompanyID AS CompanyID, @Message AS Message;
+      `;
+
+    // Extraer los valores de salida
+    const { Message } = result[0];
+
+    if (Message.includes("already exists"))
+      return { Message: Message, data: 0 };
+    //return the last company created
+    else {
+      const data = await this.prisma.company.findFirst({
+        where: { CompanyID: _company.CompanyID }
+      });
+      return { Message: Message, data: data };
+    }
   }
 
   /**
@@ -84,7 +121,7 @@ export class CompanyRepository {
    */
   // async Create(companyData: Company): Promise<any>
   // {
-  //   //find the last company saved in the 
+  //   //find the last company saved in the
   //   let lastCompany = await this.prisma.company.findFirst({orderBy:{CompanyID: 'desc'}});
 
   //   /////////////////////////////////////////////////////////
@@ -111,7 +148,7 @@ export class CompanyRepository {
 
   //   //after create a new company, it must create the main branch
   //   let lastBranch = await this.prisma.companyBranch.findFirst({where: { Company: {CompanyID: newCompany.CompanyID } },   orderBy:{BranchID: 'desc'}});
-    
+
   //   const newBranch = await this.prisma.companyBranch.create({
   //     data: {
   //       BranchID: (!lastBranch) ? 1 : lastBranch.BranchID + 1,
@@ -130,12 +167,9 @@ export class CompanyRepository {
   //     }
   //   })
 
-    
-
   //   // return await this.prisma.$transaction(async (tx) => {
-      
+
   //   // });
 
-    
   // }
 }

@@ -19,12 +19,24 @@ export class CompanyController {
     try {
       const companies = await this.CompanyService.GetAllCompanies();
       if (!companies)
-        return resp.status(200).json({ Error: false, Message: "There is not companies saved", data: null });
+        return resp
+          .status(200)
+          .json({
+            Error: false,
+            Message: "There is not companies saved",
+            data: null
+          });
 
       //return the list
       return resp.status(200).json(companies);
     } catch (error) {
-      return resp.status(500).json({ Error: true, Message: "There is a fatal error finding the company: " + error,  data: null });
+      return resp
+        .status(500)
+        .json({
+          Error: true,
+          Message: "There is a fatal error finding the company: " + error,
+          data: null
+        });
     }
   }
 
@@ -40,41 +52,70 @@ export class CompanyController {
 
       //validate the result, in any case is null, send status 409
       if (!company) {
-        return resp.status(200).json({ Error: false, Message: "company has not been found", data: null });
+        return resp
+          .status(200)
+          .json({
+            Error: false,
+            Message: "company has not been found",
+            data: null
+          });
       }
 
       //return the list
       resp.status(200).json(company);
     } catch (error) {
-      return resp.status(500).json({ Error: true, Message: "There is a fatal error finding the company: " + error, data: null });
+      return resp
+        .status(500)
+        .json({
+          Error: true,
+          Message: "There is a fatal error finding the company: " + error,
+          data: null
+        });
     }
   }
 
   /**
    * this method create a new company
    * the main company automatically create the main branch
-   * @param req 
-   * @param res 
+   * @param req
+   * @param res
    */
   async CreateCompany(req: Request, resp: Response): Promise<any> {
     const { company } = req.body;
-
+    console.log(req.body)
     try {
       const result = await this.CompanyService.CreateCompany(company);
-      console.log(result)
-      if(result.data == 0)
-          return resp.status(409).json({ Error: true, Message: "There is a problem creating a company" + result.Message, data: null });
-        
+      console.log(result);
+      if (result.data == 0)
+        return resp.status(409).json({Error: true,Message: "There is a problem creating a company" + result.Message, data: null});
       else
-        return resp.status(201).json({ Error: false, Message: "The company has been created", data: result.data });
-
+        return resp.status(201).json({Error: false,Message: "The company has been created",data: result.data});
     } catch (error) {
-      return resp.status(500).json({ Error: true, Message: "There is a fatal error creating the company: " + error, data: null });
+      return resp.status(500).json({Error: true,Message: "There is a fatal error creating the company: " + error, data: null});
     }
   }
 
+  /**
+   * this method update the an specific company
+   * @param req 
+   * @param resp 
+   * @returns 
+   */
+  async UpdateCompany(req: Request, resp: Response): Promise<any> {
+    const { company } = req.body;
 
+    try {
+      const result = await this.CompanyService.UpdateCompany(company);
+      if (result.Message.includes("already exists"))
+        return resp.status(409).json({Error: true, Message: "There is a problem editing the company" + result.Message, data: null});
 
+      else
+        return resp.status(201).json({Error: false, Message: "The company has been updated", data: result.data});
+
+    } catch (error) {
+      return resp.status(500).json({Error: true, Message: "There is a fatal error creating the company: " + error,data: null});
+    }
+  }
 }
 
 // /**

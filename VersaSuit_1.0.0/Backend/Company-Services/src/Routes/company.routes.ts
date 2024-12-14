@@ -30,14 +30,9 @@ companyRouter.post("/createcompany", controller.CreateCompany.bind(controller));
 
 // /**
 //  * PUT  /api/v1/users/editcompany/:CompanyID        ------>(update a company)
-//  * update the company, return the changes applied
-//  * update a company, return the companyID
+//  * update the company, return the changes applied return the companyID
 //  */
-// companyRouter.put("/updatecompany", UpdateCompany);
-
-
-// DELETE /api/v1/users/deletecompany/:CompanyID    ------>(delete a company)
-
+companyRouter.put("/updatecompany/:CompanyID", controller.UpdateCompany.bind(controller));
 
 //export the router
 export default companyRouter;
