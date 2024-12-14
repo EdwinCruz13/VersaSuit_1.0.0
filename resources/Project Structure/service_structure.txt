@@ -1,0 +1,20 @@
+Service-x/
+├── src/
+│   ├── controllers/
+│   │   └── auth.controller.ts      # Controlador de autenticación
+│   ├── models/
+│   │   └── user.model.ts           # Modelo para User (opcional, si necesitas interfaces específicas)
+│   ├── repositories/
+│   │   └── user.repository.ts      # Repositorio para la entidad User
+│   ├── routes/
+│   │   └── auth.routes.ts          # Rutas de autenticación
+│   ├── services/
+│   │   └── auth.service.ts         # Servicio de autenticación
+│   ├── middlewares/
+│   │   └── auth.middleware.ts      # Middleware de validación de JWT
+│   └── utils/
+│       └── jwt.utils.ts            # Utilidad para manejar tokens JWT
+│   └── Prisma
+│	└── schema.prisma           # Archivo de configuracion de DB y modelo
+	 
+
