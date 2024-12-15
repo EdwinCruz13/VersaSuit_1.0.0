@@ -1,0 +1,418 @@
+[
+  {
+    "company": {
+      "nCompany": "InnovaTech Solutions",
+      "Abbre": "ITS",
+      "FiscalNumber": "987654321",
+      "HasBranch": true,
+      "RLogo": null,
+      "LLogo": null,
+      "PrimaryHeader": "InnovaTech Solutions Ltd.",
+      "SecondaryHeader": "Transforming Ideas Into Innovation",
+      "PrimaryFooter": "© 2024 InnovaTech Solutions. All rights reserved.",
+      "SecondaryFooter": "Reach out to us at contact@innovatech.com",
+      "Website": "www.innovatech.com",
+      "Email": "info@innovatech.com",
+      "PhoneNumber": 9876543210,
+      "CompanyBranch": [
+        {
+          "CityID": 8,
+          "CountryID": 24,
+          "ManagerID": 201,
+          "Address": "456 Innovation Road, TechPark",
+          "PhoneNumber": 98765432,
+          "ExtNumber": 201,
+          "PostalCode": "510",
+          "HasWarehouse": false,
+          "IsMainBranch": true,
+          "Latitude": 47.606209,
+          "Longitude": -122.332069
+        }
+      ]
+    }
+  },
+  {
+    "company": {
+      "nCompany": "TechWorks",
+      "Abbre": "TW",
+      "FiscalNumber": "123098456",
+      "HasBranch": true,
+      "RLogo": null,
+      "LLogo": null,
+      "PrimaryHeader": "TechWorks International",
+      "SecondaryHeader": "Innovative Solutions for a Better Future",
+      "PrimaryFooter": "© 2024 TechWorks. All rights reserved.",
+      "SecondaryFooter": "For inquiries: info@techworks.com",
+      "Website": "www.techworks.com",
+      "Email": "support@techworks.com",
+      "PhoneNumber": 1122334455,
+      "CompanyBranch": [
+        {
+          "CityID": 5,
+          "CountryID": 24,
+          "ManagerID": 202,
+          "Address": "789 Tech Avenue, Silicon Valley",
+          "PhoneNumber": 22334455,
+          "ExtNumber": 102,
+          "PostalCode": "512",
+          "HasWarehouse": true,
+          "IsMainBranch": true,
+          "Latitude": 37.774929,
+          "Longitude": -122.419418
+        }
+      ]
+    }
+  },
+  {
+    "company": {
+      "nCompany": "FutureTech Innovations",
+      "Abbre": "FTI",
+      "FiscalNumber": "456789123",
+      "HasBranch": false,
+      "RLogo": null,
+      "LLogo": null,
+      "PrimaryHeader": "FutureTech Innovations",
+      "SecondaryHeader": "Pioneering Technology for Tomorrow",
+      "PrimaryFooter": "© 2024 FutureTech. All rights reserved.",
+      "SecondaryFooter": "Contact us at info@futuretech.com",
+      "Website": "www.futuretech.com",
+      "Email": "contact@futuretech.com",
+      "PhoneNumber": 9988776655,
+      "CompanyBranch": [
+        {
+          "CityID": 2,
+          "CountryID": 24,
+          "ManagerID": 203,
+          "Address": "123 Future Street, Innovation Hub",
+          "PhoneNumber": 11223344,
+          "ExtNumber": 303,
+          "PostalCode": "513",
+          "HasWarehouse": false,
+          "IsMainBranch": false,
+          "Latitude": 40.712776,
+          "Longitude": -74.005974
+        }
+      ]
+    }
+  },
+  {
+    "company": {
+      "nCompany": "GlobalTech Corp",
+      "Abbre": "GTC",
+      "FiscalNumber": "345678901",
+      "HasBranch": true,
+      "RLogo": null,
+      "LLogo": null,
+      "PrimaryHeader": "GlobalTech Corporation",
+      "SecondaryHeader": "Engineering Excellence for Global Markets",
+      "PrimaryFooter": "© 2024 GlobalTech Corp. All rights reserved.",
+      "SecondaryFooter": "Reach us at contact@globaltech.com",
+      "Website": "www.globaltech.com",
+      "Email": "info@globaltech.com",
+      "PhoneNumber": 2233445566,
+      "CompanyBranch": [
+        {
+          "CityID": 12,
+          "CountryID": 24,
+          "ManagerID": 204,
+          "Address": "321 Global Street, City Center",
+          "PhoneNumber": 33445566,
+          "ExtNumber": 404,
+          "PostalCode": "514",
+          "HasWarehouse": true,
+          "IsMainBranch": true,
+          "Latitude": 34.052235,
+          "Longitude": -118.243683
+        }
+      ]
+    }
+  },
+  {
+    "company": {
+      "nCompany": "SmartTech Industries",
+      "Abbre": "STI",
+      "FiscalNumber": "567890123",
+      "HasBranch": true,
+      "RLogo": null,
+      "LLogo": null,
+      "PrimaryHeader": "SmartTech Industries",
+      "SecondaryHeader": "Smart Solutions for a Smarter World",
+      "PrimaryFooter": "© 2024 SmartTech Industries. All rights reserved.",
+      "SecondaryFooter": "Visit us at info@smarttech.com",
+      "Website": "www.smarttech.com",
+      "Email": "contact@smarttech.com",
+      "PhoneNumber": 4455667788,
+      "CompanyBranch": [
+        {
+          "CityID": 7,
+          "CountryID": 24,
+          "ManagerID": 205,
+          "Address": "654 Smart Avenue, TechCity",
+          "PhoneNumber": 55667788,
+          "ExtNumber": 505,
+          "PostalCode": "515",
+          "HasWarehouse": true,
+          "IsMainBranch": false,
+          "Latitude": 37.338208,
+          "Longitude": -121.886329
+        }
+      ]
+    }
+  },
+  {
+    "company": {
+      "nCompany": "NextGen Solutions",
+      "Abbre": "NGS",
+      "FiscalNumber": "678901234",
+      "HasBranch": true,
+      "RLogo": null,
+      "LLogo": null,
+      "PrimaryHeader": "NextGen Solutions",
+      "SecondaryHeader": "Shaping the Future with Cutting-edge Technology",
+      "PrimaryFooter": "© 2024 NextGen Solutions. All rights reserved.",
+      "SecondaryFooter": "For support: support@nextgen.com",
+      "Website": "www.nextgen.com",
+      "Email": "help@nextgen.com",
+      "PhoneNumber": 5566778899,
+      "CompanyBranch": [
+        {
+          "CityID": 14,
+          "CountryID": 24,
+          "ManagerID": 206,
+          "Address": "789 Future Boulevard, TechPark",
+          "PhoneNumber": 66778899,
+          "ExtNumber": 606,
+          "PostalCode": "516",
+          "HasWarehouse": false,
+          "IsMainBranch": true,
+          "Latitude": 37.774929,
+          "Longitude": -122.419418
+        }
+      ]
+    }
+  },
+  {
+    "company": {
+      "nCompany": "TechPower",
+      "Abbre": "TP",
+      "FiscalNumber": "789012345",
+      "HasBranch": true,
+      "RLogo": null,
+      "LLogo": null,
+      "PrimaryHeader": "TechPower Global",
+      "SecondaryHeader": "Powering Your Future with Technology",
+      "PrimaryFooter": "© 2024 TechPower. All rights reserved.",
+      "SecondaryFooter": "Contact us at info@techpower.com",
+      "Website": "www.techpower.com",
+      "Email": "support@techpower.com",
+      "PhoneNumber": 6677889900,
+      "CompanyBranch": [
+        {
+          "CityID": 4,
+          "CountryID": 24,
+          "ManagerID": 207,
+          "Address": "321 TechPower Road, Industrial Park",
+          "PhoneNumber": 77889900,
+          "ExtNumber": 707,
+          "PostalCode": "517",
+          "HasWarehouse": true,
+          "IsMainBranch": false,
+          "Latitude": 36.778259,
+          "Longitude": -119.417931
+        }
+      ]
+    }
+  },
+  {
+    "company": {
+      "nCompany": "CyberTech",
+      "Abbre": "CT",
+      "FiscalNumber": "890123456",
+      "HasBranch": false,
+      "RLogo": null,
+      "LLogo": null,
+      "PrimaryHeader": "CyberTech Solutions",
+      "SecondaryHeader": "Advanced Cybersecurity for the Modern World",
+      "PrimaryFooter": "© 2024 CyberTech. All rights reserved.",
+      "SecondaryFooter": "Get in touch at cyber@cybertech.com",
+      "Website": "www.cybertech.com",
+      "Email": "contact@cybertech.com",
+      "PhoneNumber": 2233445566,
+      "CompanyBranch": [
+        {
+          "CityID": 10,
+          "CountryID": 24,
+          "ManagerID": 208,
+          "Address": "123 Cyber Street, Digital District",
+          "PhoneNumber": 3344556677,
+          "ExtNumber": 808,
+          "PostalCode": "518",
+          "HasWarehouse": false,
+          "IsMainBranch": true,
+          "Latitude": 40.712776,
+          "Longitude": -74.005974
+        }
+      ]
+    }
+  },
+  {
+    "company": {
+      "nCompany": "EcoTech",
+      "Abbre": "ET",
+      "FiscalNumber": "901234567",
+      "HasBranch": true,
+      "RLogo": null,
+      "LLogo": null,
+      "PrimaryHeader": "EcoTech Solutions",
+      "SecondaryHeader": "Green Solutions for a Sustainable Future",
+      "PrimaryFooter": "© 2024 EcoTech. All rights reserved.",
+      "SecondaryFooter": "Contact: eco@ecotech.com",
+      "Website": "www.ecotech.com",
+      "Email": "info@ecotech.com",
+      "PhoneNumber": 3344556677,
+      "CompanyBranch": [
+        {
+          "CityID": 16,
+          "CountryID": 24,
+          "ManagerID": 209,
+          "Address": "654 Eco Park Avenue, Green District",
+          "PhoneNumber": 4455667788,
+          "ExtNumber": 909,
+          "PostalCode": "519",
+          "HasWarehouse": false,
+          "IsMainBranch": false,
+          "Latitude": 35.689487,
+          "Longitude": -97.724195
+        }
+      ]
+    }
+  },
+  {
+    "company": {
+      "nCompany": "AI Innovations",
+      "Abbre": "AI",
+      "FiscalNumber": "012345678",
+      "HasBranch": true,
+      "RLogo": null,
+      "LLogo": null,
+      "PrimaryHeader": "AI Innovations",
+      "SecondaryHeader": "The Future of Artificial Intelligence",
+      "PrimaryFooter": "© 2024 AI Innovations. All rights reserved.",
+      "SecondaryFooter": "Support: support@aiinnovations.com",
+      "Website": "www.aiinnovations.com",
+      "Email": "help@aiinnovations.com",
+      "PhoneNumber": 5566778899,
+      "CompanyBranch": [
+        {
+          "CityID": 15,
+          "CountryID": 24,
+          "ManagerID": 210,
+          "Address": "789 AI Drive, TechCity",
+          "PhoneNumber": 6677889999,
+          "ExtNumber": 101,
+          "PostalCode": "520",
+          "HasWarehouse": false,
+          "IsMainBranch": true,
+          "Latitude": 41.878113,
+          "Longitude": -87.629799
+        }
+      ]
+    }
+  },
+  {
+    "company": {
+      "nCompany": "Robotics Systems",
+      "Abbre": "RS",
+      "FiscalNumber": "123456789",
+      "HasBranch": true,
+      "RLogo": null,
+      "LLogo": null,
+      "PrimaryHeader": "Robotics Systems Ltd.",
+      "SecondaryHeader": "Innovating Robotics for Modern Industries",
+      "PrimaryFooter": "© 2024 Robotics Systems. All rights reserved.",
+      "SecondaryFooter": "For inquiries: info@roboticsystems.com",
+      "Website": "www.roboticsystems.com",
+      "Email": "info@roboticsystems.com",
+      "PhoneNumber": 4455778899,
+      "CompanyBranch": [
+        {
+          "CityID": 3,
+          "CountryID": 24,
+          "ManagerID": 211,
+          "Address": "543 Robotics Street, Innovation Park",
+          "PhoneNumber": 6677889900,
+          "ExtNumber": 202,
+          "PostalCode": "521",
+          "HasWarehouse": true,
+          "IsMainBranch": false,
+          "Latitude": 36.162664,
+          "Longitude": -86.781602
+        }
+      ]
+    }
+  },
+  {
+    "company": {
+      "nCompany": "CloudSolutions",
+      "Abbre": "CS",
+      "FiscalNumber": "234567890",
+      "HasBranch": true,
+      "RLogo": null,
+      "LLogo": null,
+      "PrimaryHeader": "CloudSolutions International",
+      "SecondaryHeader": "Cloud Services for the Future",
+      "PrimaryFooter": "© 2024 CloudSolutions. All rights reserved.",
+      "SecondaryFooter": "For support: cloudsupport@cloudsolutions.com",
+      "Website": "www.cloudsolutions.com",
+      "Email": "support@cloudsolutions.com",
+      "PhoneNumber": 9988776655,
+      "CompanyBranch": [
+        {
+          "CityID": 6,
+          "CountryID": 24,
+          "ManagerID": 212,
+          "Address": "234 Cloud Avenue, TechHub",
+          "PhoneNumber": 1122334455,
+          "ExtNumber": 303,
+          "PostalCode": "522",
+          "HasWarehouse": false,
+          "IsMainBranch": true,
+          "Latitude": 42.360082,
+          "Longitude": -71.058880
+        }
+      ]
+    }
+  },
+  {
+    "company": {
+      "nCompany": "Quantum Systems",
+      "Abbre": "QS",
+      "FiscalNumber": "345678901",
+      "HasBranch": true,
+      "RLogo": null,
+      "LLogo": null,
+      "PrimaryHeader": "Quantum Systems Ltd.",
+      "SecondaryHeader": "Quantum Computing for a New Era",
+      "PrimaryFooter": "© 2024 Quantum Systems. All rights reserved.",
+      "SecondaryFooter": "For inquiries: contact@quantumsystems.com",
+      "Website": "www.quantumsystems.com",
+      "Email": "contact@quantumsystems.com",
+      "PhoneNumber": 1122334455,
+      "CompanyBranch": [
+        {
+          "CityID": 13,
+          "CountryID": 24,
+          "ManagerID": 213,
+          "Address": "789 Quantum Road, Science Park",
+          "PhoneNumber": 2233445566,
+          "ExtNumber": 404,
+          "PostalCode": "523",
+          "HasWarehouse": true,
+          "IsMainBranch": false,
+          "Latitude": 35.689487,
+          "Longitude": -97.724195
+        }
+      ]
+    }
+  }
+]
