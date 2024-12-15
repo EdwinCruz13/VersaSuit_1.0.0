@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CompanyService } from "../Services/company.services";
+import { CompanyService } from "../../Services/company/company.services";
 
 /**
  * this controller is used as intermediate between the request from the client
@@ -17,14 +17,14 @@ export class CompanyController {
    */
   async GetCompanies(req: Request, resp: Response): Promise<any> {
     try {
-      const companies = await this.CompanyService.GetAllCompanies();
+      const companies = await this.CompanyService.GetAll();
       if (!companies)
         return resp.status(200).json({Error: false, Message: "There is not companies saved",data: null});
 
       //return the list
       return resp.status(200).json(companies);
     } catch (error) {
-      return resp.status(500).json({ Error: true, Message: "There is a fatal error finding the company: " + error, data: null});
+      return resp.status(500).json({ Error: true, Message: "There is a fatal error finding the companies: " + error, data: null});
     }
   }
 
@@ -61,7 +61,7 @@ export class CompanyController {
     const { company } = req.body;
     console.log(req.body)
     try {
-      const result = await this.CompanyService.CreateCompany(company);
+      const result = await this.CompanyService.Create(company);
       console.log(result);
       if (result.data == 0)
         return resp.status(409).json({Error: true,Message: "There is a problem creating a company" + result.Message, data: null});
@@ -82,7 +82,7 @@ export class CompanyController {
     const { company } = req.body;
 
     try {
-      const result = await this.CompanyService.UpdateCompany(company);
+      const result = await this.CompanyService.Update(company);
       if (result.Message.includes("already exists"))
         return resp.status(409).json({Error: true, Message: "There is a problem editing the company" + result.Message, data: null});
 

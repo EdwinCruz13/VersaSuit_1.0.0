@@ -1,7 +1,7 @@
 import { Company } from "./company.models";
+import { City } from "../common/City.models";
 
 export class CompanyBranch {
-
     BranchID: number = 0;
     CityID: number = 0;
     CountryID: number = 0;
@@ -15,9 +15,8 @@ export class CompanyBranch {
     Latitude: number = 0.00;
     Longitude: number = 0.00;
     Company?: Company; // optional to avoid the circle dependency
+    City?: City; // optional to avoid the circle dependency
     
-    
-  
     constructor(data: any) {
         this.BranchID= data.BranchID;
         this.CityID= data.CityID;
@@ -32,5 +31,6 @@ export class CompanyBranch {
         this.Latitude= data.Latitude;
         this.Longitude= data.Longitude;
         this.Company = data.Company ? new Company(data.Company) : undefined;
+        this.City = data.City ? new City(data.City) : undefined;
     }
   }

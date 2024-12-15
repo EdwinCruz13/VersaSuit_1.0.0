@@ -1,5 +1,5 @@
 import Router from "express";
-import { CompanyController } from "../Controllers/company.controllers";
+import { CompanyController } from "../Controllers/company/company.controllers";
 
 //create routers for all the endpoints
 const companyRouter = Router();
@@ -26,13 +26,12 @@ companyRouter.get("/getcompany/:CompanyID", controller.GetCompany.bind(controlle
 //  */
 companyRouter.post("/createcompany", controller.CreateCompany.bind(controller));
 
-
-
 // /**
 //  * PUT  /api/v1/users/editcompany/:CompanyID        ------>(update a company)
 //  * update the company, return the changes applied return the companyID
 //  */
 companyRouter.put("/updatecompany/:CompanyID", controller.UpdateCompany.bind(controller));
+
 
 //export the router
 export default companyRouter;

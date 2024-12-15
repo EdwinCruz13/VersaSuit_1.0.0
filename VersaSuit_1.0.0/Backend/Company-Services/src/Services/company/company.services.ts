@@ -1,5 +1,5 @@
-import { CompanyRepository } from "../Repositories/company.repositories";
-import { Company } from "../Models/company/company.models";
+import { CompanyRepository } from "../../Repositories/company/company.repositories";
+import { Company } from "../../Models/company/company.models";
 
 /**
  * class that contain all the functions to get and set the
@@ -13,7 +13,7 @@ export class CompanyService {
    * this method return all the companies
    * @returns
    */
-  async GetAllCompanies(): Promise<Company[] | null> 
+  async GetAll(): Promise<Company[] | null> 
   {
     //get the result from repository
     const dt = await this.CompanyRepository.FindAll();
@@ -41,7 +41,7 @@ export class CompanyService {
    * @param companyData
    * @returns
    */
-  async CreateCompany(companyData: any): Promise<any> {
+  async Create(companyData: any): Promise<any> {
     return await this.CompanyRepository.CreateCompany(companyData);
   }
 
@@ -50,7 +50,7 @@ export class CompanyService {
    * @param companyData
    * @returns
    */
-  async UpdateCompany(companyData: any): Promise<any> {
+  async Update(companyData: any): Promise<any> {
     return await this.CompanyRepository.UpdateCompany(companyData);
   }
 }

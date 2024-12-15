@@ -2,6 +2,7 @@ import express from "express";
 
 //import routers from route module
 import companyRouter from "./Routes/company.routes";
+import branchesRouter from "./Routes/branch.routes";
 
 //create a new express server
 const AppServer = express();
@@ -12,6 +13,7 @@ AppServer.use(express.json());
 
 // API ENDPOINTS
 AppServer.use("/api/v1/settings/companies", companyRouter)
+AppServer.use("/api/v1/settings/branches", branchesRouter)
 
 
 //export the appserver

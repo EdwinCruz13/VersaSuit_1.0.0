@@ -1,0 +1,22 @@
+BEGIN TRY
+
+BEGIN TRAN;
+
+-- AlterTable
+ALTER TABLE [Settings].[Company] ALTER COLUMN [PhoneNumber] VARCHAR(30) NULL;
+
+-- AlterTable
+ALTER TABLE [Settings].[CompanyBranch] ALTER COLUMN [PhoneNumber] VARCHAR(30) NULL;
+
+COMMIT TRAN;
+
+END TRY
+BEGIN CATCH
+
+IF @@TRANCOUNT > 0
+BEGIN
+    ROLLBACK TRAN;
+END;
+THROW
+
+END CATCH

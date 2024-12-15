@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { Company } from "../Models/company/company.models";
-import { City } from "Models/common/City.models";
+import { Company } from "../../Models/company/company.models";
 
 /**
  * class that contain all the functions to get and set the
