@@ -17,6 +17,6 @@ Bring schema from database
     npx prisma db pull
     npx prisma db pull --schema=src/models/schema.prisma
 
-sincronize changes
+sincronize changes from orm to db
     npx prisma db push
     npx prisma db push --schema=src/models/schema.prisma
