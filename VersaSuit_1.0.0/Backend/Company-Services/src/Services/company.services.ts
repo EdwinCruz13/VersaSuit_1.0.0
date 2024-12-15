@@ -32,6 +32,7 @@ export class CompanyService {
 
     //get the data from repository
     const dt = await this.CompanyRepository.FindByID(CompanyID);
+    
     return dt ? new Company(dt) : null;
   }
 

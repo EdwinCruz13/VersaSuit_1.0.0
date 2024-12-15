@@ -1,13 +1,13 @@
 import { Company } from "./company.models";
 
-export class Branch {
+export class CompanyBranch {
 
     BranchID: number = 0;
     CityID: number = 0;
     CountryID: number = 0;
     ManagerID: number = 0;
     Address: string = "";
-    PhoneNumber: number = 0;
+    PhoneNumber: string = "";
     ExtNumber: number = 0;
     PostalCode: string = "";
     HasWarehouse: boolean = false;

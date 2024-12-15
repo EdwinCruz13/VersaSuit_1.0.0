@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { Company } from "../Models/company/company.models";
+import { City } from "Models/common/City.models";
 
 /**
  * class that contain all the functions to get and set the
@@ -16,7 +17,7 @@ export class CompanyRepository {
    */
   async FindAll(): Promise<any> {
     //look up for companies
-    return await this.prisma.company.findMany();
+    return await this.prisma.company.findMany({include: {CompanyBranch: true}});
   }
 
   /**
@@ -25,11 +26,11 @@ export class CompanyRepository {
    * @returns
    */
   async FindByID(CompanyID: number): Promise<any> {
-    //look up for companies
+    //look up for companies, include its branch
     const result = await this.prisma.company.findUnique({
-      where: { CompanyID: Number(CompanyID) }
+      where: { CompanyID: Number(CompanyID) },
+      include: {CompanyBranch: {include: {City: {include: {Country: true}}}}},
     });
-
     //return the company
     return result;
   }
@@ -48,12 +49,12 @@ export class CompanyRepository {
     --this order must be fit according the stored procedure
     DECLARE @CompanyID INT, @Message NVARCHAR(50);
     EXEC CompanyCreate  @Message OUTPUT, @CompanyID OUTPUT, ${company.nCompany}, ${company.Abbre}, ${company.FiscalNumber}, 
-                        ${company.CompanyBranch[0].Address}, ${company.CompanyBranch[0].PhoneNumber},
-                        ${company.CompanyBranch[0].PostalCode}, ${company.Email}, ${company.Website},
+                        ${company.CompanyBranch?.[0].Address}, ${company.CompanyBranch?.[0].PhoneNumber},
+                        ${company.CompanyBranch?.[0].PostalCode}, ${company.Email}, ${company.Website},
                         ${company.PrimaryHeader}, ${company.SecondaryHeader}, ${company.PrimaryFooter}, ${company.SecondaryFooter},
-                        ${company.HasBranch}, ${company.CompanyBranch[0].HasWarehouse}, ${company.CompanyBranch[0].CityID}, ${company.CompanyBranch[0].CountryID}, 
-                        ${company.CompanyBranch[0].ManagerID}, ${company.RLogo}, ${company.LLogo},
-                        ${company.CompanyBranch[0].Latitude}, ${company.CompanyBranch[0].Longitude};
+                        ${company.HasBranch}, ${company.CompanyBranch?.[0].HasWarehouse}, ${company.CompanyBranch?.[0].CityID}, ${company.CompanyBranch?.[0].CountryID}, 
+                        ${company.CompanyBranch?.[0].ManagerID}, ${company.RLogo}, ${company.LLogo},
+                        ${company.CompanyBranch?.[0].Latitude}, ${company.CompanyBranch?.[0].Longitude};
       SELECT @CompanyID AS CompanyID, @Message AS Message;
     `;
 
@@ -86,12 +87,12 @@ export class CompanyRepository {
       --this order must be fit according the stored procedure
       DECLARE @CompanyID INT, @Message NVARCHAR(50);
       EXEC CompanyUpdate  @Message OUTPUT, ${_company.CompanyID}, ${_company.nCompany}, ${_company.Abbre}, ${_company.FiscalNumber}, 
-                          ${_company.CompanyBranch[0].Address}, ${_company.CompanyBranch[0].PhoneNumber},
-                          ${_company.CompanyBranch[0].PostalCode}, ${_company.Email}, ${_company.Website},
+                          ${_company.CompanyBranch?.[0].Address}, ${_company.CompanyBranch?.[0].PhoneNumber},
+                          ${_company.CompanyBranch?.[0].PostalCode}, ${_company.Email}, ${_company.Website},
                           ${_company.PrimaryHeader}, ${_company.SecondaryHeader}, ${_company.PrimaryFooter}, ${_company.SecondaryFooter},
-                          ${_company.HasBranch}, ${_company.CompanyBranch[0].HasWarehouse}, ${_company.CompanyBranch[0].CityID}, ${_company.CompanyBranch[0].CountryID}, 
-                          ${_company.CompanyBranch[0].ManagerID}, ${_company.RLogo}, ${_company.LLogo},
-                          ${_company.CompanyBranch[0].Latitude}, ${_company.CompanyBranch[0].Longitude};
+                          ${_company.HasBranch}, ${_company.CompanyBranch?.[0].HasWarehouse}, ${_company.CompanyBranch?.[0].CityID}, ${_company.CompanyBranch?.[0].CountryID}, 
+                          ${_company.CompanyBranch?.[0].ManagerID}, ${_company.RLogo}, ${_company.LLogo},
+                          ${_company.CompanyBranch?.[0].Latitude}, ${_company.CompanyBranch?.[0].Longitude};
         SELECT @CompanyID AS CompanyID, @Message AS Message;
       `;
 

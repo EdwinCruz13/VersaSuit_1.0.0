@@ -38,6 +38,7 @@ export class CompanyController {
     try {
       const company = await this.CompanyService.GetByID(Number(CompanyID));
 
+      
       //validate the result, in any case is null, send status 409
       if (!company) {
         return resp.status(200).json({Error: false,Message: "company has not been found",data: null});

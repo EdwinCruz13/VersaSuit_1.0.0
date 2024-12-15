@@ -36,7 +36,7 @@ model Company {
   HasBranch       Boolean
   Website         String?         @db.VarChar(100)
   Email           String?         @db.VarChar(100)
-  PhoneNumber     Int?
+  PhoneNumber     String?         @db.VarChar(30)
   UTC_CreateAT    DateTime?       @default(dbgenerated("getutcdate()"), map: "DFc_CompanyCreateAtUTC") @db.DateTime
   GTMM6_CreateAT  DateTime?       @default(dbgenerated("switchoffset(CONVERT([datetimeoffset],getutcdate()),'-06:00')"), map: "DFc_CompanyCreateAtGTM") @db.DateTime
   CompanyBranch   CompanyBranch[]
@@ -51,7 +51,7 @@ model CompanyBranch {
   CountryID    Int
   ManagerID    Int
   Address      String   @db.NVarChar(100)
-  PhoneNumber  Int?
+  PhoneNumber  String?  @db.VarChar(30)
   ExtNumber    Int?
   PostalCode   String   @db.VarChar(100)
   HasWarehouse Boolean
