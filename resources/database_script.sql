@@ -87,7 +87,7 @@ CREATE TABLE Settings.Company
 	HasBranch       BIT					NOT NULL,
 	Website			VARCHAR(100)		NULL,
 	Email			VARCHAR(100)		NULL,
-	PhoneNumber		INT					NULL,
+	PhoneNumber		VARCHAR(30)			NULL,
 
 	UTC_CreateAT		DATETIME		CONSTRAINT DFc_CompanyCreateAtUTC DEFAULT(GETUTCDATE()),
 	GTMM6_CreateAT		DATETIME		CONSTRAINT DFc_CompanyCreateAtGTM DEFAULT(SWITCHOFFSET(CONVERT(DATETIMEOFFSET, GETUTCDATE()), '-06:00')) 
@@ -105,7 +105,7 @@ CREATE TABLE Settings.CompanyBranch
 	CountryID		INT				NOT NULL,
 	ManagerID		INT			    NOT NULL,
 	[Address]		NVARCHAR(100)	NOT NULL,	
-	PhoneNumber		INT				NULL,
+	PhoneNumber		VARCHAR(30)		NULL,
 	ExtNumber		INT				NULL,
 	PostalCode		VARCHAR(100)	NOT NULL,
 	HasWarehouse    BIT				NOT NULL,
@@ -573,14 +573,14 @@ ADD CONSTRAINT FK_CityID_City FOREIGN KEY(CountryID, CityID) REFERENCES Settings
 */
 DROP PROCEDURE IF EXISTS dbo.CompanyCreate
 GO
-CREATE PROCEDURE dbo.CompanyCreate(
+CREATE PROCEDURE [dbo].[CompanyCreate](
 	@Message		 NVARCHAR(MAX) OUTPUT,
 	@CompanyID		 INT OUTPUT,
 	@nCompany        NVARCHAR(100),
 	@Abbre			 NVARCHAR(25),
 	@FiscalNumber	 NVARCHAR(25),
 	@Address		 NVARCHAR(100),
-	@PhoneNumber	 INT,
+	@PhoneNumber	 VARCHAR(30),
 	@PostalCode		 NVARCHAR(100),
 	@Email			 NVARCHAR(100),
 	@Website		 NVARCHAR(100),
@@ -638,7 +638,7 @@ BEGIN
 											   PostalCode, 
 											   HasWarehouse, IsMainBranch, Latitude, Longitude)
 			VALUES (@MaxBranchID, @MaxCompanyID, @CityID, @CountryID, 
-					@ManagerID, @Address, NULL, NULL,
+					@ManagerID, @Address, @PhoneNumber, NULL,
 					@PostalCode, 
 					0, 1, @Latitude, @Longitude)
 
@@ -659,7 +659,7 @@ BEGIN
 		SELECT @Message = ERROR_MESSAGE()
 	END CATCH
 END
-GO
+
 
 DROP PROCEDURE IF EXISTS dbo.CompanyUpdate
 GO
