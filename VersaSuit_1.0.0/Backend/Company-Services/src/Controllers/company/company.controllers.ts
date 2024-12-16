@@ -19,12 +19,12 @@ export class CompanyController {
     try {
       const companies = await this.CompanyService.GetAll();
       if (!companies)
-        return resp.status(200).json({Error: false, Message: "There is not companies saved",data: null});
+        return resp.sendResponse(null, "There are not companies saved", false, 200)
 
       //return the list
-      return resp.status(200).json(companies);
+      return resp.sendResponse(companies, "The Companies have been fetched succesfully", false, 200)
     } catch (error) {
-      return resp.status(500).json({ Error: true, Message: "There is a fatal error finding the companies: " + error, data: null});
+      return resp.sendResponse(null, "There is a fatal error finding the companies: " + error, true, 500)
     }
   }
 
@@ -41,13 +41,13 @@ export class CompanyController {
       
       //validate the result, in any case is null, send status 409
       if (!company) {
-        return resp.status(200).json({Error: false,Message: "company has not been found",data: null});
+        return resp.sendResponse(null, "The company has not been found", false, 200)
       }
 
       //return the list
-      resp.status(200).json(company);
+      return resp.sendResponse(company, "The company has been fetched succesfully", false, 200)
     } catch (error) {
-      return resp.status(500).json({Error: true, Message: "There is a fatal error finding the company: " + error, data: null});
+      return resp.sendResponse(null, "There is a fatal error finding the companies: " + error, true, 500)
     }
   }
 
@@ -59,16 +59,14 @@ export class CompanyController {
    */
   async CreateCompany(req: Request, resp: Response): Promise<any> {
     const { company } = req.body;
-    console.log(req.body)
     try {
       const result = await this.CompanyService.Create(company);
-      console.log(result);
       if (result.data == 0)
-        return resp.status(409).json({Error: true,Message: "There is a problem creating a company" + result.Message, data: null});
+        return resp.sendResponse(null, "There is a problem creating a company: " + result.Message, true, 409);
       else
-        return resp.status(201).json({Error: false,Message: "The company has been created",data: result.data});
+        return resp.sendResponse(result.data, "he company has been created", false, 201);
     } catch (error) {
-      return resp.status(500).json({Error: true,Message: "There is a fatal error creating the company: " + error, data: null});
+      return resp.sendResponse(null, "There is a fatal error creating the company: " + error, true, 500)
     }
   }
 
@@ -84,94 +82,13 @@ export class CompanyController {
     try {
       const result = await this.CompanyService.Update(company);
       if (result.Message.includes("already exists"))
-        return resp.status(409).json({Error: true, Message: "There is a problem editing the company" + result.Message, data: null});
+        return resp.sendResponse(null, "There is a problem editing a company: " + result.Message, true, 409);
 
       else
-        return resp.status(201).json({Error: false, Message: "The company has been updated", data: result.data});
+        return resp.sendResponse(result.data, "he company has been saved", false, 201);
 
     } catch (error) {
-      return resp.status(500).json({Error: true, Message: "There is a fatal error creating the company: " + error,data: null});
+      return resp.sendResponse(null, "There is a fatal error editing the company: " + error, true, 500)
     }
   }
 }
-
-// /**
-//  * create a new company
-//  * @param req
-//  * @param res
-//  */
-// export const CreateCompany = async (req: Request, resp: Response) : Promise<void> => {
-//   const { CityID, CountryID, ManagerID, Address, PhoneNumber, PostalCode, Email,  IsMainBranch, HasWarehouse, Website, Latitude, Longitude, Company } = req.body;
-
-//   try {
-
-//     //add the params as data in order to save,
-//     //use query raw for store procedura
-//     const result: any = await prisma.$queryRaw<
-//       {Message: String, CompanyID: number, } //define the output
-//     >
-//     `
-//     --this order must be fit according the stored procedure
-//     DECLARE @CompanyID INT, @Message NVARCHAR(50);
-//     EXEC CompanyCreate  @Message OUTPUT, @CompanyID OUTPUT, ${Company.nCompany}, ${Company.Abbre}, ${Company.FiscalNumber}, ${Address}, ${PhoneNumber},
-//                         ${PostalCode}, ${Email}, ${Website},
-//                         ${Company.PrimaryHeader}, ${Company.SecondaryHeader}, ${Company.PrimaryFooter}, ${Company.SecondaryFooter},
-//                         ${Company.HasBranch}, ${HasWarehouse}, ${CityID}, ${CountryID}, ${ManagerID}, ${Company.RLogo}, ${Company.LLogo},
-//                         ${Latitude}, ${Longitude};
-//       SELECT @CompanyID AS CompanyID, @Message AS Message;
-//     `;
-
-//     // Extraer los valores de salida
-//     const { CompanyID, Message } = result[0];
-
-//     //validate the company has been saved
-//     if(CompanyID == 0)
-//       resp.status(409).json({CompanyID: CompanyID, Message: Message, Error: true});
-
-//     else
-//       resp.status(201).json({CompanyID: CompanyID, Message: Message, Error: false});
-
-//   } catch (error) {
-//     resp.status(500).json({ Message: "There is a fatal error creating the company: " + error, Error: true });
-//   }
-// };
-
-// /**
-//  * update a company
-//  * @param req
-//  * @param res
-//  */
-// export const UpdateCompany = async (req: Request, resp: Response) : Promise<void> => {
-//   const { CityID, CountryID, ManagerID, Address, PhoneNumber, PostalCode, Email,  IsMainBranch, HasWarehouse, Website, Latitude, Longitude, Company } = req.body;
-//   try {
-
-//     //add the params as data in order to save,
-//     //use query raw for store procedura
-//     const result: any = await prisma.$queryRaw<
-//       {Message: String } //define the output
-//     >
-//     `
-//     --this order must be fit according the stored procedure
-//     DECLARE @Message NVARCHAR(50);
-//     EXEC CompanyUpdate  @Message OUTPUT, ${Company.CompanyID}, ${Company.nCompany}, ${Company.Abbre}, ${Company.FiscalNumber}, ${Address}, ${PhoneNumber},
-//                                           ${PostalCode}, ${Email}, ${Website},
-//                                           ${Company.PrimaryHeader}, ${Company.SecondaryHeader}, ${Company.PrimaryFooter}, ${Company.SecondaryFooter},
-//                                           ${Company.HasBranch}, ${HasWarehouse}, ${CityID}, ${CountryID}, ${ManagerID}, ${Company.RLogo}, ${Company.LLogo},
-//                                           ${Latitude}, ${Longitude};
-//       SELECT @Message AS Message;
-//     `;
-
-//     // Extraer los valores de salida
-//     const { Message  } = result[0];
-
-//     //validate the company has been saved
-//     if(Message.includes("already exists"))
-//       resp.status(409).json({CompanyID: Company.CompanyID, Message: Message, Error: true});
-
-//     else
-//       resp.status(201).json({CompanyID: Company.CompanyID, Message: Message, Error: false});
-
-//   } catch (error) {
-//     resp.status(500).json({ Message: "There is a fatal error editing the company: " + error, Error: true });
-//   }
-// };

@@ -19,11 +19,11 @@ branchesRouter.get("/getbranches", controller.GetBranches.bind(controller));
  */
 branchesRouter.get("/getbranch/:CompanyID/:BranchID", controller.GetBranch.bind(controller));
 
-// // /**
-// //  * POST /api/v1/users/createcompany                 ------>(create a new company)
-// //  * save a company, return the companyID
-// //  */
-// companyRouter.post("/createcompany", controller.CreateCompany.bind(controller));
+// /**
+//  * POST /api/v1/users/createcompany                 ------>(create a new company)
+//  * save a company, return the companyID
+//  */
+branchesRouter.post("/createbranch", controller.CreateBranch.bind(controller));
 
 
 

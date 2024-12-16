@@ -2,6 +2,7 @@ import { Company } from "./company.models";
 import { City } from "../common/City.models";
 
 export class CompanyBranch {
+    CompanyID: number = 0;
     BranchID: number = 0;
     CityID: number = 0;
     CountryID: number = 0;
@@ -18,6 +19,7 @@ export class CompanyBranch {
     City?: City; // optional to avoid the circle dependency
     
     constructor(data: any) {
+        this.CompanyID= data.CompanyID;
         this.BranchID= data.BranchID;
         this.CityID= data.CityID;
         this.CountryID=data.CountryID;

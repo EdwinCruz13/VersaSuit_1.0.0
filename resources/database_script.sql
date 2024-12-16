@@ -622,7 +622,7 @@ BEGIN
 			-- Create the company according the sent params
 			----------------------------------------------------------------------------------------------------------------------------
 			-- get the max CompanyID
-			SELECT @MaxCompanyID= ISNULL(MAX(CompanyID),0) + 1 FROM Settings.Company
+			SET @MaxCompanyID =  dbo.fn_GetCompanyID() -- function that get the max CompanyID or the proper ID
 			SELECT @MaxBranchID = ISNULL(MAX(BranchID),0) + 1  FROM settings.CompanyBranch WHERE CompanyID = @MaxCompanyID
 
 			-- insert into company
@@ -750,6 +750,38 @@ BEGIN
 		SELECT @Message = ERROR_MESSAGE()
 	END CATCH
 END
+GO
+
+DROP FUNCTION IF EXISTS dbo.fn_GetCompanyID
+GO
+CREATE FUNCTION dbo.fn_GetCompanyID()
+RETURNS INT
+AS
+BEGIN
+	-- this function get the proper ID, 
+	-- it will help for ordering it
+
+    DECLARE @MissingId INT;
+    DECLARE @MaxId INT;
+
+    -- Determinar el máximo ID actual
+    SELECT @MaxId = ISNULL(MAX(CompanyID), 0) FROM Settings.Company;
+
+    -- Buscar el primer ID faltante en la secuencia
+    SELECT @MissingId = MIN(ExpectedId)
+    FROM (
+        SELECT TOP (@MaxId)
+            ROW_NUMBER() OVER (ORDER BY CompanyID ASC) AS ExpectedId
+        FROM Settings.Company
+    ) t
+    WHERE NOT EXISTS (SELECT 1 FROM Settings.Company WHERE CompanyID = t.ExpectedId);
+
+    -- Si no hay ningún ID faltante, devolver el siguiente ID consecutivo
+    RETURN ISNULL(@MissingId, @MaxId + 1);
+
+	-- select dbo.fn_GetCompanyID() as Id
+END;
+GO
 
 
 

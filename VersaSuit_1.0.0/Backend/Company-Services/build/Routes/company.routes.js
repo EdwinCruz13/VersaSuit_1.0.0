@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const company_controllers_1 = require("../Controllers/company.controllers");
+const company_controllers_1 = require("../Controllers/company/company.controllers");
 //create routers for all the endpoints
 const companyRouter = (0, express_1.default)();
 //initializa the controller

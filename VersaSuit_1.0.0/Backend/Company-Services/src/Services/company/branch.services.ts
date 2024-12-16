@@ -33,8 +33,18 @@ export class BrachService
     async GetByID(CompanyID: number, BranchID: number) : Promise<CompanyBranch | null>
     {
         const dt = await this.BranchService.GetBranchByID(CompanyID, BranchID);
-
+        
         //map and return the result
         return (!dt) ? null: new CompanyBranch(dt);
+    }
+
+    /**
+     * cretate a new branch for a company
+     * @param Branch 
+     * @returns 
+     */
+    async Create(Branch: CompanyBranch) : Promise<any>
+    {
+        return await this.BranchService.CreateBranch(Branch);
     }
 }

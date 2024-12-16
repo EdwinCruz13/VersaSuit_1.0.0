@@ -11,7 +11,7 @@ export class BranchController
 
     private BranchService = new BrachService();
     /**
-     * get all the branches from services and return the object in json format
+     * endpoints that get all the branches from services and return the object in json format
      * @param req 
      * @param resp 
      */
@@ -20,15 +20,24 @@ export class BranchController
         try {
             //get data from services
             const branches = await this.BranchService.GetAll();
+
+            //if there is not any branches send a null as response
             if (!branches)
-                return resp.status(200).json({Error: false, Message: "There is not branches saved",data: null});
+              return resp.sendResponse(null, "There is not any branch", false, 200);
+
             //return the list
-            return resp.status(200).json(branches);
+            return resp.sendResponse(branches, "Branches fetch succesfully ", false, 200);
         } catch (error) {
-            return resp.status(500).json({ Error: true, Message: "There is a fatal error finding the branches: " + error, data: null});
+          return resp.sendResponse(null, "There is a fatal error finding the branches: " + error, true, 500);
         }
     }
 
+    /**
+     * method that return the branch by ID
+     * @param req 
+     * @param resp 
+     * @returns 
+     */
     async GetBranch(req: Request, resp: Response): Promise<any> {
         const { CompanyID, BranchID } = req.params;
         try {
@@ -37,14 +46,38 @@ export class BranchController
           
           //validate the result, in any case is null, send status 409
           if (!branch) {
-            return resp.status(200).json({Error: false,Message: "branch has not been found",data: null});
+            return resp.sendResponse(branch, "There is not any branch", false, 200);
           }
     
           //return the list
-          resp.status(200).json(branch);
+          return resp.sendResponse(branch, "Branch fetched successfully", false, 200);
+
+
+          //resp.status(200).json({Error: false, Message: "",data: branch});
         } catch (error) {
-          return resp.status(500).json({Error: true, Message: "There is a fatal error finding the branch: " + error, data: null});
+          return resp.sendResponse(null, "There is a fatal error finding the branch: " + error, true, 500);
         }
+    }
+
+    /**
+     * endpoint in order to save a new branch
+     * @param req 
+     * @param resp 
+     * @returns 
+     */
+    async CreateBranch(req: Request, resp: Response): Promise<any>
+    {
+      const {branch} = req.body;
+      try {
+          //send data to save
+          const result = await this.BranchService.Create(branch);
+          //validate the result
+          if(!result || !result.data) return resp.sendResponse(null, "There is a problem saving the branch: " + result.Message, true, 409);
+
+          else return resp.sendResponse(result.data, "The branch has been saved succesfully", false, 201);
+      } catch (error) {
+          return resp.sendResponse(null, "There is problem saving a branch:" + error, true, 500);
       }
+    }
 
 }
