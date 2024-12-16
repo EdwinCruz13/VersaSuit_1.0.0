@@ -14,7 +14,7 @@ const AppServer = (0, express_1.default)();
 AppServer.set("port", 4000);
 AppServer.use(express_1.default.json());
 //Middleware
-AppServer.use(response_middleware_1.default);
+AppServer.use(response_middleware_1.default); //this middleware will help to manage the http response
 // API ENDPOINTS
 AppServer.use("/api/v1/settings/companies", company_routes_1.default);
 AppServer.use("/api/v1/settings/branches", branch_routes_1.default);

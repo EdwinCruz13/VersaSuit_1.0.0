@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { CompanyService } from "../../Services/company/company.services";
+import { SocialMediaService } from "../../Services/company/socialmedia.services";
 
 /**
  * this controller is used as intermediate between the request from the client
@@ -8,6 +9,7 @@ import { CompanyService } from "../../Services/company/company.services";
  */
 export class CompanyController {
   private CompanyService = new CompanyService();
+  private SocialMediaService = new SocialMediaService();
 
   /**
    * method http for get companies
@@ -91,4 +93,27 @@ export class CompanyController {
       return resp.sendResponse(null, "There is a fatal error editing the company: " + error, true, 500)
     }
   }
+
+  /**
+   * this method adds a new contact for social media
+   * @param req 
+   * @param resp 
+   * @returns 
+   */
+  async AddSocilaMedia(req: Request, resp: Response): Promise<any> {
+    const { socialmedia } = req.body;
+    try {
+      const result = await this.SocialMediaService.Create(socialmedia);
+      console.log(result)
+      if (!result || !result.data)
+        return resp.sendResponse(null, "There is a problem adding a social media contact: " + result.Message, true, 409);
+      else
+        return resp.sendResponse(result.data, "the social media cotnact has been added", false, 201);
+    } catch (error) {
+      return resp.sendResponse(null, "There is a fatal error adding a social media contact: " + error, true, 500)
+    }
+  }
+
+
+
 }

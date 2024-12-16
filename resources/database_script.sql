@@ -104,7 +104,7 @@ CREATE TABLE Settings.CompanyBranch
 	CityID			INT				NOT NULL,
 	CountryID		INT				NOT NULL,
 	ManagerID		INT			    NOT NULL,
-	[Address]		NVARCHAR(100)	NOT NULL,	
+	[Address]		VARCHAR(100)	NOT NULL,	
 	PhoneNumber		VARCHAR(30)		NULL,
 	ExtNumber		INT				NULL,
 	PostalCode		VARCHAR(100)	NOT NULL,
@@ -114,6 +114,31 @@ CREATE TABLE Settings.CompanyBranch
 	Longitude		DECIMAL(9, 6)	NULL,
 	CONSTRAINT PKc_BranchID PRIMARY KEY CLUSTERED(CompanyID ASC, BranchID ASC)
 )
+
+DROP TABLE IF EXISTS Settings.CompanyContact
+GO
+CREATE TABLE Settings.CompanyContact
+(
+	[ContactID] [int] IDENTITY(1,1) NOT NULL,
+	[CompanyID] [int] NOT NULL,
+	[nContact] [varchar](30) NULL,
+	[PhoneContact] [varchar](30) NOT NULL,
+	[EmailContact] [varchar](30) NULL,
+    CONSTRAINT [PKc_ContactID] PRIMARY KEY CLUSTERED ([ContactID] ASC)
+)
+GO
+
+DROP TABLE IF EXISTS Settings.CompanySocialMedia
+GO
+CREATE TABLE Settings.CompanySocialMedia
+(
+	[MediaID] [int] IDENTITY(1,1) NOT NULL,
+	[CompanyID] [int] NOT NULL,
+	[nMedia] [varchar](30) NOT NULL,
+	[UrlMedia] [varchar](150) NOT NULL,
+	CONSTRAINT [PKc_MediaID] PRIMARY KEY CLUSTERED ([MediaID] ASC)
+)
+GO
 
 
 
@@ -560,12 +585,26 @@ WITH (
 ALTER TABLE Settings.City
 ADD CONSTRAINT FK_CountryID_Country FOREIGN KEY(CountryID) REFERENCES Settings.Country(CountryID)
 GO
+
+
+
+/*
+	define the references
+
+*/
+ALTER TABLE Settings.CompanyBranch
+ADD CONSTRAINT FK_CityID_City FOREIGN KEY(CountryID, CityID) REFERENCES Settings.City(CountryID, CityID)
+GO
+
 ALTER TABLE Settings.CompanyBranch
 ADD CONSTRAINT FK_CompanyID_Company FOREIGN KEY(CompanyID) REFERENCES Settings.Company(CompanyID)
 GO
-ALTER TABLE Settings.CompanyBranch
-ADD CONSTRAINT FK_CityID_City FOREIGN KEY(CountryID, CityID) REFERENCES Settings.City(CountryID, CityID)
-
+ALTER TABLE Settings.CompanyContact  
+ADD  CONSTRAINT [FK_CompanyID_Contact] FOREIGN KEY(CompanyID) REFERENCES  Settings.Company (CompanyID)
+GO
+ALTER TABLE Settings.CompanySocialMedia  
+ADD  CONSTRAINT [FK_CompanyID_Media] FOREIGN KEY(CompanyID) REFERENCES Settings.Company (CompanyID)
+GO
 
 
 /*

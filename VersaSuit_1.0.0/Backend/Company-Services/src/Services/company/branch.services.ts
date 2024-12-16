@@ -1,5 +1,5 @@
 import { BranchRepository } from "../../Repositories/company/branch.repositories";
-import { CompanyBranch } from "../../Models/company/branch.models";
+import { Branch } from "../../Models/company/branch.models";
 
 
 /**
@@ -17,12 +17,12 @@ export class BrachService
      * this method gets and maps this branches
      * @returns 
      */
-    async GetAll() : Promise<CompanyBranch | null>
+    async GetAll() : Promise<Branch | null>
     {
         const dt = await this.BranchService.GetBranches();
 
         //map and return the result
-        return (!dt || dt.length === 0) ? null: dt.map((item: any ) => new CompanyBranch(item))
+        return (!dt || dt.length === 0) ? null: dt.map((item: any ) => new Branch(item))
     }
 
     /**
@@ -30,12 +30,12 @@ export class BrachService
      * @param BranchID 
      * @returns 
      */
-    async GetByID(CompanyID: number, BranchID: number) : Promise<CompanyBranch | null>
+    async GetByID(CompanyID: number, BranchID: number) : Promise<Branch | null>
     {
         const dt = await this.BranchService.GetBranchByID(CompanyID, BranchID);
         
         //map and return the result
-        return (!dt) ? null: new CompanyBranch(dt);
+        return (!dt) ? null: new Branch(dt);
     }
 
     /**
@@ -43,7 +43,7 @@ export class BrachService
      * @param Branch 
      * @returns 
      */
-    async Create(Branch: CompanyBranch) : Promise<any>
+    async Create(Branch: Branch) : Promise<any>
     {
         return await this.BranchService.CreateBranch(Branch);
     }

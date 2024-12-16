@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { CompanyBranch } from "Models/company/branch.models";
+import { Branch } from "Models/company/branch.models";
 
 export class BranchRepository {
   /**
@@ -37,7 +37,7 @@ export class BranchRepository {
    * create a new branch for a company
    * @param branch
    */
-  async CreateBranch(branch: CompanyBranch): Promise<any> {
+  async CreateBranch(branch: Branch): Promise<any> {
     try {
       //get tha maxID for the branch in an specific company
       const LastBranch = await this.prisma.companyBranch.findFirst({

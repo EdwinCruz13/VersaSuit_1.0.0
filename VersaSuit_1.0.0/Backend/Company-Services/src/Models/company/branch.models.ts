@@ -1,7 +1,7 @@
 import { Company } from "./company.models";
 import { City } from "../common/City.models";
 
-export class CompanyBranch {
+export class Branch {
     CompanyID: number = 0;
     BranchID: number = 0;
     CityID: number = 0;

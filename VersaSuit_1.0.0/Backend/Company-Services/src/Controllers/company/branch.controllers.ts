@@ -67,7 +67,7 @@ export class BranchController
      */
     async CreateBranch(req: Request, resp: Response): Promise<any>
     {
-      const {branch} = req.body;
+      const { branch } = req.body;
       try {
           //send data to save
           const result = await this.BranchService.Create(branch);

@@ -33,5 +33,12 @@ companyRouter.post("/createcompany", controller.CreateCompany.bind(controller));
 companyRouter.put("/updatecompany/:CompanyID", controller.UpdateCompany.bind(controller));
 
 
+// /**
+//  * POST /api/v1/users/createcompany                 ------>(create a new company)
+//  * save a company, return the companyID
+//  */
+companyRouter.post("/addsocialmedia", controller.AddSocilaMedia.bind(controller));
+
+
 //export the router
 export default companyRouter;

@@ -1,5 +1,5 @@
 import { Country } from "./Country.models";
-import { CompanyBranch } from "../company/branch.models";
+import { Branch } from "../company/branch.models";
 
 export class City {
   CityID: number = 0;
@@ -8,7 +8,7 @@ export class City {
   StateCode: string = "";
   Timezone: string = "";;
   Country?: Country;
-  companyBranches?: CompanyBranch[]
+  companyBranches?: Branch[]
 
   constructor(data: any) {
     this.CityID = data.CityID;

@@ -1,4 +1,6 @@
-import { CompanyBranch } from "./branch.models";
+import { Branch } from "./branch.models";
+import { SocialMedia } from "./socialmedia.models";
+import { Contact } from "./contact.models";
 
 export class Company {
   CompanyID: number = 0;
@@ -17,7 +19,9 @@ export class Company {
   PhoneNumber: string = "";
   UTC_CreateAT: Date = new Date();
   GTMM6_CreateAT: Date = new Date();
-  CompanyBranch?: CompanyBranch[]= [];
+  CompanyBranch?: Branch[]= [];
+  CompanyContact?: Contact[] = [];
+  CompanySocialMedia?: SocialMedia[] = [];
 
   constructor(data: any) {
     this.CompanyID = data.CompanyID;
@@ -37,6 +41,8 @@ export class Company {
     this.UTC_CreateAT = data.UTC_CreateAT;
     this.GTMM6_CreateAT = data.GTMM6_CreateAT;
     this.CompanyBranch = data.CompanyBranch;
+    this.CompanyContact = data.CompanyContact;
+    this.CompanySocialMedia = data.CompanySocialMedia;
     // if (Array.isArray(data.CompanyBranch)) {
     //   this.CompanyBranch = data.CompanyBranch.map((branchData: any) => new CompanyBranch(branchData));
     // }

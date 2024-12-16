@@ -53,4 +53,6 @@ export class CompanyService {
   async Update(companyData: any): Promise<any> {
     return await this.CompanyRepository.UpdateCompany(companyData);
   }
+
+
 }

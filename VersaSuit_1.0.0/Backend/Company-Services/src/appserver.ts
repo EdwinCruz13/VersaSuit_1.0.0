@@ -13,7 +13,7 @@ AppServer.set("port", 4000);
 AppServer.use(express.json());
 
 //Middleware
-AppServer.use(responseMiddleware);
+AppServer.use(responseMiddleware); //this middleware will help to manage the http response
 
 // API ENDPOINTS
 AppServer.use("/api/v1/settings/companies", companyRouter)
