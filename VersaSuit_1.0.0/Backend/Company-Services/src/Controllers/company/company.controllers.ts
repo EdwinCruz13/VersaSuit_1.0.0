@@ -104,7 +104,7 @@ export class CompanyController {
     const { socialmedia } = req.body;
     try {
       const result = await this.SocialMediaService.Create(socialmedia);
-      console.log(result)
+      
       if (!result || !result.data)
         return resp.sendResponse(null, "There is a problem adding a social media contact: " + result.Message, true, 409);
       else
