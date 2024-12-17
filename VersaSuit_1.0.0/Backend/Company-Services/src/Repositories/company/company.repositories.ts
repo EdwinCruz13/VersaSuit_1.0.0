@@ -29,7 +29,19 @@ export class CompanyRepository {
     //look up for companies, include its branch
     const result = await this.prisma.company.findUnique({
       where: { CompanyID: Number(CompanyID) },
-      include: {CompanyBranch: {include: {City: {include: {Country: true}}}}},
+      include: {
+        CompanySocialMedia: true,
+        CompanyContact: true,
+        CompanyBranch: {
+          include: {
+            City: {
+              include: {
+                Country: true
+              }
+            }
+            }
+          }
+        },
     });
     //return the company
     return result;

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { CompanyService } from "../../Services/company/company.services";
 import { SocialMediaService } from "../../Services/company/socialmedia.services";
+import { ContactService } from "../../Services/company/contact.services";
 
 /**
  * this controller is used as intermediate between the request from the client
@@ -10,6 +11,7 @@ import { SocialMediaService } from "../../Services/company/socialmedia.services"
 export class CompanyController {
   private CompanyService = new CompanyService();
   private SocialMediaService = new SocialMediaService();
+  private ContactService = new ContactService();
 
   /**
    * method http for get companies
@@ -108,9 +110,30 @@ export class CompanyController {
       if (!result || !result.data)
         return resp.sendResponse(null, "There is a problem adding a social media contact: " + result.Message, true, 409);
       else
-        return resp.sendResponse(result.data, "the social media cotnact has been added", false, 201);
+        return resp.sendResponse(result.data, "the social media contact has been added", false, 201);
     } catch (error) {
       return resp.sendResponse(null, "There is a fatal error adding a social media contact: " + error, true, 500)
+    }
+  }
+
+
+  /**
+   * this method add a new contact
+   * @param req 
+   * @param resp 
+   * @returns 
+   */
+  async AddContact(req: Request, resp: Response): Promise<any> {
+    const { contact } = req.body;
+    try {
+      const result = await this.ContactService.Create(contact);
+      
+      if (!result || !result.data)
+        return resp.sendResponse(null, "There is a problem adding a contact : " + result.Message, true, 409);
+      else
+        return resp.sendResponse(result.data, "the contact has been added", false, 201);
+    } catch (error) {
+      return resp.sendResponse(null, "There is a fatal error adding a contact: " + error, true, 500)
     }
   }
 

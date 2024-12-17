@@ -119,7 +119,7 @@ DROP TABLE IF EXISTS Settings.CompanyContact
 GO
 CREATE TABLE Settings.CompanyContact
 (
-	[ContactID] [int] IDENTITY(1,1) NOT NULL,
+	[ContactID] [int] NOT NULL,
 	[CompanyID] [int] NOT NULL,
 	[nContact] [varchar](30) NULL,
 	[PhoneContact] [varchar](30) NOT NULL,
@@ -132,7 +132,7 @@ DROP TABLE IF EXISTS Settings.CompanySocialMedia
 GO
 CREATE TABLE Settings.CompanySocialMedia
 (
-	[MediaID] [int] IDENTITY(1,1) NOT NULL,
+	[MediaID] [int] NOT NULL,
 	[CompanyID] [int] NOT NULL,
 	[nMedia] [varchar](30) NOT NULL,
 	[UrlMedia] [varchar](150) NOT NULL,

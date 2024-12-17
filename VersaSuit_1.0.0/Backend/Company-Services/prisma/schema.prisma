@@ -80,7 +80,7 @@ model CompanyBranch {
 }
 
 model CompanyContact {
-  ContactID    Int     @id(map: "PKc_ContactID") @default(autoincrement())
+  ContactID    Int     @id(map: "PKc_ContactID")
   CompanyID    Int
   nContact     String? @db.VarChar(30)
   PhoneContact String  @db.VarChar(30)
@@ -91,7 +91,7 @@ model CompanyContact {
 }
 
 model CompanySocialMedia {
-  MediaID   Int     @id(map: "PKc_MediaID") @default(autoincrement())
+  MediaID   Int     @id(map: "PKc_MediaID")
   CompanyID Int
   nMedia    String  @db.VarChar(30)
   UrlMedia  String  @db.VarChar(150)
