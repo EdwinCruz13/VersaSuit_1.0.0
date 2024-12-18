@@ -30,8 +30,7 @@ export class CompanyRepository {
     const result = await this.prisma.company.findUnique({
       where: { CompanyID: Number(CompanyID) },
       include: {
-        CompanySocialMedia: true,
-        CompanyContact: true,
+        CompanySocialMedia: true, CompanyContact: true,
         CompanyBranch: {
           include: {
             City: {
