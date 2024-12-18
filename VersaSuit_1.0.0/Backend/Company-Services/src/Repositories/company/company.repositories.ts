@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import { Company } from "../../Models/company/company.models";
-import { SocialMedia } from "Models/company/socialmedia.models";
 
 /**
  * class that contain all the functions to get and set the
