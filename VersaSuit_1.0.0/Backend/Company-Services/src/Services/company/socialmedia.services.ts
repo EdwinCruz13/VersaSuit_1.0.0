@@ -1,4 +1,4 @@
-import { ContactRepository } from "../../Repositories/company/contact.repositories";
+import { SocialRepository } from "../../Repositories/company/socialmedia.repositories";
 
 /**
  * class that contain all the functions to get and set the
@@ -6,7 +6,7 @@ import { ContactRepository } from "../../Repositories/company/contact.repositori
  * from database
  */
 export class SocialMediaService {
-    private Contact = new ContactRepository();
+    private Contact = new SocialRepository();
 
     /**
      * create a new item for social media company
@@ -14,6 +14,6 @@ export class SocialMediaService {
      * @returns 
      */
     async Create(mediaData: any): Promise<any> {
-        return await this.Contact.CreateMedia(mediaData);
+        return await this.Contact.Save(mediaData);
     }
 }

@@ -14,7 +14,7 @@ export class CompanyRepository {
    * function that return the list of companies
    * @returns
    */
-  async FindAll(): Promise<any> {
+  async FetchAll(): Promise<any> {
     //look up for companies
     return await this.prisma.company.findMany({include: {CompanyBranch: true}});
   }
@@ -24,7 +24,7 @@ export class CompanyRepository {
    * @param CompanyID
    * @returns
    */
-  async FindByID(CompanyID: number): Promise<any> {
+  async FetchByID(CompanyID: number): Promise<any> {
     //look up for companies, include its branch
     const result = await this.prisma.company.findUnique({
       where: { CompanyID: Number(CompanyID) },
@@ -49,7 +49,7 @@ export class CompanyRepository {
    * create a company and its main branch
    * use a stored procedure in order to save the register
    */
-  async CreateCompany(company: Company): Promise<any> {
+  async Save(company: Company): Promise<any> {
 
     //execute a stored procedure in order to create a company and its main branch
     //the stored procedure validate the creating
@@ -86,7 +86,7 @@ export class CompanyRepository {
    * use a stored procedure in order to save the register
    * return the message
    */
-  async UpdateCompany(_company: Company): Promise<any> {
+  async Update(_company: Company): Promise<any> {
     //execute a stored procedure in order to create a company and its main branch
     //the stored procedure validate the creating
     //it includes a transaction

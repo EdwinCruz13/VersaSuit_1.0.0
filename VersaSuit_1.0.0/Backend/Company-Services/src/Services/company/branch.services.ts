@@ -19,7 +19,7 @@ export class BrachService
      */
     async GetAll() : Promise<Branch | null>
     {
-        const dt = await this.BranchService.GetBranches();
+        const dt = await this.BranchService.FetchAll();
 
         //map and return the result
         return (!dt || dt.length === 0) ? null: dt.map((item: any ) => new Branch(item))
@@ -32,7 +32,7 @@ export class BrachService
      */
     async GetByID(CompanyID: number, BranchID: number) : Promise<Branch | null>
     {
-        const dt = await this.BranchService.GetBranchByID(CompanyID, BranchID);
+        const dt = await this.BranchService.FetchByID(CompanyID, BranchID);
         
         //map and return the result
         return (!dt) ? null: new Branch(dt);
@@ -45,6 +45,6 @@ export class BrachService
      */
     async Create(Branch: Branch) : Promise<any>
     {
-        return await this.BranchService.CreateBranch(Branch);
+        return await this.BranchService.Save(Branch);
     }
 }

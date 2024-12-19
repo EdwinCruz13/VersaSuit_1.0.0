@@ -16,7 +16,7 @@ export class CompanyService {
   async GetAll(): Promise<Company[] | null> 
   {
     //get the result from repository
-    const dt = await this.CompanyRepository.FindAll();
+    const dt = await this.CompanyRepository.FetchAll();
     
     //map the result to Company
     return !dt || dt.length === 0? null: dt.map((item: any) => new Company(item));
@@ -31,7 +31,7 @@ export class CompanyService {
   async GetByID(CompanyID: number): Promise<Company | null> {
 
     //get the data from repository
-    const dt = await this.CompanyRepository.FindByID(CompanyID);
+    const dt = await this.CompanyRepository.FetchByID(CompanyID);
     
     return dt ? new Company(dt) : null;
   }
@@ -42,7 +42,7 @@ export class CompanyService {
    * @returns
    */
   async Create(companyData: any): Promise<any> {
-    return await this.CompanyRepository.CreateCompany(companyData);
+    return await this.CompanyRepository.Save(companyData);
   }
 
   /**
@@ -51,7 +51,7 @@ export class CompanyService {
    * @returns
    */
   async Update(companyData: any): Promise<any> {
-    return await this.CompanyRepository.UpdateCompany(companyData);
+    return await this.CompanyRepository.Update(companyData);
   }
 
 

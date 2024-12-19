@@ -15,6 +15,6 @@ export class ContactService {
      * @returns 
      */
     async Create(contactdata: Contact): Promise<any> {
-        return await this.ContactRepository.CreateContact(contactdata);
+        return await this.ContactRepository.Save(contactdata);
     }
 }

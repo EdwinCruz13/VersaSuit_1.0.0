@@ -10,7 +10,7 @@ export class BranchRepository {
   /**
    * method that get all the branches
    */
-  async GetBranches(): Promise<any> {
+  async FetchAll(): Promise<any> {
     return await this.prisma.companyBranch.findMany({
       include: { City: { include: { Country: true } } }
     });
@@ -22,7 +22,7 @@ export class BranchRepository {
    * @param BranchID
    * @returns
    */
-  async GetBranchByID(CompanyID: number, BranchID: number): Promise<any> {
+  async FetchByID(CompanyID: number, BranchID: number): Promise<any> {
     //look up for the branches, include company and its city
     const result = await this.prisma.companyBranch.findFirst({
       where: { BranchID: Number(BranchID), CompanyID: Number(CompanyID) },
@@ -37,7 +37,7 @@ export class BranchRepository {
    * create a new branch for a company
    * @param branch
    */
-  async CreateBranch(branch: Branch): Promise<any> {
+  async Save(branch: Branch): Promise<any> {
     try {
       //get tha maxID for the branch in an specific company
       const LastBranch = await this.prisma.companyBranch.findFirst({
