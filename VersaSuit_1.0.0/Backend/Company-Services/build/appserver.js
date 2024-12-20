@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 //import routers from route module
 const company_routes_1 = __importDefault(require("./Routes/company.routes"));
 const branch_routes_1 = __importDefault(require("./Routes/branch.routes"));
-const response_middleware_1 = __importDefault(require("./middleware/response.middleware"));
+const response_middleware_1 = __importDefault(require("./Middleware/response.middleware"));
 //create a new express server
 const AppServer = (0, express_1.default)();
 // set a new port and type of http request
