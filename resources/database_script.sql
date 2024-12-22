@@ -150,7 +150,7 @@ DROP TABLE IF EXISTS Products.Category
 GO
 CREATE TABLE Products.Category(
 	CategoryID int NOT NULL,
-	EmpresaID int NOT NULL,
+	CompanyID int NOT NULL,
 	nCategory varchar(30) NOT NULL,
 	[Description] varchar(100) NULL,
 	CONSTRAINT [PKc_CategoryID] PRIMARY KEY CLUSTERED(CategoryID ASC)
@@ -172,7 +172,7 @@ DROP TABLE IF EXISTS Products.Brand
 GO
 CREATE TABLE Products.Brand(
 	BrandID int NOT NULL,
-	EmpresaID int NOT NULL,
+	CompanyID int NOT NULL,
 	nBrand varchar(30) NOT NULL,
 	CONSTRAINT [PKc_BrandID] PRIMARY KEY CLUSTERED(BrandID ASC)
 )
@@ -182,7 +182,7 @@ DROP TABLE IF EXISTS Products.Model
 GO
 CREATE TABLE Products.Model(
 	ModelID int NOT NULL,
-	EmpresaID int NOT NULL,
+	CompanyID int NOT NULL,
 	nModel varchar(30) NOT NULL,
 	CONSTRAINT [PKc_ModelID] PRIMARY KEY CLUSTERED (ModelID ASC)
 )

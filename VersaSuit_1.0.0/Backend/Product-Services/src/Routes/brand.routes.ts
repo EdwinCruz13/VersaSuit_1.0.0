@@ -13,7 +13,7 @@ const controller = new BrandController();
  * GET  /api/v1/settings/getbrands                  ------>(gets all brand)
  * return a list of the brands
  */
-brandRouter.get("/getbrands", controller.Getbrands.bind(controller));
+brandRouter.get("/getbrands/:CompanyID", controller.Getbrands.bind(controller));
 
 /**
  * GET  /api/v1/settings/getbrand/:brandID         ------>(gets a single brand)

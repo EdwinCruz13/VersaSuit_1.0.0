@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["multiSchema"]
@@ -13,4 +7,151 @@ datasource db {
   provider = "sqlserver"
   url      = env("DATABASE_URL")
   schemas  = ["Products"]
+}
+
+model Brand {
+  BrandID   Int       @id(map: "PKc_BrandID")
+  CompanyID Int
+  nBrand    String    @db.VarChar(30)
+  Product   Product[]
+
+  @@schema("Products")
+}
+
+model Category {
+  CategoryID  Int           @id(map: "PKc_CategoryID")
+  CompanyID   Int
+  nCategory   String        @db.VarChar(30)
+  Description String?       @db.VarChar(100)
+  SubCategory SubCategory[]
+
+  @@schema("Products")
+}
+
+model Color {
+  ColorID     Int       @id(map: "PKc_ColorID")
+  nColor      String    @db.VarChar(30)
+  Hexadecimal String    @db.Char(7)
+  Red         Int       @db.SmallInt
+  Green       Int       @db.SmallInt
+  Blue        Int       @db.SmallInt
+  Product     Product[]
+
+  @@schema("Products")
+}
+
+model Model {
+  ModelID   Int       @id(map: "PKc_ModelID")
+  CompanyID Int
+  nModel    String    @db.VarChar(30)
+  Product   Product[]
+
+  @@schema("Products")
+}
+
+model Product {
+  ProductID          Int
+  CompanyID          Int
+  SubCategoryID      Int
+  BrandID            Int
+  ColorID            Int
+  nProduct           String               @db.VarChar(250)
+  Description        String?              @db.VarChar(100)
+  ProductNumber      String?              @db.VarChar(50)
+  ModelNumber        String?              @db.VarChar(50)
+  Serie              String?              @db.VarChar(50)
+  Barcode            String?              @db.VarChar(50)
+  QRCode             String?              @db.Text
+  Reference          String?              @db.VarChar(50)
+  SalePrice          Decimal              @db.Decimal(18, 2)
+  PurchasePrice      Decimal              @db.Decimal(18, 2)
+  Cost               Decimal?             @db.Decimal(18, 2)
+  CurrentStock       Int?                 @default(0, map: "DF__Product__Current__3D5E1FD2")
+  MinimumStock       Int?                 @default(1, map: "DF__Product__Minimum__3E52440B")
+  MaximumStock       Int?
+  Status             Boolean
+  CreatedAt          DateTime?            @default(now(), map: "DF__Product__Created__3F466844") @db.DateTime
+  CreatedBy          Int
+  Brand              Brand                @relation(fields: [BrandID], references: [BrandID], onUpdate: NoAction, map: "FK_BrandID_Brand")
+  Color              Color                @relation(fields: [ColorID], references: [ColorID], onUpdate: NoAction, map: "FK_ColorID_Color")
+  Model              Model                @relation(fields: [ColorID], references: [ModelID], onUpdate: NoAction, map: "FK_ModelID_Model")
+  SubCategory        SubCategory          @relation(fields: [SubCategoryID], references: [SubCategoryID], onUpdate: NoAction, map: "FK_SubCategoryID_Product")
+  ProductComboDetail ProductComboDetail[]
+  ProductMeasure     ProductMeasure[]
+  ProductPhoto       ProductPhoto[]
+
+  @@id([ProductID, CompanyID], map: "PKc_ProductID")
+  @@schema("Products")
+}
+
+model ProductCombo {
+  ComboID            Int
+  CompanyID          Int
+  nCombo             Int
+  ProductComboDetail ProductComboDetail[]
+
+  @@id([CompanyID, ComboID(sort: Desc)], map: "PKc_ComboID")
+  @@schema("Products")
+}
+
+model ProductComboDetail {
+  IdComboDetail Int          @id(sort: Desc, map: "PKc_IdDetail") @default(autoincrement())
+  ComboID       Int
+  CompanyID     Int
+  ProductID     Int
+  PriceCombo    Decimal      @db.Decimal(18, 2)
+  Amount        Int
+  Status        Boolean
+  ProductCombo  ProductCombo @relation(fields: [CompanyID, ComboID], references: [CompanyID, ComboID], onUpdate: NoAction, map: "FK_ComboIDCompanyID_ProductComboDetail")
+  Product       Product      @relation(fields: [ProductID, CompanyID], references: [ProductID, CompanyID], onUpdate: NoAction, map: "FK_ProductIDCompanyID_ProductComboDetail")
+
+  @@schema("Products")
+}
+
+model ProductMeasure {
+  UnitID       Int
+  CompanyID    Int
+  ProductID    Int
+  MeasureValue Decimal     @db.Decimal(18, 2)
+  Product      Product     @relation(fields: [ProductID, CompanyID], references: [ProductID, CompanyID], onUpdate: NoAction, map: "FK_ProductIDCompanyID_UnitMeasure")
+  UnitMeasure  UnitMeasure @relation(fields: [UnitID], references: [UnitID], onUpdate: NoAction, map: "FK_UnitID_UnitMeasure")
+
+  @@id([UnitID, CompanyID, ProductID(sort: Desc)], map: "PKc_UnitIDCompanyIDProductID")
+  @@schema("Products")
+}
+
+model ProductPhoto {
+  PhotoID   Int       @id(sort: Desc, map: "PKc_PhotoID") @default(autoincrement())
+  CompanyID Int
+  ProductID Int
+  Name      String    @db.VarChar(100)
+  Photo     Bytes?
+  UrlPhoto  String    @db.Text
+  isMail    Boolean
+  CreatedAt DateTime? @default(now(), map: "DF__ProductPh__Creat__440B1D61") @db.DateTime
+  CreatedBy Int?
+  Product   Product   @relation(fields: [ProductID, CompanyID], references: [ProductID, CompanyID], onUpdate: NoAction, map: "FK_ProductIDCompanyID_ProductPhoto")
+
+  @@schema("Products")
+}
+
+model SubCategory {
+  SubCategoryID Int       @id(map: "PKc_SubCategoryID")
+  CategoryID    Int
+  nSubCategory  String    @db.VarChar(30)
+  Description   String?   @db.VarChar(100)
+  Product       Product[]
+  Category      Category  @relation(fields: [CategoryID], references: [CategoryID], onUpdate: NoAction, map: "FK_CategoryID_SubCategory")
+
+  @@schema("Products")
+}
+
+model UnitMeasure {
+  UnitID         Int              @id(map: "PKc_UnitID")
+  nUnitMeasure   String           @db.VarChar(100)
+  UnitType       String           @db.VarChar(50)
+  UnitSymbol     String?          @db.VarChar(10)
+  ProductMeasure ProductMeasure[]
+
+  @@schema("Products")
 }

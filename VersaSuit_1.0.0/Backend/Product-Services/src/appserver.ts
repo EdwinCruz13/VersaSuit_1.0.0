@@ -18,7 +18,7 @@ AppServer.use(responseMiddleware); //this middleware will help to manage the htt
 
 // API ENDPOINTS
 AppServer.use("/api/v1/products", ProductRouter)
-AppServer.use("/api/v1/products/brands", ProductRouter)
+AppServer.use("/api/v1/products/brands", BrandRouter)
 
 
 //export the appserver

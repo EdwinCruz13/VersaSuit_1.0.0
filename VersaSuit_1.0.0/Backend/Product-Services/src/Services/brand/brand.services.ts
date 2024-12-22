@@ -6,7 +6,8 @@ import { BrandRepository } from "../../Repositories/brand/brand.repositories";
  * class that contain all the functions to get and set the
  * model "brand". 
  */
-export class BrandService {
+export class BrandService 
+{
   private BrandRepository = new BrandRepository();
 
   /**
@@ -15,11 +16,18 @@ export class BrandService {
    */
   async GetAll(CompanyID: number): Promise<Brand[] | null> 
   {
-    //get the result from repository
+
     const dt = await this.BrandRepository.FetchAll(CompanyID);
+    const dtBrand = dt.map(Brand.fromPrisma) 
     
-    //map the result to Company
-    return !dt || dt.length === 0? null: dt.map((item: any) => new Brand(item));
+    return dtBrand;
+
+
+    //get the result from repository
+    // const dt = await this.BrandRepository.FetchAll(CompanyID);
+    
+    // //map the result to Company
+    // return !dt || dt.length === 0? null: dt.map((item: any) => new Brand(item));
 
   }
   /**

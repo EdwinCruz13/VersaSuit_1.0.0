@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import { BrandService } from "../Services/brand/brand.services";
+
 
 /**
  * this controller is used as intermediate between the request from the client
@@ -7,6 +9,8 @@ import { Request, Response } from "express";
  */
 export class BrandController {
  
+  private BrandService = new BrandService();
+
   /**
    * method http for get brands
    * return the list of brands in https
@@ -14,9 +18,10 @@ export class BrandController {
    * @param resp
    */
   async Getbrands(req: Request, resp: Response): Promise<any> {
+    const { CompanyID }  = req.params
     try {
-      const brands = [{}];
-      if (!brands)
+      const brands = await this.BrandService.GetAll(Number(CompanyID));
+      if (!brands || brands.length ===0)
         return resp.sendResponse(null, "There are not brands saved", false, 200)
 
       //return the list

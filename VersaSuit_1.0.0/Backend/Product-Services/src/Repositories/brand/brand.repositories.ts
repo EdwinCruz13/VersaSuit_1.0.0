@@ -11,7 +11,7 @@ export class BrandRepository{
      * get all the brands by a company
      */
     async FetchAll(CompanyID: Number): Promise<any>{
-        //return this.prisma.product.findmany();
+        return await this.prisma.brand.findMany({where: {CompanyID: Number(CompanyID)}});
     }
 
     /**
