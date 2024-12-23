@@ -153,7 +153,7 @@ CREATE TABLE Products.Category(
 	CompanyID int NOT NULL,
 	nCategory varchar(30) NOT NULL,
 	[Description] varchar(100) NULL,
-	CONSTRAINT [PKc_CategoryID] PRIMARY KEY CLUSTERED(CategoryID ASC)
+	CONSTRAINT [PKc_CategoryID] PRIMARY KEY CLUSTERED(CategoryID ASC, CompanyID ASC)
 )
 GO
 
@@ -162,6 +162,7 @@ GO
 CREATE TABLE Products.SubCategory(
 	SubCategoryID int NOT NULL,
 	CategoryID int NOT NULL,
+	CompanyID int NOT NULL,
 	nSubCategory varchar(30) NOT NULL,
 	[Description] varchar(100) NULL,
 	CONSTRAINT [PKc_SubCategoryID] PRIMARY KEY CLUSTERED(SubCategoryID ASC)
@@ -174,7 +175,7 @@ CREATE TABLE Products.Brand(
 	BrandID int NOT NULL,
 	CompanyID int NOT NULL,
 	nBrand varchar(30) NOT NULL,
-	CONSTRAINT [PKc_BrandID] PRIMARY KEY CLUSTERED(BrandID ASC)
+	CONSTRAINT [PKc_BrandID] PRIMARY KEY CLUSTERED(CompanyID ASC, BrandID ASC)
 )
 GO
 
@@ -184,7 +185,7 @@ CREATE TABLE Products.Model(
 	ModelID int NOT NULL,
 	CompanyID int NOT NULL,
 	nModel varchar(30) NOT NULL,
-	CONSTRAINT [PKc_ModelID] PRIMARY KEY CLUSTERED (ModelID ASC)
+	CONSTRAINT [PKc_ModelID] PRIMARY KEY CLUSTERED (CompanyID ASC, ModelID asc)
 )
 GO
 
@@ -221,6 +222,7 @@ CREATE TABLE Products.[Product](
 	CompanyID int NOT NULL,
 	SubCategoryID int NOT NULL,
 	BrandID int NOT NULL,
+	ModelID int NOT NULL,
 	ColorID int NOT NULL,
 	nProduct varchar(250) NOT NULL,
 	[Description] varchar(100) NULL,
@@ -329,7 +331,7 @@ GO
 
 -- for products
 ALTER TABLE Products.SubCategory  
-ADD  CONSTRAINT [FK_CategoryID_SubCategory] FOREIGN KEY(CategoryID) REFERENCES Products.Category (CategoryID)
+ADD  CONSTRAINT [FK_CategoryID_SubCategory] FOREIGN KEY(CategoryID, CompanyID) REFERENCES Products.Category (CategoryID, CompanyID)
 GO
 
 ALTER TABLE Products.Product  
@@ -337,7 +339,7 @@ ADD  CONSTRAINT [FK_SubCategoryID_Product] FOREIGN KEY(SubCategoryID) REFERENCES
 GO
 
 ALTER TABLE Products.Product  
-ADD  CONSTRAINT [FK_BrandID_Brand] FOREIGN KEY(BrandID) REFERENCES Products.Brand (BrandID)
+ADD  CONSTRAINT [FK_BrandID_Brand] FOREIGN KEY(CompanyID, BrandID) REFERENCES Products.Brand (CompanyID, BrandID)
 GO
 
 ALTER TABLE Products.Product  
@@ -345,7 +347,7 @@ ADD  CONSTRAINT [FK_ColorID_Color] FOREIGN KEY(ColorID) REFERENCES Products.Colo
 GO
 
 ALTER TABLE Products.Product  
-ADD  CONSTRAINT [FK_ModelID_Model] FOREIGN KEY(ColorID) REFERENCES Products.Model (ModelID)
+ADD  CONSTRAINT [FK_ModelID_Model] FOREIGN KEY(CompanyID, ModelID) REFERENCES Products.Model (CompanyID, ModelID)
 GO
 
 ALTER TABLE Products.ProductMeasure  
@@ -462,7 +464,7 @@ BEGIN
 		SELECT @Message = ERROR_MESSAGE()
 	END CATCH
 END
-
+GO
 
 DROP PROCEDURE IF EXISTS dbo.CompanyUpdate
 GO
