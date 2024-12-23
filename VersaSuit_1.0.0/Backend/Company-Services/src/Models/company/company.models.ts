@@ -23,28 +23,7 @@ export class Company {
   CompanyContact?: Contact[] = [];
   CompanySocialMedia?: SocialMedia[] = [];
 
-  constructor(data: any) {
-    this.CompanyID = data.CompanyID;
-    this.nCompany = data.nCompany;
-    this.Abbre = data.Abbre;
-    this.FiscalNumber = data.FiscalNumber;
-    this.RLogo = data.RLogo;
-    this.LLogo = data.LLogo;
-    this.PrimaryHeader = data.PrimaryHeader;
-    this.SecondaryHeader = data.SecondaryHeader;
-    this.PrimaryFooter = data.PrimaryFooter;
-    this.SecondaryFooter = data.SecondaryFooter;
-    this.HasBranch = data.HasBranch;
-    this.Website = data.Website;
-    this.Email = data.Email;
-    this.PhoneNumber = data.PhoneNumber;
-    this.UTC_CreateAT = data.UTC_CreateAT;
-    this.GTMM6_CreateAT = data.GTMM6_CreateAT;
-    this.CompanyBranch = data.CompanyBranch;
-    this.CompanyContact = data.CompanyContact;
-    this.CompanySocialMedia = data.CompanySocialMedia;
-    // if (Array.isArray(data.CompanyBranch)) {
-    //   this.CompanyBranch = data.CompanyBranch.map((branchData: any) => new CompanyBranch(branchData));
-    // }
+  constructor(data: Partial<Company>) {
+    Object.assign(this, data);
   }
 }

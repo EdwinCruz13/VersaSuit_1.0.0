@@ -1,5 +1,6 @@
 import { CompanyRepository } from "../../Repositories/company/company.repositories";
 import { Company } from "../../Models/company/company.models";
+import { ModelMapper } from "../../../../Utils/mapping.utils";
 
 /**
  * class that contain all the functions to get and set the
@@ -19,7 +20,7 @@ export class CompanyService {
     const dt = await this.CompanyRepository.FetchAll();
     
     //map the result to Company
-    return !dt || dt.length === 0? null: dt.map((item: any) => new Company(item));
+    return ModelMapper.toMap(Company, dt) as Company[];
 
   }
   /**
@@ -33,7 +34,8 @@ export class CompanyService {
     //get the data from repository
     const dt = await this.CompanyRepository.FetchByID(CompanyID);
     
-    return dt ? new Company(dt) : null;
+    //map the result to Company
+    return ModelMapper.toMap(Company, dt) as Company;
   }
 
   /**

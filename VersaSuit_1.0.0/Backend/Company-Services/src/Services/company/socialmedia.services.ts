@@ -1,5 +1,6 @@
 import { SocialRepository } from "../../Repositories/company/socialmedia.repositories";
 
+
 /**
  * class that contain all the functions to get and set the
  * model social media. using prisma ORM in order to get the information

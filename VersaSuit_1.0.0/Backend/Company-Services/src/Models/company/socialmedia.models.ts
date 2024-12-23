@@ -10,11 +10,7 @@ export class SocialMedia {
     UrlMedia: string = "";
     Company?: Company; // optional to avoid the circle dependency
     
-    constructor(data: any) {
-        this.SocialD= data.ContactID;
-        this.CompanyID= data.CompanyID;
-        this.nMedia= data.nMedia;
-        this.UrlMedia= data.UrlMedia;
-        this.Company = data.Company ? new Company(data.Company) : undefined;
-    }
+    constructor(data: Partial<SocialMedia>) {
+        Object.assign(this, data);
+      }
   }

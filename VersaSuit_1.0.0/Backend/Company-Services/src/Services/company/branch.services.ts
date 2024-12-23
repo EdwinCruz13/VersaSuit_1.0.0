@@ -1,5 +1,6 @@
 import { BranchRepository } from "../../Repositories/company/branch.repositories";
 import { Branch } from "../../Models/company/branch.models";
+import { ModelMapper } from "../../../../Utils/mapping.utils";
 
 
 /**
@@ -17,12 +18,13 @@ export class BrachService
      * this method gets and maps this branches
      * @returns 
      */
-    async GetAll() : Promise<Branch | null>
+    async GetAll() : Promise<Branch[] | null>
     {
+        //get data from repository
         const dt = await this.BranchService.FetchAll();
 
-        //map and return the result
-        return (!dt || dt.length === 0) ? null: dt.map((item: any ) => new Branch(item))
+        //map the result to branch
+        return ModelMapper.toMap(Branch, dt) as Branch[];
     }
 
     /**
@@ -32,10 +34,11 @@ export class BrachService
      */
     async GetByID(CompanyID: number, BranchID: number) : Promise<Branch | null>
     {
+        //get data from repository
         const dt = await this.BranchService.FetchByID(CompanyID, BranchID);
         
-        //map and return the result
-        return (!dt) ? null: new Branch(dt);
+        //map the result to branch
+        return ModelMapper.toMap(Branch, dt) as Branch;
     }
 
     /**

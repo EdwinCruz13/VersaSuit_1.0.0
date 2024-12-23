@@ -11,12 +11,7 @@ export class Contact {
     EmailContact?: string = "";
     Company?: Company; // optional to avoid the circle dependency
     
-    constructor(data: any) {
-        this.ContactID= data.ContactID;
-        this.CompanyID= data.CompanyID;
-        this.nContact= data.nContact;
-        this.PhoneContact= data.PhoneContact;
-        this.EmailContact= data.EmailContact;
-        this.Company = data.Company ? new Company(data.Company) : undefined;
-    }
+    constructor(data: Partial<Contact>) {
+        Object.assign(this, data);
+      }
   }
