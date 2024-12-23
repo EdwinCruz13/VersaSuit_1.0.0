@@ -4,13 +4,13 @@ import { Product } from "../product/product.models";
 /**
  * this entity map the brands
  */
-export class Brand {
+export class Model {
   CompanyID: number = 0;
-  BrandID: number = 0;
-  nBrand: string = "";
+  ModelID: number = 0;
+  nModel: string = "";
   Product?: Product[] = [];
 
-  constructor(data: Partial<Brand>) {
+  constructor(data: Partial<Model>) {
     Object.assign(this, data);
   }
 }

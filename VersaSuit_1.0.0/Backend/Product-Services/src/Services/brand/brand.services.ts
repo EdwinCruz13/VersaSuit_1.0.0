@@ -1,5 +1,6 @@
 import { Brand } from "../../Models/brand/brand.models";
 import { BrandRepository } from "../../Repositories/brand/brand.repositories";
+import { ModelMapper } from "../../../../Utils/mapping.utils"
 
 
 /**
@@ -16,18 +17,14 @@ export class BrandService
    */
   async GetAll(CompanyID: number): Promise<Brand[] | null> 
   {
-
+    //get data from repository
     const dt = await this.BrandRepository.FetchAll(CompanyID);
-    const dtBrand = dt.map(Brand.fromPrisma) 
-    
-    return dtBrand;
 
+    //if there is not data return null
+    if(!dt) return null;
 
-    //get the result from repository
-    // const dt = await this.BrandRepository.FetchAll(CompanyID);
-    
-    // //map the result to Company
-    // return !dt || dt.length === 0? null: dt.map((item: any) => new Brand(item));
+    //return the prisma object to model[]
+    return ModelMapper.toMap(Brand, dt) as Brand[];
 
   }
   /**
@@ -36,11 +33,15 @@ export class BrandService
   * @param CompanyID 
   * @returns 
   */
-  async GetByID(CompanyID: number): Promise<Brand | null> {
+  async GetByID(CompanyID: number, BrandID: number): Promise<Brand | null> {
 
     //get the data from repository
-    const dt = await this.BrandRepository.FetchByID(CompanyID);
-    return dt ? new Brand(dt) : null;
+    const dt = await this.BrandRepository.FetchByID(CompanyID, BrandID);
+    //if there is not data return null
+    if(!dt) return null;
+
+    //return the prisma object to model
+    return ModelMapper.toMap(Brand, dt) as Brand;
   }
 
   /**

@@ -10,21 +10,23 @@ datasource db {
 }
 
 model Brand {
-  BrandID   Int       @id(map: "PKc_BrandID")
+  BrandID   Int
   CompanyID Int
   nBrand    String    @db.VarChar(30)
   Product   Product[]
 
+  @@id([CompanyID, BrandID], map: "PKc_BrandID")
   @@schema("Products")
 }
 
 model Category {
-  CategoryID  Int           @id(map: "PKc_CategoryID")
+  CategoryID  Int
   CompanyID   Int
   nCategory   String        @db.VarChar(30)
   Description String?       @db.VarChar(100)
   SubCategory SubCategory[]
 
+  @@id([CategoryID, CompanyID], map: "PKc_CategoryID")
   @@schema("Products")
 }
 
@@ -41,11 +43,12 @@ model Color {
 }
 
 model Model {
-  ModelID   Int       @id(map: "PKc_ModelID")
+  ModelID   Int
   CompanyID Int
   nModel    String    @db.VarChar(30)
   Product   Product[]
 
+  @@id([CompanyID, ModelID], map: "PKc_ModelID")
   @@schema("Products")
 }
 
@@ -54,6 +57,7 @@ model Product {
   CompanyID          Int
   SubCategoryID      Int
   BrandID            Int
+  ModelID            Int
   ColorID            Int
   nProduct           String               @db.VarChar(250)
   Description        String?              @db.VarChar(100)
@@ -72,9 +76,9 @@ model Product {
   Status             Boolean
   CreatedAt          DateTime?            @default(now(), map: "DF__Product__Created__3F466844") @db.DateTime
   CreatedBy          Int
-  Brand              Brand                @relation(fields: [BrandID], references: [BrandID], onUpdate: NoAction, map: "FK_BrandID_Brand")
+  Brand              Brand                @relation(fields: [CompanyID, BrandID], references: [CompanyID, BrandID], onUpdate: NoAction, map: "FK_BrandID_Brand")
   Color              Color                @relation(fields: [ColorID], references: [ColorID], onUpdate: NoAction, map: "FK_ColorID_Color")
-  Model              Model                @relation(fields: [ColorID], references: [ModelID], onUpdate: NoAction, map: "FK_ModelID_Model")
+  Model              Model                @relation(fields: [CompanyID, ModelID], references: [CompanyID, ModelID], onUpdate: NoAction, map: "FK_ModelID_Model")
   SubCategory        SubCategory          @relation(fields: [SubCategoryID], references: [SubCategoryID], onUpdate: NoAction, map: "FK_SubCategoryID_Product")
   ProductComboDetail ProductComboDetail[]
   ProductMeasure     ProductMeasure[]
@@ -138,10 +142,11 @@ model ProductPhoto {
 model SubCategory {
   SubCategoryID Int       @id(map: "PKc_SubCategoryID")
   CategoryID    Int
+  CompanyID     Int
   nSubCategory  String    @db.VarChar(30)
   Description   String?   @db.VarChar(100)
   Product       Product[]
-  Category      Category  @relation(fields: [CategoryID], references: [CategoryID], onUpdate: NoAction, map: "FK_CategoryID_SubCategory")
+  Category      Category  @relation(fields: [CategoryID, CompanyID], references: [CategoryID, CompanyID], onUpdate: NoAction, map: "FK_CategoryID_SubCategory")
 
   @@schema("Products")
 }

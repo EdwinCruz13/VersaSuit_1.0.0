@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { Brand } from "../../Models/brand/brand.models";
 
 /**
  * class that contain all the functions to get and set the
@@ -18,8 +19,10 @@ export class BrandRepository{
      * get an specific BrandID 
      * @param BrandID 
      */
-    async FetchByID(BrandID: Number): Promise<any>{
-        //return this.prisma.product.findmany();
+    async FetchByID(CompanyID: Number, BrandID: Number): Promise<any>{
+        return this.prisma.brand.findUnique({
+            where: { CompanyID_BrandID: {BrandID: Number(BrandID), CompanyID: Number(CompanyID)}},
+        });
     }
 
     /**
@@ -28,7 +31,19 @@ export class BrandRepository{
      */
     async Save(Brand: any): Promise<any>{
         try {
-            return { Message: "", data: null };
+            //get the last index of company brand
+            const LastBrand = await this.prisma.brand.findFirst({where: {CompanyID: Brand.CompanyID}, orderBy: {BrandID: "desc"}})
+            const BrandID = (!LastBrand) ? 1 : LastBrand.BrandID + 1;
+
+            //create a new data
+            const newBrand = await this.prisma.brand.create({
+                data: {
+                BrandID: BrandID,
+                CompanyID: Brand.CompanyID,
+                nBrand: Brand.nBrand
+            }})
+
+            return { Message: "", data: newBrand };
         } catch (error) {
             return { Message: error, data: null };
         }
@@ -39,6 +54,16 @@ export class BrandRepository{
      * return the updated brand
      */
     async Update(Brand: any): Promise<any>{
-        //return this.prisma.product.findmany();
+        try {
+            //create a new data
+            const updatedBrand = await this.prisma.brand.update({
+                where: { CompanyID_BrandID: {BrandID: Number(Brand.BrandID), CompanyID: Number(Brand.CompanyID)}},
+                data: {nBrand: Brand.nBrand}
+            })
+
+            return { Message: "", data: updatedBrand };
+        } catch (error) {
+            return { Message: error, data: null };
+        }
     }
 }

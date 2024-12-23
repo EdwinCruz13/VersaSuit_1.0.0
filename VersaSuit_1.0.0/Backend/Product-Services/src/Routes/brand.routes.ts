@@ -19,7 +19,7 @@ brandRouter.get("/getbrands/:CompanyID", controller.Getbrands.bind(controller));
  * GET  /api/v1/settings/getbrand/:brandID         ------>(gets a single brand)
  * return an specific brand
  */
-brandRouter.get("/getbrand/:brandID", controller.Getbrand.bind(controller));
+brandRouter.get("/getbrand/:CompanyID/:BrandID", controller.Getbrand.bind(controller));
 
 // /**
 //  * POST /api/v1/settings/createbrand                 ------>(create a new brand)
@@ -31,7 +31,7 @@ brandRouter.post("/createbrand", controller.Createbrand.bind(controller));
 //  * PUT  /api/v1/settings/editbrand/:brandID        ------>(update a brand)
 //  * update the brand, return the changes applied return the brandID
 //  */
-brandRouter.put("/updatebrand/:brandID", controller.Updatebrand.bind(controller));
+brandRouter.put("/updatebrand/:CompanyID/:BrandID", controller.Updatebrand.bind(controller));
 
 
 

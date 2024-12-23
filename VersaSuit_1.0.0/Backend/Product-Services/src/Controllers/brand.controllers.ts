@@ -20,7 +20,10 @@ export class BrandController {
   async Getbrands(req: Request, resp: Response): Promise<any> {
     const { CompanyID }  = req.params
     try {
+      //get data from services
       const brands = await this.BrandService.GetAll(Number(CompanyID));
+
+      //validate
       if (!brands || brands.length ===0)
         return resp.sendResponse(null, "There are not brands saved", false, 200)
 
@@ -37,11 +40,10 @@ export class BrandController {
    * @param resp
    */
   async Getbrand(req: Request, resp: Response): Promise<any> {
-    const { brandID } = req.params;
+    const { BrandID, CompanyID } = req.params;
     try {
-      const brand = {};
-
-      
+      //get data from services
+      const brand = await this.BrandService.GetByID(Number(CompanyID), Number(BrandID));
       //validate the result, in any case is null, send status 409
       if (!brand) {
         return resp.sendResponse(null, "The brand has not been found", false, 200)
@@ -63,8 +65,8 @@ export class BrandController {
   async Createbrand(req: Request, resp: Response): Promise<any> {
     const { brand } = req.body;
     try {
-      const result = {data: 0, Message:""};
-      if (result.data == 0)
+      const result = await this.BrandService.Create(brand);
+      if (!result.data)
         return resp.sendResponse(null, "There is a problem creating a brand: " + result.Message, true, 409);
       else
         return resp.sendResponse(result.data, "he brand has been created", false, 201);
@@ -81,10 +83,12 @@ export class BrandController {
    */
   async Updatebrand(req: Request, resp: Response): Promise<any> {
     const { brand } = req.body;
-
     try {
-      const result = {data: {}, Message: ""};
-      if (result.Message.includes("already exists"))
+      //save to brand 
+      const result = await this.BrandService.Update(brand);
+
+      //validate
+      if (!result.data)
         return resp.sendResponse(null, "There is a problem editing a brand: " + result.Message, true, 409);
 
       else
