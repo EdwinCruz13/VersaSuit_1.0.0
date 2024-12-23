@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import { Model } from "../../Models/model/model.models";
-import { ModelMapper } from "../../../../Utils/mapping.utils"
+import { Model } from "../Models/model.models";
+import { ModelMapper } from "../../../Utils/mapping.utils"
 
 /**
  * class that contain all the functions to get and set the

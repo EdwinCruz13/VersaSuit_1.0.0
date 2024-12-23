@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ModelService } from "../Services/model/model.services";
+import { ModelService } from "../Services/model.services";
 
 
 /**

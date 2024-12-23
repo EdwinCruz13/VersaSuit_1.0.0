@@ -1,6 +1,6 @@
-import { Brand } from "../../Models/brand/brand.models";
-import { BrandRepository } from "../../Repositories/brand/brand.repositories";
-import { ModelMapper } from "../../../../Utils/mapping.utils"
+import { Brand } from "../Models/brand.models";
+import { BrandRepository } from "../Repositories/brand.repositories";
+import { ModelMapper } from "../../../Utils/mapping.utils"
 
 
 /**

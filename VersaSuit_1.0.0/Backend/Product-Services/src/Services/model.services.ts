@@ -1,6 +1,6 @@
-import { Model } from "../../Models/model/model.models";
-import { ModelRepository } from "../../Repositories/model/model.repositories";
-import { ModelMapper } from "../../../../Utils/mapping.utils"
+import { Model } from "../Models/model.models";
+import { ModelRepository } from "../Repositories/model.repositories";
+import { ModelMapper } from "../../../Utils/mapping.utils"
 
 
 /**

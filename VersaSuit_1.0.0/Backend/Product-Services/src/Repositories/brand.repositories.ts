@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import { Brand } from "../../Models/brand/brand.models";
 
 /**
  * class that contain all the functions to get and set the

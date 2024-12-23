@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { BrandService } from "../Services/brand/brand.services";
+import { BrandService } from "../Services/brand.services";
 
 
 /**

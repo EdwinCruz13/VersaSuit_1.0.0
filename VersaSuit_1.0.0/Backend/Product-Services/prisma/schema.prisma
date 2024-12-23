@@ -154,7 +154,7 @@ model SubCategory {
 model UnitMeasure {
   UnitID         Int              @id(map: "PKc_UnitID")
   nUnitMeasure   String           @db.VarChar(100)
-  UnitType       String           @db.VarChar(50)
+  nUnitType      String           @db.VarChar(50)
   UnitSymbol     String?          @db.VarChar(10)
   ProductMeasure ProductMeasure[]
 
