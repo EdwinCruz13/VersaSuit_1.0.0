@@ -11,7 +11,10 @@ export class CategoryRepository{
      * get all the Categorys by a company
      */
     async FetchAll(CompanyID: Number): Promise<any>{
-        return await this.prisma.category.findMany({where: {CompanyID: Number(CompanyID)}, include: { SubCategory: true}});
+        return await this.prisma.category.findMany({
+            where: {CompanyID: Number(CompanyID)}, 
+            include: { SuperCategory: true}
+        });
     }
 
     /**
@@ -21,7 +24,7 @@ export class CategoryRepository{
     async FetchByID(CompanyID: Number, CategoryID: Number): Promise<any>{
         return this.prisma.category.findUnique({
             where: { CategoryID_CompanyID: {CategoryID: Number(CategoryID), CompanyID: Number(CompanyID)}},
-            include: { SubCategory: true}
+            include: { SubCategory: true, SuperCategory: true}
         });
     }
 
@@ -40,6 +43,7 @@ export class CategoryRepository{
                 data: {
                 CategoryID: CategoryID,
                 CompanyID: Category.CompanyID,
+                SuperCategoryID: Category.SuperCategoryID,
                 nCategory: Category.nCategory,
                 Description: Category.Description,
             }})
@@ -59,7 +63,7 @@ export class CategoryRepository{
             //create a new data
             const updatedCategory = await this.prisma.category.update({
                 where: { CategoryID_CompanyID: {CategoryID: Number(Category.CategoryID), CompanyID: Number(Category.CompanyID)}},
-                data: {nCategory: Category.nCategory, Description: Category.Description}
+                data: {nCategory: Category.nCategory, Description: Category.Description, SuperCategoryID: Category.SuperCategoryID}
             })
 
             return { Message: "", data: updatedCategory };

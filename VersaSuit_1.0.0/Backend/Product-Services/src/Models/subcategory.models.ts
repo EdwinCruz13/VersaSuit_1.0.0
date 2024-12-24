@@ -1,5 +1,5 @@
-import { Category } from "@prisma/client";
 import { Product } from "../Models/product.models";
+import { Category } from "../Models/category.models";
 
 
 /**
@@ -11,10 +11,10 @@ export class SubCategory {
   CategoryID: number = 0;
   nSubCategory: string = "";
   Description: string = "";
-  Product?: Product[] = [];
   Category?: Category;
+  Product?: Product[] = [];
 
-  constructor(data: Partial<Category>) {
+  constructor(data: Partial<SubCategory>) {
     Object.assign(this, data);
   }
 }

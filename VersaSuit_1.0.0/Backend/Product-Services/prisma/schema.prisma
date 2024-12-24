@@ -20,11 +20,15 @@ model Brand {
 }
 
 model Category {
-  CategoryID  Int
-  CompanyID   Int
-  nCategory   String        @db.VarChar(30)
-  Description String?       @db.VarChar(100)
-  SubCategory SubCategory[]
+  CategoryID      Int
+  CompanyID       Int
+  SuperCategoryID Int
+  nCategory       String        @db.VarChar(50)
+  Description     String?       @db.VarChar(100)
+  UTC_CreateAT    DateTime?     @default(dbgenerated("getutcdate()"), map: "DFc_CategoryCreateAtUTC") @db.DateTime
+  GTMM6_CreateAT  DateTime?     @default(dbgenerated("switchoffset(CONVERT([datetimeoffset],getutcdate()),'-06:00')"), map: "DFc_CategoryCreateAtGTM") @db.DateTime
+  SuperCategory   SuperCategory @relation(fields: [SuperCategoryID], references: [SuperCategoryID], onUpdate: NoAction, map: "FK_SuperCategoryID_Category")
+  SubCategory     SubCategory[]
 
   @@id([CategoryID, CompanyID], map: "PKc_CategoryID")
   @@schema("Products")
@@ -70,12 +74,12 @@ model Product {
   SalePrice          Decimal              @db.Decimal(18, 2)
   PurchasePrice      Decimal              @db.Decimal(18, 2)
   Cost               Decimal?             @db.Decimal(18, 2)
-  CurrentStock       Int?                 @default(0, map: "DF__Product__Current__3D5E1FD2")
-  MinimumStock       Int?                 @default(1, map: "DF__Product__Minimum__3E52440B")
+  CurrentStock       Int?                 @default(0, map: "DF__Product__Current__412EB0B6")
+  MinimumStock       Int?                 @default(1, map: "DF__Product__Minimum__4222D4EF")
   MaximumStock       Int?
   Status             Boolean
-  CreatedAt          DateTime?            @default(now(), map: "DF__Product__Created__3F466844") @db.DateTime
-  CreatedBy          Int
+  UTC_CreateAT       DateTime?            @default(dbgenerated("getutcdate()"), map: "DFc_ProductCreateAtUTC") @db.DateTime
+  GTMM6_CreateAT     DateTime?            @default(dbgenerated("switchoffset(CONVERT([datetimeoffset],getutcdate()),'-06:00')"), map: "DFc_ProductCreateAtGTM") @db.DateTime
   Brand              Brand                @relation(fields: [CompanyID, BrandID], references: [CompanyID, BrandID], onUpdate: NoAction, map: "FK_BrandID_Brand")
   Color              Color                @relation(fields: [ColorID], references: [ColorID], onUpdate: NoAction, map: "FK_ColorID_Color")
   Model              Model                @relation(fields: [CompanyID, ModelID], references: [CompanyID, ModelID], onUpdate: NoAction, map: "FK_ModelID_Model")
@@ -132,7 +136,7 @@ model ProductPhoto {
   Photo     Bytes?
   UrlPhoto  String    @db.Text
   isMail    Boolean
-  CreatedAt DateTime? @default(now(), map: "DF__ProductPh__Creat__440B1D61") @db.DateTime
+  CreatedAt DateTime? @default(now(), map: "DF__ProductPh__Creat__48CFD27E") @db.DateTime
   CreatedBy Int?
   Product   Product   @relation(fields: [ProductID, CompanyID], references: [ProductID, CompanyID], onUpdate: NoAction, map: "FK_ProductIDCompanyID_ProductPhoto")
 
@@ -143,7 +147,7 @@ model SubCategory {
   SubCategoryID Int       @id(map: "PKc_SubCategoryID")
   CategoryID    Int
   CompanyID     Int
-  nSubCategory  String    @db.VarChar(30)
+  nSubCategory  String    @db.VarChar(50)
   Description   String?   @db.VarChar(100)
   Product       Product[]
   Category      Category  @relation(fields: [CategoryID, CompanyID], references: [CategoryID, CompanyID], onUpdate: NoAction, map: "FK_CategoryID_SubCategory")
@@ -157,6 +161,15 @@ model UnitMeasure {
   nUnitType      String           @db.VarChar(50)
   UnitSymbol     String?          @db.VarChar(10)
   ProductMeasure ProductMeasure[]
+
+  @@schema("Products")
+}
+
+model SuperCategory {
+  SuperCategoryID Int        @id(sort: Desc, map: "PKc_SuperCategoryID")
+  nSuperCategory  String     @db.VarChar(50)
+  Description     String?    @db.VarChar(100)
+  Category        Category[]
 
   @@schema("Products")
 }

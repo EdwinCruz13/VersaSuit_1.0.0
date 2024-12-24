@@ -69,7 +69,7 @@ export class BrandController {
       if (!result.data)
         return resp.sendResponse(null, "There is a problem creating a brand: " + result.Message, true, 409);
       else
-        return resp.sendResponse(result.data, "he brand has been created", false, 201);
+        return resp.sendResponse(result.data, "The brand has been created", false, 201);
     } catch (error) {
       return resp.sendResponse(null, "There is a fatal error creating the brand: " + error, true, 500)
     }
@@ -92,7 +92,7 @@ export class BrandController {
         return resp.sendResponse(null, "There is a problem editing a brand: " + result.Message, true, 409);
 
       else
-        return resp.sendResponse(result.data, "he brand has been saved", false, 201);
+        return resp.sendResponse(result.data, "The brand has been saved", false, 201);
 
     } catch (error) {
       return resp.sendResponse(null, "There is a fatal error editing the brand: " + error, true, 500)

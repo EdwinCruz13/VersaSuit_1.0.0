@@ -1,6 +1,5 @@
-import { SubCategory } from "@prisma/client";
-import { Product } from "../Models/product.models";
-
+import { SuperCategory } from "./supercategory.models";
+import { SubCategory } from "./subcategory.models";
 
 /**
  * this entity map the Category
@@ -10,6 +9,7 @@ export class Category {
   CategoryID: number = 0;
   nCategory: string = "";
   Description: string = "";
+  SuperCategory?: SuperCategory;
   SubCategory?: SubCategory[] = [];
 
   constructor(data: Partial<Category>) {
