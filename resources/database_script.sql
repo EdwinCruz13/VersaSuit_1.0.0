@@ -1,6 +1,6 @@
 ﻿USE master
 GO
---ALTER DATABASE [VersaSuitDB] SET  SINGLE_USER WITH ROLLBACK IMMEDIATE
+ALTER DATABASE [VersaSuitDB] SET  SINGLE_USER WITH ROLLBACK IMMEDIATE
 --GO
 
 /*
@@ -146,13 +146,28 @@ CREATE TABLE Settings.CompanySocialMedia
 GO
 
 
+DROP TABLE IF EXISTS Products.SuperCategory
+GO
+CREATE TABLE Products.SuperCategory(
+	SuperCategoryID int NOT NULL,
+	nSuperCategory varchar(50) NOT NULL,
+	[Description] varchar(100) NULL,
+	CONSTRAINT [PKc_SuperCategoryID] PRIMARY KEY CLUSTERED(SuperCategoryID DESC)
+)
+GO
+
+
 DROP TABLE IF EXISTS Products.Category
 GO
 CREATE TABLE Products.Category(
 	CategoryID int NOT NULL,
 	CompanyID int NOT NULL,
-	nCategory varchar(30) NOT NULL,
+	SuperCategoryID int NOT NULL,
+	nCategory varchar(50) NOT NULL,
 	[Description] varchar(100) NULL,
+
+	UTC_CreateAT		DATETIME		CONSTRAINT DFc_CategoryCreateAtUTC DEFAULT(GETUTCDATE()),
+	GTMM6_CreateAT		DATETIME		CONSTRAINT DFc_CategoryCreateAtGTM DEFAULT(SWITCHOFFSET(CONVERT(DATETIMEOFFSET, GETUTCDATE()), '-06:00')) 
 	CONSTRAINT [PKc_CategoryID] PRIMARY KEY CLUSTERED(CategoryID ASC, CompanyID ASC)
 )
 GO
@@ -163,7 +178,7 @@ CREATE TABLE Products.SubCategory(
 	SubCategoryID int NOT NULL,
 	CategoryID int NOT NULL,
 	CompanyID int NOT NULL,
-	nSubCategory varchar(30) NOT NULL,
+	nSubCategory varchar(50) NOT NULL,
 	[Description] varchar(100) NULL,
 	CONSTRAINT [PKc_SubCategoryID] PRIMARY KEY CLUSTERED(SubCategoryID ASC)
 )
@@ -239,8 +254,9 @@ CREATE TABLE Products.[Product](
 	MinimumStock INT DEFAULT 1,
 	MaximumStock INT NULL,
 	[Status] BIT NOT NULL,
-	CreatedAt Datetime DEFAULT GETDATE(),
-	CreatedBy int NOT NULL
+
+	UTC_CreateAT		DATETIME		CONSTRAINT DFc_ProductCreateAtUTC DEFAULT(GETUTCDATE()),
+	GTMM6_CreateAT		DATETIME		CONSTRAINT DFc_ProductCreateAtGTM DEFAULT(SWITCHOFFSET(CONVERT(DATETIMEOFFSET, GETUTCDATE()), '-06:00')),
 	CONSTRAINT [PKc_ProductID] PRIMARY KEY CLUSTERED(ProductID ASC, CompanyID ASC)
 )
 GO
@@ -329,7 +345,18 @@ ALTER TABLE Settings.CompanySocialMedia
 ADD  CONSTRAINT [FK_CompanyID_Media] FOREIGN KEY(CompanyID) REFERENCES Settings.Company (CompanyID)
 GO
 
+ALTER TABLE Settings.City
+ADD CONSTRAINT FK_CountryID_Country FOREIGN KEY(CountryID) REFERENCES Settings.Country(CountryID)
+GO
+
+
+
 -- for products
+ALTER TABLE Products.Category  
+ADD  CONSTRAINT [FK_SuperCategoryID_Category] FOREIGN KEY(SuperCategoryID) REFERENCES Products.SuperCategory (SuperCategoryID)
+GO
+
+
 ALTER TABLE Products.SubCategory  
 ADD  CONSTRAINT [FK_CategoryID_SubCategory] FOREIGN KEY(CategoryID, CompanyID) REFERENCES Products.Category (CategoryID, CompanyID)
 GO
@@ -374,7 +401,7 @@ GO
 
 
 /*
-	5- Define store procedure
+	5- Define store procedure y funciones
 */
 DROP PROCEDURE IF EXISTS dbo.CompanyCreate
 GO
@@ -1513,6 +1540,86 @@ DECLARE @jsonUnitMeasure NVARCHAR(MAX) = '
  ]
 '
 
+DECLARE @jsonSuperCategory NVARCHAR(MAX) = '
+[
+    {
+        "SuperCategoryID": 1,
+        "nSuperCategory": "Electrodomésticos",
+        "Description": "Aparatos electrónicos de uso cotidiano en el hogar."
+    },
+    {
+        "SuperCategoryID": 2,
+        "nSuperCategory": "Tecnología y Gadgets",
+        "Description": "Dispositivos electrónicos y accesorios tecnológicos."
+    },
+    {
+        "SuperCategoryID": 3,
+        "nSuperCategory": "Alimentos y Bebidas",
+        "Description": "Productos consumibles y bebidas para uso diario."
+    },
+    {
+        "SuperCategoryID": 4,
+        "nSuperCategory": "Herramientas y Construcción",
+        "Description": "Instrumentos y materiales para reparaciones o construcción."
+    },
+    {
+        "SuperCategoryID": 5,
+        "nSuperCategory": "Hogar y Decoración",
+        "Description": "Artículos para embellecer o mejorar los espacios interiores y exteriores."
+    },
+    {
+        "SuperCategoryID": 6,
+        "nSuperCategory": "Moda y Vestimenta",
+        "Description": "Ropa, calzado y accesorios para diferentes estilos."
+    },
+    {
+        "SuperCategoryID": 7,
+        "nSuperCategory": "Mascotas y Animales",
+        "Description": "Productos para el cuidado y entretenimiento de mascotas."
+    },
+    {
+        "SuperCategoryID": 8,
+        "nSuperCategory": "Deportes y Aire Libre",
+        "Description": "Equipos y accesorios para actividades deportivas y recreativas al aire libre."
+    },
+    {
+        "SuperCategoryID": 9,
+        "nSuperCategory": "Automotriz y Vehículos",
+        "Description": "Accesorios y repuestos para vehículos automotores."
+    },
+    {
+        "SuperCategoryID": 10,
+        "nSuperCategory": "Juguetes y Entretenimiento",
+        "Description": "Juguetes y artículos recreativos para todas las edades."
+    },
+    {
+        "SuperCategoryID": 11,
+        "nSuperCategory": "Electrónica de Consumo",
+        "Description": "Dispositivos electrónicos como televisores, cámaras y altavoces."
+    },
+    {
+        "SuperCategoryID": 12,
+        "nSuperCategory": "Cuidado Personal y Belleza",
+        "Description": "Productos para higiene, cosmética y cuidado personal."
+    },
+    {
+        "SuperCategoryID": 13,
+        "nSuperCategory": "Papelería y Oficina",
+        "Description": "Suministros para actividades escolares y profesionales."
+    },
+    {
+        "SuperCategoryID": 14,
+        "nSuperCategory": "Jardinería y Exteriores",
+        "Description": "Herramientas y productos para el cuidado de jardines y exteriores."
+    },
+    {
+        "SuperCategoryID": 15,
+        "nSuperCategory": "Salud y Bienestar",
+        "Description": "Equipos y productos médicos o relacionados con la salud."
+    }
+]
+'
+
 
 INSERT INTO Settings.Country
 SELECT * FROM OPENJSON(@jsonCountry)
@@ -1558,17 +1665,1117 @@ WITH (
     UnitSymbol VARCHAR(50) '$.UnitSymbol'
 );
 
+INSERT INTO Products.SuperCategory
+SELECT * FROM OPENJSON(@jsonSuperCategory)
+WITH (
+	SuperCategoryID INT '$.SuperCategoryID',
+    nSuperCategory VARCHAR(50) '$.nSuperCategory',
+    Description VARCHAR(100) '$.Description'
+);
 
 
-
-
-/*
-	4- Define the relation between tables
-*/
-ALTER TABLE Settings.City
-ADD CONSTRAINT FK_CountryID_Country FOREIGN KEY(CountryID) REFERENCES Settings.Country(CountryID)
 GO
 
 
 
 
+
+
+
+-- Optional Insertion
+
+INSERT INTO Products.Brand(BrandID, CompanyID, nBrand) 
+VALUES (1, 1, 'HP'), (2, 1, 'Apple'), (3, 1, 'Apple'), 
+       (4, 1, 'LG'), (5, 1, 'Kabel'), (6, 1, 'Decker'),
+	   (7, 1, 'Gigabite'), (8, 1, 'Asus')
+GO
+INSERT INTO Products.Model(ModelID, CompanyID, nModel) 
+VALUES (1, 1, 'Omen'), (2, 1, 'Pro Max'), (3, 1, 'Lg Finitux'), 
+       (4, 1, 'Axxien Aspirator'), (5, 1, 'X453MA')
+GO
+
+
+DECLARE @jsonCategory NVARCHAR(MAX) = '
+[
+  {
+    "CategoryID": 1,
+    "CompanyID": 1,
+	"SuperCategoryID": 3,
+    "nCategory": "Frutas Frescas",
+    "Description": "Categoría para frutas de estación y exóticas."
+  },
+  {
+    "CategoryID": 2,
+    "CompanyID": 1,
+	"SuperCategoryID": 3,
+    "nCategory": "Verduras y Hortalizas",
+    "Description": "Productos frescos como zanahorias, papas y lechugas."
+  },
+  {
+    "CategoryID": 3,
+    "CompanyID": 1,
+	"SuperCategoryID": 3,
+    "nCategory": "Carnes Rojas",
+    "Description": "Variedad de carnes de res y cerdo."
+  },
+  {
+    "CategoryID": 4,
+    "CompanyID": 1,
+	"SuperCategoryID": 3,
+    "nCategory": "Aves",
+    "Description": "Productos derivados de pollo y pavo."
+  },
+  {
+    "CategoryID": 5,
+    "CompanyID": 1,
+	"SuperCategoryID": 3,
+    "nCategory": "Lácteos",
+    "Description": "Leche, quesos, yogures y cremas."
+  },
+  {
+    "CategoryID": 6,
+    "CompanyID": 1,
+	"SuperCategoryID": 3,
+    "nCategory": "Panadería",
+    "Description": "Panes, galletas y productos horneados."
+  },
+  {
+    "CategoryID": 7,
+    "CompanyID": 1,
+	"SuperCategoryID": 3,
+    "nCategory": "Cereales",
+    "Description": "Cereales para desayuno y granos básicos."
+  },
+  {
+    "CategoryID": 8,
+    "CompanyID": 1,
+	"SuperCategoryID": 3,
+    "nCategory": "Bebidas",
+    "Description": "Jugos, aguas y refrescos."
+  },
+  {
+    "CategoryID": 9,
+    "CompanyID": 1,
+	"SuperCategoryID": 3,
+    "nCategory": "Snacks",
+    "Description": "Papitas, chocolates y golosinas."
+  },
+  {
+    "CategoryID": 10,
+    "CompanyID": 1,
+	"SuperCategoryID": 3,
+    "nCategory": "Condimentos",
+    "Description": "Salsas, especias y hierbas."
+  },
+  {
+    "CategoryID": 11,
+    "CompanyID": 1,
+	"SuperCategoryID": 3,
+    "nCategory": "Congelados",
+    "Description": "Comidas congeladas y helados."
+  },
+  {
+    "CategoryID": 12,
+    "CompanyID": 1,
+	"SuperCategoryID": 12,
+    "nCategory": "Cuidado Personal",
+    "Description": "Shampoos, jabones y cremas."
+  },
+  {
+    "CategoryID": 13,
+    "CompanyID": 1,
+	"SuperCategoryID": 12,
+    "nCategory": "Productos de Limpieza",
+    "Description": "Detergentes, limpiadores y desinfectantes."
+  },
+  {
+    "CategoryID": 14,
+    "CompanyID": 1,
+	"SuperCategoryID": 4,
+    "nCategory": "Herramientas",
+    "Description": "Martillos, destornilladores y accesorios."
+  },
+  {
+    "CategoryID": 15,
+    "CompanyID": 1,
+	"SuperCategoryID": 4,
+    "nCategory": "Material de Construcción",
+    "Description": "Cemento, ladrillos y varillas."
+  },
+  {
+    "CategoryID": 16,
+    "CompanyID": 1,
+	"SuperCategoryID": 4,
+    "nCategory": "Pinturas",
+    "Description": "Pinturas, rodillos y brochas."
+  },
+  
+  {
+    "CategoryID": 19,
+    "CompanyID": 1,
+	"SuperCategoryID": 1,
+    "nCategory": "Audio y Video",
+    "Description": "Televisores, parlantes y audífonos."
+  },
+  {
+    "CategoryID": 20,
+    "CompanyID": 1,
+	"SuperCategoryID": 2,
+    "nCategory": "Computadoras",
+    "Description": "Laptops, PCs y accesorios."
+  },
+  {
+    "CategoryID": 21,
+    "CompanyID": 1,
+	"SuperCategoryID": 2,
+    "nCategory": "Celulares",
+    "Description": "Smartphones, fundas y cargadores."
+  },
+  {
+    "CategoryID": 22,
+    "CompanyID": 1,
+	"SuperCategoryID": 4,
+    "nCategory": "Iluminación",
+    "Description": "Focos, lámparas y luces LED."
+  },
+  {
+    "CategoryID": 23,
+    "CompanyID": 1,
+	"SuperCategoryID": 10,
+    "nCategory": "Juguetes",
+    "Description": "Muñecos, autos y juegos de mesa."
+  },
+  {
+    "CategoryID": 24,
+    "CompanyID": 1,
+	"SuperCategoryID": 5,
+    "nCategory": "Muebles",
+    "Description": "Sillas, mesas y estanterías."
+  },
+  {
+    "CategoryID": 25,
+    "CompanyID": 1,
+	"SuperCategoryID": 6,
+    "nCategory": "Ropa y Calzado",
+    "Description": "Prendas de vestir y zapatos."
+  },
+  {
+    "CategoryID": 26,
+    "CompanyID": 1,
+	"SuperCategoryID": 5,
+    "nCategory": "Accesorios de Cocina",
+    "Description": "Utensilios, ollas y vajillas."
+  },
+  {
+    "CategoryID": 27,
+    "CompanyID": 1,
+	"SuperCategoryID": 13,
+    "nCategory": "Papelería",
+    "Description": "Útiles escolares y de oficina."
+  },
+  {
+    "CategoryID": 28,
+    "CompanyID": 1,
+	"SuperCategoryID": 5,
+    "nCategory": "Cuidado del Hogar",
+    "Description": "Mantenimiento y decoración."
+  },
+  {
+    "CategoryID": 29,
+    "CompanyID": 1,
+	"SuperCategoryID": 7,
+    "nCategory": "Mascotas",
+    "Description": "Alimentos, juguetes y accesorios."
+  },
+  {
+    "CategoryID": 30,
+    "CompanyID": 1,
+	"SuperCategoryID": 9,
+    "nCategory": "Baterías y Pilas",
+    "Description": "Baterías recargables y alcalinas."
+  },
+  {
+    "CategoryID": 31,
+    "CompanyID": 1,
+	"SuperCategoryID": 5,
+    "nCategory": "Hogar Inteligente",
+    "Description": "Cámaras, sensores y domestica."
+  },
+  {
+    "CategoryID": 32,
+    "CompanyID": 1,
+	"SuperCategoryID": 1,
+    "nCategory": "Carpintería",
+    "Description": "Tablas, tornillos y clavos."
+  },
+  {
+    "CategoryID": 33,
+    "CompanyID": 1,
+	"SuperCategoryID": 14,
+    "nCategory": "Jardinería",
+    "Description": "Plantas, fertilizantes y herramientas."
+  },
+  {
+    "CategoryID": 34,
+    "CompanyID": 1,
+	"SuperCategoryID": 9,
+    "nCategory": "Automotriz",
+    "Description": "Accesorios y herramientas para vehículos."
+  },
+  {
+    "CategoryID": 35,
+    "CompanyID": 1,
+	"SuperCategoryID": 5,
+    "nCategory": "Decoración",
+    "Description": "Cuadros, alfombras y adornos."
+  },
+  {
+    "CategoryID": 36,
+    "CompanyID": 1,
+	"SuperCategoryID": 5,
+    "nCategory": "Relojería",
+    "Description": "Relojes de pared y personales."
+  },
+  {
+    "CategoryID": 37,
+    "CompanyID": 1,
+	"SuperCategoryID": 11,
+    "nCategory": "Electrónica",
+    "Description": "Componentes y repuestos electrónicos."
+  },
+  {
+    "CategoryID": 38,
+    "CompanyID": 1,
+	"SuperCategoryID": 8,
+    "nCategory": "Artículos Deportivos",
+    "Description": "Pelotas, raquetas y ropa deportiva."
+  },
+  {
+    "CategoryID": 39,
+    "CompanyID": 1,
+	"SuperCategoryID": 6,
+    "nCategory": "Perfumería",
+    "Description": "Perfumes y fragancias."
+  },
+  {
+    "CategoryID": 40,
+    "CompanyID": 1,
+	"SuperCategoryID": 6,
+    "nCategory": "Joyería",
+    "Description": "Collares, anillos y pulseras."
+  },
+  {
+    "CategoryID": 41,
+    "CompanyID": 1,
+	"SuperCategoryID": 5,
+    "nCategory": "Papel Higiénico",
+    "Description": "Rollos de papel y toallas húmedas."
+  },
+  {
+    "CategoryID": 42,
+    "CompanyID": 1,
+	"SuperCategoryID": 12,
+    "nCategory": "Cuidado Capilar",
+    "Description": "Productos para el cabello."
+  },
+  {
+    "CategoryID": 43,
+    "CompanyID": 1,
+	"SuperCategoryID": 12,
+    "nCategory": "Cuidado Facial",
+    "Description": "Cremas y tratamientos faciales."
+  },
+  {
+    "CategoryID": 44,
+    "CompanyID": 1,
+	"SuperCategoryID": 3,
+    "nCategory": "Vinos y Licores",
+    "Description": "Variedad de bebidas alcohólicas."
+  },
+  {
+    "CategoryID": 45,
+    "CompanyID": 1,
+	"SuperCategoryID": 3,
+    "nCategory": "Pastelería",
+    "Description": "Tartas, pasteles y postres."
+  },
+  {
+    "CategoryID": 46,
+    "CompanyID": 1,
+	"SuperCategoryID": 3,
+    "nCategory": "Energéticos",
+    "Description": "Bebidas y suplementos energéticos."
+  },
+  {
+    "CategoryID": 47,
+    "CompanyID": 1,
+	"SuperCategoryID": 5,
+    "nCategory": "Viajes",
+    "Description": "Maletas y accesorios de viaje."
+  },
+  {
+    "CategoryID": 48,
+    "CompanyID": 1,
+	"SuperCategoryID": 10,
+    "nCategory": "Juegos de Video",
+    "Description": "Consolas y videojuegos."
+  },
+  {
+    "CategoryID": 49,
+    "CompanyID": 1,
+	"SuperCategoryID": 12,
+    "nCategory": "Cuidado Bucal",
+    "Description": "Cepillos, pastas y enjuagues."
+  },
+  {
+    "CategoryID": 50,
+    "CompanyID": 1,
+	"SuperCategoryID": 3,
+    "nCategory": "Carnes Procesadas",
+    "Description": "Embutidos y productos cárnicos."
+  },
+
+  {
+    "CategoryID": 51,
+    "CompanyID": 1,
+	"SuperCategoryID": 1,
+    "nCategory": "Electodomesticos",
+    "Description": "Todas la lineas de electrodomesticos."
+  }
+]
+
+'
+
+INSERT INTO Products.Category (CategoryID, CompanyID, SuperCategoryID, nCategory, [Description])
+SELECT * FROM OPENJSON(@jsonCategory)
+WITH (
+	CategoryID INT '$.CategoryID',
+    CompanyID INT '$.CompanyID',
+	SuperCategoryID INT '$.SuperCategoryID',
+	nCategory VARCHAR(50) '$.nCategory',
+    Description VARCHAR(100) '$.Description'
+);
+
+
+
+DECLARE @jsonSubCategory NVARCHAR(MAX) = '
+[
+  {
+    "SubCategoryID": 1,
+    "CompanyID": 1,
+    "CategoryID": 1,
+    "nSubCategory": "Frutas Cítricas",
+    "Description": "Naranjas, limones y mandarinas."
+  },
+  {
+    "SubCategoryID": 2,
+    "CompanyID": 1,
+    "CategoryID": 1,
+    "nSubCategory": "Frutas Tropicales",
+    "Description": "Mangos, piñas y papayas."
+  },
+  {
+    "SubCategoryID": 3,
+    "CompanyID": 1,
+    "CategoryID": 1,
+    "nSubCategory": "Frutas Berries",
+    "Description": "Fresas, arándanos y frambuesas."
+  },
+  {
+    "SubCategoryID": 4,
+    "CompanyID": 1,
+    "CategoryID": 1,
+    "nSubCategory": "Manzanas",
+    "Description": "Variedades de manzanas como gala y verde."
+  },
+  {
+    "SubCategoryID": 5,
+    "CompanyID": 1,
+    "CategoryID": 1,
+    "nSubCategory": "Pera",
+    "Description": "Peras rojas y verdes."
+  },
+  {
+    "SubCategoryID": 6,
+    "CompanyID": 1,
+    "CategoryID": 2,
+    "nSubCategory": "Verduras de Hoja",
+    "Description": "Lechugas, espinacas y acelgas."
+  },
+  {
+    "SubCategoryID": 7,
+    "CompanyID": 1,
+    "CategoryID": 2,
+    "nSubCategory": "Raíces y Tubérculos",
+    "Description": "Zanahorias, papas y remolachas."
+  },
+  {
+    "SubCategoryID": 8,
+    "CompanyID": 1,
+    "CategoryID": 2,
+    "nSubCategory": "Frutos de Tallo",
+    "Description": "Apio, espárragos y cebollines."
+  },
+  {
+    "SubCategoryID": 9,
+    "CompanyID": 1,
+    "CategoryID": 2,
+    "nSubCategory": "Legumbres",
+    "Description": "Frijoles, guisantes y lentejas."
+  },
+  {
+    "SubCategoryID": 10,
+    "CompanyID": 1,
+    "CategoryID": 2,
+    "nSubCategory": "Pimientos",
+    "Description": "Pimientos rojos, verdes y amarillos."
+  },
+  {
+    "SubCategoryID": 11,
+    "CompanyID": 1,
+    "CategoryID": 3,
+    "nSubCategory": "Carnes de Res",
+    "Description": "Cortes como ribeye, filete y carne molida."
+  },
+  {
+    "SubCategoryID": 12,
+    "CompanyID": 1,
+    "CategoryID": 3,
+    "nSubCategory": "Carnes de Cerdo",
+    "Description": "Lomos, costillas y chuletas de cerdo."
+  },
+  {
+    "SubCategoryID": 13,
+    "CompanyID": 1,
+    "CategoryID": 3,
+    "nSubCategory": "Carne de Cordero",
+    "Description": "Piernas y chuletas de cordero."
+  },
+  {
+    "SubCategoryID": 14,
+    "CompanyID": 1,
+    "CategoryID": 3,
+    "nSubCategory": "Carne Procesada",
+    "Description": "Salchichones, jamones y tocino."
+  },
+  {
+    "SubCategoryID": 15,
+    "CompanyID": 1,
+    "CategoryID": 3,
+    "nSubCategory": "Embutidos",
+    "Description": "Chorizos, mortadelas y salami."
+  },
+  {
+    "SubCategoryID": 16,
+    "CompanyID": 1,
+    "CategoryID": 4,
+    "nSubCategory": "Pollo Entero",
+    "Description": "Pollo fresco entero para cocinar."
+  },
+  {
+    "SubCategoryID": 17,
+    "CompanyID": 1,
+    "CategoryID": 4,
+    "nSubCategory": "Pavo",
+    "Description": "Pavo fresco y congelado."
+  },
+  {
+    "SubCategoryID": 18,
+    "CompanyID": 1,
+    "CategoryID": 4,
+    "nSubCategory": "Pollo Troceado",
+    "Description": "Pollo en partes como muslos, pechugas y alas."
+  },
+  {
+    "SubCategoryID": 19,
+    "CompanyID": 1,
+    "CategoryID": 4,
+    "nSubCategory": "Pollo Procesado",
+    "Description": "Filetes de pollo, nuggets y hamburguesas."
+  },
+  {
+    "SubCategoryID": 20,
+    "CompanyID": 1,
+    "CategoryID": 4,
+    "nSubCategory": "Pollo en Conserva",
+    "Description": "Pollo enlatado y en conserva."
+  },
+  {
+    "SubCategoryID": 21,
+    "CompanyID": 1,
+    "CategoryID": 5,
+    "nSubCategory": "Leche",
+    "Description": "Leche entera, semi descremada y descremada."
+  },
+  {
+    "SubCategoryID": 22,
+    "CompanyID": 1,
+    "CategoryID": 5,
+    "nSubCategory": "Quesos",
+    "Description": "Quesos frescos, maduros y procesados."
+  },
+  {
+    "SubCategoryID": 23,
+    "CompanyID": 1,
+    "CategoryID": 5,
+    "nSubCategory": "Yogur",
+    "Description": "Yogur natural, griego y con frutas."
+  },
+  {
+    "SubCategoryID": 24,
+    "CompanyID": 1,
+    "CategoryID": 5,
+    "nSubCategory": "Cremas",
+    "Description": "Crema para café, crema agria y crema espesa."
+  },
+  {
+    "SubCategoryID": 25,
+    "CompanyID": 1,
+    "CategoryID": 5,
+    "nSubCategory": "Mantequilla",
+    "Description": "Mantequilla normal, salada y sin sal."
+  },
+  {
+    "SubCategoryID": 26,
+    "CompanyID": 1,
+    "CategoryID": 26,
+    "nSubCategory": "Utensilios de Cocina",
+    "Description": "Cucharas, espátulas y batidores."
+  },
+  {
+    "SubCategoryID": 27,
+    "CompanyID": 1,
+    "CategoryID": 26,
+    "nSubCategory": "Vajillas",
+    "Description": "Platos, tazas y vasos."
+  },
+  {
+    "SubCategoryID": 28,
+    "CompanyID": 1,
+    "CategoryID": 26,
+    "nSubCategory": "Cacerolas",
+    "Description": "Ollas, cazuelas y sartenes."
+  },
+  {
+    "SubCategoryID": 29,
+    "CompanyID": 1,
+    "CategoryID": 26,
+    "nSubCategory": "Accesorios para Hornear",
+    "Description": "Moldes, batidoras y espátulas."
+  },
+  {
+    "SubCategoryID": 30,
+    "CompanyID": 1,
+    "CategoryID": 26,
+    "nSubCategory": "Cuchillos y Cortadores",
+    "Description": "Cuchillos de chef, cortadores y tablas de cortar."
+  },
+  {
+    "SubCategoryID": 31,
+    "CompanyID": 1,
+    "CategoryID": 26,
+    "nSubCategory": "Accesorios de Barbacoa",
+    "Description": "Pinzas, tenedores y cepillos para barbacoa."
+  },
+  {
+    "SubCategoryID": 32,
+    "CompanyID": 1,
+    "CategoryID": 26,
+    "nSubCategory": "Recipientes de Almacenamiento",
+    "Description": "Contenedores herméticos para alimentos."
+  },
+  {
+    "SubCategoryID": 33,
+    "CompanyID": 1,
+    "CategoryID": 26,
+    "nSubCategory": "Tazas y Teteras",
+    "Description": "Tazas de té, infusores y teteras."
+  },
+  {
+    "SubCategoryID": 34,
+    "CompanyID": 1,
+    "CategoryID": 26,
+    "nSubCategory": "Centrifugadoras",
+    "Description": "Centrifugadoras para verduras y frutas."
+  },
+  {
+    "SubCategoryID": 35,
+    "CompanyID": 1,
+    "CategoryID": 26,
+    "nSubCategory": "Batidoras de Mano",
+    "Description": "Batidoras de mano eléctricas para mezclar ingredientes."
+  },
+  {
+    "SubCategoryID": 36,
+    "CompanyID": 1,
+    "CategoryID": 26,
+    "nSubCategory": "Freidoras",
+    "Description": "Freidoras eléctricas para preparación de frituras."
+  },
+  {
+    "SubCategoryID": 37,
+    "CompanyID": 1,
+    "CategoryID": 26,
+    "nSubCategory": "Dispensadores de Agua",
+    "Description": "Dispensadores de agua y filtros para hogares."
+  },
+  {
+    "SubCategoryID": 38,
+    "CompanyID": 1,
+    "CategoryID": 26,
+    "nSubCategory": "Termos y Botellas",
+    "Description": "Termos y botellas de acero inoxidable."
+  },
+  {
+    "SubCategoryID": 39,
+    "CompanyID": 1,
+    "CategoryID": 26,
+    "nSubCategory": "Cafeteras",
+    "Description": "Cafeteras eléctricas y de goteo."
+  },
+  {
+    "SubCategoryID": 40,
+    "CompanyID": 1,
+    "CategoryID": 26,
+    "nSubCategory": "Picadoras de Carne",
+    "Description": "Picadoras eléctricas y manuales."
+  },
+  {
+    "SubCategoryID": 41,
+    "CompanyID": 1,
+    "CategoryID": 26,
+    "nSubCategory": "Sistemas de Filtración de Agua",
+    "Description": "Filtros de agua y sistemas de purificación."
+  },
+  {
+    "SubCategoryID": 42,
+    "CompanyID": 1,
+    "CategoryID": 26,
+    "nSubCategory": "Sillas y Bancos de Cocina",
+    "Description": "Sillas y bancos para zonas de cocina y comedor."
+  },
+  {
+    "SubCategoryID": 43,
+    "CompanyID": 1,
+    "CategoryID": 26,
+    "nSubCategory": "Contadores de Calorías",
+    "Description": "Contadores de calorías para uso doméstico."
+  },
+  {
+    "SubCategoryID": 44,
+    "CompanyID": 1,
+    "CategoryID": 26,
+    "nSubCategory": "Espumadores de Leche",
+    "Description": "Espumadores automáticos para preparar bebidas."
+  },
+  {
+    "SubCategoryID": 45,
+    "CompanyID": 1,
+    "CategoryID": 51,
+    "nSubCategory": "Linea Blanca",
+    "Description": "Lavadoras, refrigeradoras."
+  },
+  {
+    "SubCategoryID": 46,
+    "CompanyID": 1,
+    "CategoryID": 51,
+    "nSubCategory": "Linea Gris",
+    "Description": "Ordenadores, Smartphones, Tablets, "
+  }
+]
+
+'
+
+INSERT INTO Products.SubCategory (SubCategoryID, CategoryID, CompanyID, nSubCategory, [Description])
+SELECT * FROM OPENJSON(@jsonSubCategory)
+WITH (
+	SubCategoryID INT '$.SubCategoryID',
+	CategoryID INT '$.CategoryID',
+    CompanyID INT '$.CompanyID',
+	nSubCategory VARCHAR(50) '$.nSubCategory',
+    Description VARCHAR(100) '$.Description'
+);
+
+GO
+
+
+
+DECLARE @jsonProduct NVARCHAR(MAX) = '
+[
+    {
+      "ProductID": 1,
+      "CompanyID": 1,
+      "SubCategoryID": 46,
+      "BrandID": 3,
+      "ModelID": 2,
+      "ColorID": 4,
+      "nProduct": "Smartphone A1",
+      "Description": "Smartphone de última generación",
+      "ProductNumber": "SMA001",
+      "ModelNumber": "A1",
+      "Serie": "2024",
+      "Barcode": "123456789012",
+      "QRCode": "QR123A1",
+      "Reference": "A1-2024",
+      "SalePrice": 500.00,
+      "PurchasePrice": 400.00,
+      "Cost": 350.00,
+      "CurrentStock": 50,
+      "MinimumStock": 10,
+      "MaximumStock": 100,
+      "Status": true
+    },
+    {
+      "ProductID": 2,
+      "CompanyID": 1,
+      "SubCategoryID": 46,
+      "BrandID": 1,
+      "ModelID": 1,
+      "ColorID": 2,
+      "nProduct": "Laptop B2",
+      "Description": "Laptop para trabajo y estudio",
+      "ProductNumber": "LPT002",
+      "ModelNumber": "B2",
+      "Serie": "2023",
+      "Barcode": "234567890123",
+      "QRCode": "QR234B2",
+      "Reference": "B2-2023",
+      "SalePrice": 800.00,
+      "PurchasePrice": 700.00,
+      "Cost": 650.00,
+      "CurrentStock": 30,
+      "MinimumStock": 5,
+      "MaximumStock": 50,
+      "Status": true
+    },
+    {
+      "ProductID": 3,
+      "CompanyID": 1,
+      "SubCategoryID": 45,
+      "BrandID": 4,
+      "ModelID": 3,
+      "ColorID": 1,
+      "nProduct": "Televisor C3",
+      "Description": "Televisor 4K con HDR",
+      "ProductNumber": "TV003",
+      "ModelNumber": "C3",
+      "Serie": "2024",
+      "Barcode": "345678901234",
+      "QRCode": "QR345C3",
+      "Reference": "C3-2024",
+      "SalePrice": 1000.00,
+      "PurchasePrice": 850.00,
+      "Cost": 800.00,
+      "CurrentStock": 20,
+      "MinimumStock": 5,
+      "MaximumStock": 40,
+      "Status": true
+    },
+    {
+      "ProductID": 4,
+      "CompanyID": 1,
+      "SubCategoryID": 45,
+      "BrandID": 6,
+      "ModelID": 2,
+      "ColorID": 3,
+      "nProduct": "Refrigerador D4",
+      "Description": "Refrigerador con doble puerta",
+      "ProductNumber": "RFG004",
+      "ModelNumber": "D4",
+      "Serie": "2023",
+      "Barcode": "456789012345",
+      "QRCode": "QR456D4",
+      "Reference": "D4-2023",
+      "SalePrice": 1200.00,
+      "PurchasePrice": 1000.00,
+      "Cost": 950.00,
+      "CurrentStock": 15,
+      "MinimumStock": 3,
+      "MaximumStock": 30,
+      "Status": true
+    },
+    {
+      "ProductID": 5,
+      "CompanyID": 1,
+      "SubCategoryID": 45,
+      "BrandID": 5,
+      "ModelID": 4,
+      "ColorID": 2,
+      "nProduct": "Aspiradora E5",
+      "Description": "Aspiradora de alta potencia",
+      "ProductNumber": "ASP005",
+      "ModelNumber": "E5",
+      "Serie": "2024",
+      "Barcode": "567890123456",
+      "QRCode": "QR567E5",
+      "Reference": "E5-2024",
+      "SalePrice": 250.00,
+      "PurchasePrice": 200.00,
+      "Cost": 180.00,
+      "CurrentStock": 40,
+      "MinimumStock": 10,
+      "MaximumStock": 80,
+      "Status": true
+    },
+    {
+      "ProductID": 6,
+      "CompanyID": 1,
+      "SubCategoryID": 46,
+      "BrandID": 2,
+      "ModelID": 3,
+      "ColorID": 5,
+      "nProduct": "Smartphone F6",
+      "Description": "Smartphone con cámara de 108 MP",
+      "ProductNumber": "SMA006",
+      "ModelNumber": "F6",
+      "Serie": "2023",
+      "Barcode": "678901234567",
+      "QRCode": "QR678F6",
+      "Reference": "F6-2023",
+      "SalePrice": 450.00,
+      "PurchasePrice": 350.00,
+      "Cost": 300.00,
+      "CurrentStock": 60,
+      "MinimumStock": 15,
+      "MaximumStock": 120,
+      "Status": true
+    },
+    {
+      "ProductID": 7,
+      "CompanyID": 1,
+      "SubCategoryID": 46,
+      "BrandID": 7,
+      "ModelID": 1,
+      "ColorID": 4,
+      "nProduct": "Laptop G7",
+      "Description": "Laptop ultradelgada para profesionales",
+      "ProductNumber": "LPT007",
+      "ModelNumber": "G7",
+      "Serie": "2024",
+      "Barcode": "789012345678",
+      "QRCode": "QR789G7",
+      "Reference": "G7-2024",
+      "SalePrice": 950.00,
+      "PurchasePrice": 800.00,
+      "Cost": 750.00,
+      "CurrentStock": 25,
+      "MinimumStock": 8,
+      "MaximumStock": 60,
+      "Status": true
+    },
+    {
+      "ProductID": 8,
+      "CompanyID": 1,
+      "SubCategoryID": 45,
+      "BrandID": 4,
+      "ModelID": 4,
+      "ColorID": 2,
+      "nProduct": "Televisor H8",
+      "Description": "Televisor OLED 55\"",
+      "ProductNumber": "TV008",
+      "ModelNumber": "H8",
+      "Serie": "2023",
+      "Barcode": "890123456789",
+      "QRCode": "QR890H8",
+      "Reference": "H8-2023",
+      "SalePrice": 1500.00,
+      "PurchasePrice": 1300.00,
+      "Cost": 1200.00,
+      "CurrentStock": 12,
+      "MinimumStock": 4,
+      "MaximumStock": 25,
+      "Status": true
+    },
+    {
+      "ProductID": 9,
+      "CompanyID": 1,
+      "SubCategoryID": 45,
+      "BrandID": 3,
+      "ModelID": 2,
+      "ColorID": 3,
+      "nProduct": "Refrigerador I9",
+      "Description": "Refrigerador con congelador",
+      "ProductNumber": "RFG009",
+      "ModelNumber": "I9",
+      "Serie": "2024",
+      "Barcode": "901234567890",
+      "QRCode": "QR901I9",
+      "Reference": "I9-2024",
+      "SalePrice": 1100.00,
+      "PurchasePrice": 900.00,
+      "Cost": 850.00,
+      "CurrentStock": 22,
+      "MinimumStock": 6,
+      "MaximumStock": 45,
+      "Status": true
+    },
+    {
+      "ProductID": 10,
+      "CompanyID": 1,
+      "SubCategoryID": 45,
+      "BrandID": 6,
+      "ModelID": 1,
+      "ColorID": 1,
+      "nProduct": "Aspiradora J10",
+      "Description": "Aspiradora sin bolsa",
+      "ProductNumber": "ASP010",
+      "ModelNumber": "J10",
+      "Serie": "2023",
+      "Barcode": "012345678901",
+      "QRCode": "QR012J10",
+      "Reference": "J10-2023",
+      "SalePrice": 300.00,
+      "PurchasePrice": 250.00,
+      "Cost": 220.00,
+      "CurrentStock": 55,
+      "MinimumStock": 12,
+      "MaximumStock": 90,
+      "Status": true
+    },
+    {
+      "ProductID": 11,
+      "CompanyID": 1,
+      "SubCategoryID": 46,
+      "BrandID": 5,
+      "ModelID": 3,
+      "ColorID": 4,
+      "nProduct": "Smartphone K11",
+      "Description": "Smartphone con pantalla de 6.5\"",
+      "ProductNumber": "SMA011",
+      "ModelNumber": "K11",
+      "Serie": "2023",
+      "Barcode": "123456789011",
+      "QRCode": "QR123K11",
+      "Reference": "K11-2023",
+      "SalePrice": 480.00,
+      "PurchasePrice": 390.00,
+      "Cost": 340.00,
+      "CurrentStock": 45,
+      "MinimumStock": 10,
+      "MaximumStock": 85,
+      "Status": true
+    },
+    {
+      "ProductID": 12,
+      "CompanyID": 1,
+      "SubCategoryID": 46,
+      "BrandID": 8,
+      "ModelID": 5,
+      "ColorID": 5,
+      "nProduct": "Laptop L12",
+      "Description": "Laptop para gaming",
+      "ProductNumber": "LPT012",
+      "ModelNumber": "L12",
+      "Serie": "2024",
+      "Barcode": "234567890012",
+      "QRCode": "QR234L12",
+      "Reference": "L12-2024",
+      "SalePrice": 1400.00,
+      "PurchasePrice": 1200.00,
+      "Cost": 1150.00,
+      "CurrentStock": 10,
+      "MinimumStock": 3,
+      "MaximumStock": 25,
+      "Status": true
+    },
+    {
+      "ProductID": 13,
+      "CompanyID": 1,
+      "SubCategoryID": 45,
+      "BrandID": 3,
+      "ModelID": 1,
+      "ColorID": 1,
+      "nProduct": "Televisor M13",
+      "Description": "Televisor 43\" con Smart TV",
+      "ProductNumber": "TV013",
+      "ModelNumber": "M13",
+      "Serie": "2024",
+      "Barcode": "345678901234",
+      "QRCode": "QR345M13",
+      "Reference": "M13-2024",
+      "SalePrice": 700.00,
+      "PurchasePrice": 600.00,
+      "Cost": 550.00,
+      "CurrentStock": 30,
+      "MinimumStock": 8,
+      "MaximumStock": 60,
+      "Status": true
+    },
+    {
+      "ProductID": 14,
+      "CompanyID": 1,
+      "SubCategoryID": 45,
+      "BrandID": 4,
+      "ModelID": 3,
+      "ColorID": 2,
+      "nProduct": "Refrigerador N14",
+      "Description": "Refrigerador doble puerta",
+      "ProductNumber": "RFG014",
+      "ModelNumber": "N14",
+      "Serie": "2023",
+      "Barcode": "456789012345",
+      "QRCode": "QR456N14",
+      "Reference": "N14-2023",
+      "SalePrice": 1100.00,
+      "PurchasePrice": 950.00,
+      "Cost": 900.00,
+      "CurrentStock": 18,
+      "MinimumStock": 5,
+      "MaximumStock": 40,
+      "Status": true
+    },
+    {
+      "ProductID": 15,
+      "CompanyID": 1,
+      "SubCategoryID": 45,
+      "BrandID": 2,
+      "ModelID": 2,
+      "ColorID": 3,
+      "nProduct": "Aspiradora O15",
+      "Description": "Aspiradora con sistema de filtros HEPA",
+      "ProductNumber": "ASP015",
+      "ModelNumber": "O15",
+      "Serie": "2024",
+      "Barcode": "567890123456",
+      "QRCode": "QR567O15",
+      "Reference": "O15-2024",
+      "SalePrice": 320.00,
+      "PurchasePrice": 270.00,
+      "Cost": 240.00,
+      "CurrentStock": 50,
+      "MinimumStock": 15,
+      "MaximumStock": 100,
+      "Status": true
+    }
+]
+'
+
+INSERT INTO Products.Product (ProductID, CompanyID, SubCategoryID, BrandID, ModelID, ColorID,
+                              nProduct, [Description], ProductNumber, ModelNumber, Serie, Barcode, QRCode,
+							  Reference,
+							  SalePrice, PurchasePrice, Cost, CurrentStock, MinimumStock, MaximumStock,
+							  [Status])
+SELECT * FROM OPENJSON(@jsonProduct)
+WITH (
+	ProductID INT '$.ProductID',
+	CompanyID INT '$.CompanyID',
+    SubCategoryID INT '$.SubCategoryID',
+	BrandID INT '$.BrandID',
+    ModelID INT '$.ModelID',
+	ColorID INT '$.ColorID',
+	nProduct varchar(250) '$.nProduct',
+    [Description] varchar(250) '$.Description',
+	ProductNumber VARCHAR(50) '$.ProductNumber',
+    ModelNumber VARCHAR(50) '$.ModelNumber',
+	Serie varchar(50) '$.Serie',
+	Barcode varchar(50) '$.Barcode',
+    QRCode varchar(MAX) '$.QRCode',
+	Reference VARCHAR(50) '$.Reference',
+    SalePrice DECIMAL(18,2) '$.SalePrice',
+	PurchasePrice DECIMAL(18,2) '$.PurchasePrice',
+	Cost DECIMAL(18,2) '$.Cost',
+    CurrentStock INT '$.CurrentStock',
+	MinimumStock INT '$.MinimumStock',
+    MaximumStock INT '$.MaximumStock',
+	[Status] BIT '$.Status'
+);
