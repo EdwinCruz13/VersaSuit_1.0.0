@@ -152,7 +152,7 @@ CREATE TABLE Products.SuperCategory(
 	SuperCategoryID int NOT NULL,
 	nSuperCategory varchar(50) NOT NULL,
 	[Description] varchar(100) NULL,
-	CONSTRAINT [PKc_SuperCategoryID] PRIMARY KEY CLUSTERED(SuperCategoryID DESC)
+	CONSTRAINT [PKc_SuperCategoryID] PRIMARY KEY CLUSTERED(SuperCategoryID ASC)
 )
 GO
 
@@ -181,6 +181,17 @@ CREATE TABLE Products.SubCategory(
 	nSubCategory varchar(50) NOT NULL,
 	[Description] varchar(100) NULL,
 	CONSTRAINT [PKc_SubCategoryID] PRIMARY KEY CLUSTERED(SubCategoryID ASC)
+)
+GO
+
+DROP TABLE IF EXISTS Products.LineTypes
+GO
+CREATE TABLE Products.LineTypes(
+	LineID int NOT NULL,
+	CompanyID int NOT NULL,
+	nLine varchar(50) NOT NULL,
+	[Description] varchar(100) NULL,
+	CONSTRAINT [PKc_LineID] PRIMARY KEY CLUSTERED(CompanyID ASC, LineID ASC)
 )
 GO
 
@@ -236,6 +247,7 @@ CREATE TABLE Products.[Product](
 	ProductID int NOT NULL,
 	CompanyID int NOT NULL,
 	SubCategoryID int NOT NULL,
+	LineID int NULL,
 	BrandID int NOT NULL,
 	ModelID int NOT NULL,
 	ColorID int NOT NULL,
@@ -367,6 +379,10 @@ GO
 
 ALTER TABLE Products.Product  
 ADD  CONSTRAINT [FK_BrandID_Brand] FOREIGN KEY(CompanyID, BrandID) REFERENCES Products.Brand (CompanyID, BrandID)
+GO
+
+ALTER TABLE Products.Product  
+ADD  CONSTRAINT [FK_LineID_LineType] FOREIGN KEY(CompanyID, LineID) REFERENCES Products.LineTypes (CompanyID, LineID)
 GO
 
 ALTER TABLE Products.Product  
@@ -1685,13 +1701,25 @@ GO
 -- Optional Insertion
 
 INSERT INTO Products.Brand(BrandID, CompanyID, nBrand) 
-VALUES (1, 1, 'HP'), (2, 1, 'Apple'), (3, 1, 'Apple'), 
+VALUES (1, 1, 'HP'), (2, 1, 'Apple'), (3, 1, 'Samsung'), 
        (4, 1, 'LG'), (5, 1, 'Kabel'), (6, 1, 'Decker'),
 	   (7, 1, 'Gigabite'), (8, 1, 'Asus')
 GO
 INSERT INTO Products.Model(ModelID, CompanyID, nModel) 
 VALUES (1, 1, 'Omen'), (2, 1, 'Pro Max'), (3, 1, 'Lg Finitux'), 
-       (4, 1, 'Axxien Aspirator'), (5, 1, 'X453MA')
+       (4, 1, 'Axxien Aspirator'), (5, 1, 'X453MA'), (6, 1, 'Galaxy s21 Ultra')
+GO
+
+INSERT INTO Products.LineTypes(LineID, CompanyID, nLine, [Description]) VALUES
+(1, 1, 'White Goods', 'Large household appliances such as refrigerators, washing machines, and ovens'),
+(2, 1, 'Gray Goods', 'Consumer electronics like televisions, computers, and mobile phones'),
+(3, 1, 'Brown Goods', 'Products such as audio equipment, home entertainment systems, and small electronics'),
+(4, 1, 'Green Products', 'Eco-friendly and sustainable products designed to reduce environmental impact'),
+(5, 1, 'Blue Products', 'Water-related products such as purification systems, pool equipment, and water sports gear'),
+(6, 1, 'Red Line', 'Safety-related products including fire extinguishers, alarms, and protective equipment'),
+(7, 1, 'Gold Line', 'Premium or luxury products, often of high-end quality or exclusive edition'),
+(8, 1, 'Black Line', 'Professional or industrial products such as machinery, tools, and high-performance electronics'),
+(9, 1, 'Pink Line', 'Health and wellness products focused on personal care and feminine hygiene');
 GO
 
 
@@ -2378,7 +2406,7 @@ DECLARE @jsonSubCategory NVARCHAR(MAX) = '
   {
     "SubCategoryID": 46,
     "CompanyID": 1,
-    "CategoryID": 51,
+    "CategoryID": 21,
     "nSubCategory": "Linea Gris",
     "Description": "Ordenadores, Smartphones, Tablets, "
   }
@@ -2406,6 +2434,7 @@ DECLARE @jsonProduct NVARCHAR(MAX) = '
       "ProductID": 1,
       "CompanyID": 1,
       "SubCategoryID": 46,
+	  "LineID": 2,
       "BrandID": 3,
       "ModelID": 2,
       "ColorID": 4,
@@ -2429,6 +2458,7 @@ DECLARE @jsonProduct NVARCHAR(MAX) = '
       "ProductID": 2,
       "CompanyID": 1,
       "SubCategoryID": 46,
+	  "LineID": 2,
       "BrandID": 1,
       "ModelID": 1,
       "ColorID": 2,
@@ -2452,6 +2482,7 @@ DECLARE @jsonProduct NVARCHAR(MAX) = '
       "ProductID": 3,
       "CompanyID": 1,
       "SubCategoryID": 45,
+	  "LineID": 3,
       "BrandID": 4,
       "ModelID": 3,
       "ColorID": 1,
@@ -2475,6 +2506,7 @@ DECLARE @jsonProduct NVARCHAR(MAX) = '
       "ProductID": 4,
       "CompanyID": 1,
       "SubCategoryID": 45,
+	  "LineID": 1,
       "BrandID": 6,
       "ModelID": 2,
       "ColorID": 3,
@@ -2498,6 +2530,7 @@ DECLARE @jsonProduct NVARCHAR(MAX) = '
       "ProductID": 5,
       "CompanyID": 1,
       "SubCategoryID": 45,
+	  "LineID": 1,
       "BrandID": 5,
       "ModelID": 4,
       "ColorID": 2,
@@ -2521,6 +2554,7 @@ DECLARE @jsonProduct NVARCHAR(MAX) = '
       "ProductID": 6,
       "CompanyID": 1,
       "SubCategoryID": 46,
+	  "LineID": 2,
       "BrandID": 2,
       "ModelID": 3,
       "ColorID": 5,
@@ -2544,6 +2578,7 @@ DECLARE @jsonProduct NVARCHAR(MAX) = '
       "ProductID": 7,
       "CompanyID": 1,
       "SubCategoryID": 46,
+	  "LineID": 2,
       "BrandID": 7,
       "ModelID": 1,
       "ColorID": 4,
@@ -2567,6 +2602,7 @@ DECLARE @jsonProduct NVARCHAR(MAX) = '
       "ProductID": 8,
       "CompanyID": 1,
       "SubCategoryID": 45,
+	  "LineID": 3,
       "BrandID": 4,
       "ModelID": 4,
       "ColorID": 2,
@@ -2590,6 +2626,7 @@ DECLARE @jsonProduct NVARCHAR(MAX) = '
       "ProductID": 9,
       "CompanyID": 1,
       "SubCategoryID": 45,
+	  "LineID": 1,
       "BrandID": 3,
       "ModelID": 2,
       "ColorID": 3,
@@ -2613,6 +2650,7 @@ DECLARE @jsonProduct NVARCHAR(MAX) = '
       "ProductID": 10,
       "CompanyID": 1,
       "SubCategoryID": 45,
+	  "LineID": 1,
       "BrandID": 6,
       "ModelID": 1,
       "ColorID": 1,
@@ -2636,6 +2674,7 @@ DECLARE @jsonProduct NVARCHAR(MAX) = '
       "ProductID": 11,
       "CompanyID": 1,
       "SubCategoryID": 46,
+	  "LineID": 2,
       "BrandID": 5,
       "ModelID": 3,
       "ColorID": 4,
@@ -2659,6 +2698,7 @@ DECLARE @jsonProduct NVARCHAR(MAX) = '
       "ProductID": 12,
       "CompanyID": 1,
       "SubCategoryID": 46,
+	  "LineID": 2,
       "BrandID": 8,
       "ModelID": 5,
       "ColorID": 5,
@@ -2682,6 +2722,7 @@ DECLARE @jsonProduct NVARCHAR(MAX) = '
       "ProductID": 13,
       "CompanyID": 1,
       "SubCategoryID": 45,
+	  "LineID": 1,
       "BrandID": 3,
       "ModelID": 1,
       "ColorID": 1,
@@ -2705,6 +2746,7 @@ DECLARE @jsonProduct NVARCHAR(MAX) = '
       "ProductID": 14,
       "CompanyID": 1,
       "SubCategoryID": 45,
+	  "LineID": 1,
       "BrandID": 4,
       "ModelID": 3,
       "ColorID": 2,
@@ -2728,6 +2770,7 @@ DECLARE @jsonProduct NVARCHAR(MAX) = '
       "ProductID": 15,
       "CompanyID": 1,
       "SubCategoryID": 45,
+	  "LineID": 1,
       "BrandID": 2,
       "ModelID": 2,
       "ColorID": 3,
@@ -2750,7 +2793,7 @@ DECLARE @jsonProduct NVARCHAR(MAX) = '
 ]
 '
 
-INSERT INTO Products.Product (ProductID, CompanyID, SubCategoryID, BrandID, ModelID, ColorID,
+INSERT INTO Products.Product (ProductID, CompanyID, SubCategoryID, LineID, BrandID, ModelID, ColorID,
                               nProduct, [Description], ProductNumber, ModelNumber, Serie, Barcode, QRCode,
 							  Reference,
 							  SalePrice, PurchasePrice, Cost, CurrentStock, MinimumStock, MaximumStock,
@@ -2760,6 +2803,7 @@ WITH (
 	ProductID INT '$.ProductID',
 	CompanyID INT '$.CompanyID',
     SubCategoryID INT '$.SubCategoryID',
+	LineID INT '$.LineID',
 	BrandID INT '$.BrandID',
     ModelID INT '$.ModelID',
 	ColorID INT '$.ColorID',
