@@ -60,6 +60,7 @@ model Product {
   ProductID          Int
   CompanyID          Int
   SubCategoryID      Int
+  LineID             Int?
   BrandID            Int
   ModelID            Int
   ColorID            Int
@@ -74,14 +75,15 @@ model Product {
   SalePrice          Decimal              @db.Decimal(18, 2)
   PurchasePrice      Decimal              @db.Decimal(18, 2)
   Cost               Decimal?             @db.Decimal(18, 2)
-  CurrentStock       Int?                 @default(0, map: "DF__Product__Current__412EB0B6")
-  MinimumStock       Int?                 @default(1, map: "DF__Product__Minimum__4222D4EF")
+  CurrentStock       Int?                 @default(0, map: "DF__Product__Current__4316F928")
+  MinimumStock       Int?                 @default(1, map: "DF__Product__Minimum__440B1D61")
   MaximumStock       Int?
   Status             Boolean
   UTC_CreateAT       DateTime?            @default(dbgenerated("getutcdate()"), map: "DFc_ProductCreateAtUTC") @db.DateTime
   GTMM6_CreateAT     DateTime?            @default(dbgenerated("switchoffset(CONVERT([datetimeoffset],getutcdate()),'-06:00')"), map: "DFc_ProductCreateAtGTM") @db.DateTime
   Brand              Brand                @relation(fields: [CompanyID, BrandID], references: [CompanyID, BrandID], onUpdate: NoAction, map: "FK_BrandID_Brand")
   Color              Color                @relation(fields: [ColorID], references: [ColorID], onUpdate: NoAction, map: "FK_ColorID_Color")
+  LineTypes          LineTypes?           @relation(fields: [CompanyID, LineID], references: [CompanyID, LineID], onUpdate: NoAction, map: "FK_LineID_LineType")
   Model              Model                @relation(fields: [CompanyID, ModelID], references: [CompanyID, ModelID], onUpdate: NoAction, map: "FK_ModelID_Model")
   SubCategory        SubCategory          @relation(fields: [SubCategoryID], references: [SubCategoryID], onUpdate: NoAction, map: "FK_SubCategoryID_Product")
   ProductComboDetail ProductComboDetail[]
@@ -136,7 +138,7 @@ model ProductPhoto {
   Photo     Bytes?
   UrlPhoto  String    @db.Text
   isMail    Boolean
-  CreatedAt DateTime? @default(now(), map: "DF__ProductPh__Creat__48CFD27E") @db.DateTime
+  CreatedAt DateTime? @default(now(), map: "DF__ProductPh__Creat__4AB81AF0") @db.DateTime
   CreatedBy Int?
   Product   Product   @relation(fields: [ProductID, CompanyID], references: [ProductID, CompanyID], onUpdate: NoAction, map: "FK_ProductIDCompanyID_ProductPhoto")
 
@@ -166,10 +168,21 @@ model UnitMeasure {
 }
 
 model SuperCategory {
-  SuperCategoryID Int        @id(sort: Desc, map: "PKc_SuperCategoryID")
+  SuperCategoryID Int        @id(map: "PKc_SuperCategoryID")
   nSuperCategory  String     @db.VarChar(50)
   Description     String?    @db.VarChar(100)
   Category        Category[]
 
+  @@schema("Products")
+}
+
+model LineTypes {
+  LineID      Int
+  CompanyID   Int
+  nLine       String    @db.VarChar(50)
+  Description String?   @db.VarChar(100)
+  Product     Product[]
+
+  @@id([CompanyID, LineID], map: "PKc_LineID")
   @@schema("Products")
 }

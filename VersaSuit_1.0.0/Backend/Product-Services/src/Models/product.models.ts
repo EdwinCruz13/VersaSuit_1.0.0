@@ -2,6 +2,7 @@ import { Brand } from "./brand.models";
 import { Color } from "./color.models";
 import { Model } from "./model.models";
 import { SubCategory } from "./subcategory.models";
+import { LineType } from "./line.models";
 
 /**
  * this entity map the Product
@@ -10,6 +11,7 @@ export class Product {
     ProductID: number=0;
     CompanyID: number = 0;
     SubCategoryID: number = 0;
+    LineID?: number;
     BrandID: number = 0;
     ModelID: number = 0;
     ColorID: number = 0;
@@ -35,6 +37,7 @@ export class Product {
     Brand?: Brand;
     Color?: Color;
     SubCategory?: SubCategory;
+    LineType?: LineType;
   
     constructor(data: Partial<Product>) {
       Object.assign(this, data);

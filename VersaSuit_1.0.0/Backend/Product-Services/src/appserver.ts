@@ -8,6 +8,7 @@ import ColorRouter from "./Routes/color.routes";
 import UnitMeasureRouter from "./Routes/unitmeasure.routes";
 import CategoryRouter from "./Routes/category.routes";
 import SubCategoryRouter from "./Routes/subcategory.routes";
+import LineTypeRouter from "./Routes/line.routes";
 
 //use this middleware in order to create an schema for response
 import responseMiddleware from "./Middleware/response.middleware";
@@ -30,6 +31,7 @@ AppServer.use("/api/v1/products/colors", ColorRouter)
 AppServer.use("/api/v1/products/unitmeasure", UnitMeasureRouter)
 AppServer.use("/api/v1/products/categories", CategoryRouter)
 AppServer.use("/api/v1/products/subcategories", SubCategoryRouter)
+AppServer.use("/api/v1/products/lines", LineTypeRouter)
 
 //export the appserver
 export default AppServer;

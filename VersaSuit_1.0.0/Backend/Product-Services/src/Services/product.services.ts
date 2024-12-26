@@ -40,14 +40,14 @@ export class ProductService {
     return ModelMapper.toMap(Product, dt) as Product;
   }
 
-  //   /**
-  //    * create a new Products,
-  //    * @param companyData
-  //    * @returns
-  //    */
-  //   async Create(data: any): Promise<any> {
-  //     return await this.ProductRepository.Save(data);
-  //   }
+    /**
+     * create a new Products,
+     * @param companyData
+     * @returns
+     */
+    async Create(data: any): Promise<any> {
+      return await this.ProductRepository.Save(data);
+    }
 
   //   /**
   //    * a service that update the Products

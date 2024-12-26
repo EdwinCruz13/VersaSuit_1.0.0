@@ -58,24 +58,24 @@ export class ProductController {
     }
   }
 
-  // /**
-  //  * this method create a new Product
-  //  * the main Product automatically create the main branch
-  //  * @param req
-  //  * @param res
-  //  */
-  // async CreateProduct(req: Request, resp: Response): Promise<any> {
-  //   const { product } = req.body;
-  //   try {
-  //     const result = await this.ProductService.Create(Product);
-  //     if (!result.data)
-  //       return resp.sendResponse(null, "There is a problem creating a Product: " + result.Message, true, 409);
-  //     else
-  //       return resp.sendResponse(result.data, "The Product has been created", false, 201);
-  //   } catch (error) {
-  //     return resp.sendResponse(null, "There is a fatal error creating the Product: " + error, true, 500)
-  //   }
-  // }
+  /**
+   * this method create a new Product
+   * the main Product automatically create the main branch
+   * @param req
+   * @param res
+   */
+  async CreateProduct(req: Request, resp: Response): Promise<any> {
+    const { product } = req.body;
+    try {
+      const result = await this.ProductService.Create(product);
+      if (!result.data)
+        return resp.sendResponse(null, "There is a problem creating a Product: " + result.Message, true, 409);
+      else
+        return resp.sendResponse(result.data, "The Product has been created", false, 201);
+    } catch (error) {
+      return resp.sendResponse(null, "There is a fatal error creating the Product: " + error, true, 500)
+    }
+  }
 
   // /**
   //  * this method update the an specific Product

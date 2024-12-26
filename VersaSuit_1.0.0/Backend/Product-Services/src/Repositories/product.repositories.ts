@@ -18,6 +18,7 @@ export class ProductRepository {
         Model: true,
         Brand: true,
         Color: true,
+        LineTypes: true,
         SubCategory: {
           include: { Category: { include: { SuperCategory: true } } }
         }
@@ -41,6 +42,7 @@ export class ProductRepository {
         Model: true,
         Brand: true,
         Color: true,
+        LineTypes: true,
         SubCategory: {
           include: { Category: { include: { SuperCategory: true } } }
         }
@@ -48,31 +50,63 @@ export class ProductRepository {
     });
   }
 
-  // /**
-  //  * create a new Product using prismaORM
-  //  * return the new Product
-  //  */
-  // async Save(Product: any): Promise<any>{
-  //     try {
-  //         //get the last index of company Product
-  //         const LastProduct = await this.prisma.product.findFirst({where: {CompanyID: Product.CompanyID}, orderBy: {ProductID: "desc"}})
-  //         const ProductID = (!LastProduct) ? 1 : LastProduct.ProductID + 1;
+  /**
+   * create a new Product using prismaORM
+   * if there are photo included it will be saved
+   * return the new Product
+   */
+  async Save(Product: any): Promise<any> {
+    try {
+      //get the last index of company Product
+      const LastProduct = await this.prisma.product.findFirst({
+        where: { CompanyID: Product.CompanyID },
+        orderBy: { ProductID: "desc" }
+      });
+      const ProductID = !LastProduct ? 1 : LastProduct.ProductID + 1;
 
-  //         //create a new data
-  //         const newProduct = await this.prisma.product.create({
-  //             data: {
-  //             ProductID: ProductID,
-  //             CompanyID: Product.CompanyID,
-  //             SuperProductID: Product.SuperProductID,
-  //             nProduct: Product.nProduct,
-  //             Description: Product.Description,
-  //         }})
+      //create a new data
+      const newProduct = await this.prisma.product.create({
+        data: {
+          ProductID: ProductID,
+          CompanyID: Product.CompanyID,
+          SubCategoryID: Product.SubCategoryID,
+          LineID: Product.LineID,
+          BrandID: Product.BrandID,
+          ModelID: Product.ModelID,
+          ColorID: Product.ColorID,
+          nProduct: Product.nProduct,
+          Description: Product.Description,
+          ProductNumber: Product.ProductNumber,
+          ModelNumber: Product.ModelNumber,
+          Serie: Product.Serie,
+          Barcode: Product.Barcode,
+          QRCode: Product.QRCode,
+          Reference: Product.Reference,
+          SalePrice: Product.SalePrice,
+          PurchasePrice: Product.PurchasePrice,
+          Cost: Product.Cost,
+          CurrentStock: Product.CurrentStock,
+          MinimumStock: Product.MinimumStock,
+          MaximumStock: Product.MaximumStock,
+          Status: Product.Status
+          // ,ProductPhoto: {
+          //   create: [
+          //     {
+          //       Name: Product.Name,
+          //       Photo: Product.Photo,
+          //       UrlPhoto: Product.UrlPhoto,
+          //       isMail: Product.isMail
+          //     }
+          //   ]
+          // }
+        }
+      });
 
-  //         return { Message: "", data: newProduct };
-  //     } catch (error) {
-  //         return { Message: error, data: null };
-  //     }
-  // }
+      return { Message: "", data: newProduct };
+    } catch (error) {
+      return { Message: error, data: null };
+    }
+  }
 
   // /**
   //  * update a a especific Product
