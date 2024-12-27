@@ -59,21 +59,22 @@ model Company {
 }
 
 model CompanyBranch {
-  CompanyID    Int
-  BranchID     Int
-  CityID       Int
-  CountryID    Int
-  ManagerID    Int
-  Address      String   @db.VarChar(100)
-  PhoneNumber  String?  @db.VarChar(30)
-  ExtNumber    Int?
-  PostalCode   String   @db.VarChar(100)
-  HasWarehouse Boolean
-  IsMainBranch Boolean
-  Latitude     Decimal? @db.Decimal(9, 6)
-  Longitude    Decimal? @db.Decimal(9, 6)
-  City         City     @relation(fields: [CountryID, CityID], references: [CountryID, CityID], onUpdate: NoAction, map: "FK_CityID_City")
-  Company      Company  @relation(fields: [CompanyID], references: [CompanyID], onUpdate: NoAction, map: "FK_CompanyID_Company")
+  BranchID         Int
+  CompanyID        Int
+  CityID           Int
+  CountryID        Int
+  ManagerID        Int
+  Address          String             @db.VarChar(100)
+  PhoneNumber      String?            @db.VarChar(30)
+  ExtNumber        Int?
+  PostalCode       String             @db.VarChar(100)
+  HasWarehouse     Boolean
+  IsMainBranch     Boolean
+  Latitude         Decimal?           @db.Decimal(9, 6)
+  Longitude        Decimal?           @db.Decimal(9, 6)
+  City             City               @relation(fields: [CountryID, CityID], references: [CountryID, CityID], onUpdate: NoAction, map: "FK_CityID_City")
+  Company          Company            @relation(fields: [CompanyID], references: [CompanyID], onUpdate: NoAction, map: "FK_CompanyID_Company")
+  CompanyWarehouse CompanyWarehouse[]
 
   @@id([CompanyID, BranchID], map: "PKc_BranchID")
   @@schema("Settings")
@@ -97,5 +98,19 @@ model CompanySocialMedia {
   UrlMedia  String  @db.VarChar(150)
   Company   Company @relation(fields: [CompanyID], references: [CompanyID], onUpdate: NoAction, map: "FK_CompanyID_Media")
 
+  @@schema("Settings")
+}
+
+model CompanyWarehouse {
+  WarehouseID   Int
+  BranchID      Int
+  CompanyID     Int
+  nWarehouse    String        @db.VarChar(100)
+  Description   String?       @db.VarChar(100)
+  Address       String?       @db.VarChar(100)
+  Status        Boolean
+  CompanyBranch CompanyBranch @relation(fields: [CompanyID, BranchID], references: [CompanyID, BranchID], onUpdate: NoAction, map: "FK_Bracnh_Warehouse")
+
+  @@id([BranchID, WarehouseID], map: "PKc_WarehouseID")
   @@schema("Settings")
 }

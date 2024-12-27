@@ -104,8 +104,8 @@ DROP TABLE IF EXISTS Settings.CompanyBranch
 GO
 CREATE TABLE Settings.CompanyBranch
 (
-	CompanyID		INT				NOT NULL,
 	BranchID		INT				NOT NULL,
+	CompanyID		INT				NOT NULL,
 	CityID			INT				NOT NULL,
 	CountryID		INT				NOT NULL,
 	ManagerID		INT			    NOT NULL,
@@ -119,6 +119,22 @@ CREATE TABLE Settings.CompanyBranch
 	Longitude		DECIMAL(9, 6)	NULL,
 	CONSTRAINT PKc_BranchID PRIMARY KEY CLUSTERED(CompanyID ASC, BranchID ASC)
 )
+GO
+DROP TABLE IF EXISTS Settings.CompanyWarehouse
+GO
+CREATE TABLE Settings.CompanyWarehouse
+(
+	WarehouseID		INT				NOT NULL,
+	BranchID		INT				NOT NULL,
+	CompanyID		INT				NOT NULL,
+	nWarehouse		VARCHAR(100)	NOT NULL,
+	[Description]	VARCHAR(100)	NULL,
+	[Address]		VARCHAR(100)	NULL,
+	[Status]		bit				NOT NULL,
+	CONSTRAINT PKc_WarehouseID PRIMARY KEY CLUSTERED(BranchID ASC, WarehouseID ASC)
+)
+GO
+
 
 DROP TABLE IF EXISTS Settings.CompanyContact
 GO
@@ -354,6 +370,11 @@ GO
 ALTER TABLE Settings.CompanyBranch
 ADD CONSTRAINT FK_CompanyID_Company FOREIGN KEY(CompanyID) REFERENCES Settings.Company(CompanyID)
 GO
+ALTER TABLE Settings.CompanyWarehouse
+ADD CONSTRAINT FK_Bracnh_Warehouse FOREIGN KEY(CompanyID, BranchID) REFERENCES Settings.CompanyBranch(CompanyID, BranchID)
+GO
+
+
 ALTER TABLE Settings.CompanyContact  
 ADD  CONSTRAINT [FK_CompanyID_Contact] FOREIGN KEY(CompanyID) REFERENCES  Settings.Company (CompanyID)
 GO
