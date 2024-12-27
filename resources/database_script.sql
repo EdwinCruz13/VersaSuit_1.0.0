@@ -150,9 +150,12 @@ DROP TABLE IF EXISTS Products.SuperCategory
 GO
 CREATE TABLE Products.SuperCategory(
 	SuperCategoryID int NOT NULL,
+	CompanyID int NOT NULL,
 	nSuperCategory varchar(50) NOT NULL,
 	[Description] varchar(100) NULL,
-	CONSTRAINT [PKc_SuperCategoryID] PRIMARY KEY CLUSTERED(SuperCategoryID ASC)
+	UTC_CreateAT		DATETIME		CONSTRAINT DFc_SuperCategoryCreateAtUTC DEFAULT(GETUTCDATE()),
+	GTMM6_CreateAT		DATETIME		CONSTRAINT DFc_SuperCategoryCreateAtGTM DEFAULT(SWITCHOFFSET(CONVERT(DATETIMEOFFSET, GETUTCDATE()), '-06:00')) 
+	CONSTRAINT [PKc_SuperCategoryID] PRIMARY KEY CLUSTERED(CompanyID ASC, SuperCategoryID ASC)
 )
 GO
 
@@ -165,10 +168,9 @@ CREATE TABLE Products.Category(
 	SuperCategoryID int NOT NULL,
 	nCategory varchar(50) NOT NULL,
 	[Description] varchar(100) NULL,
-
 	UTC_CreateAT		DATETIME		CONSTRAINT DFc_CategoryCreateAtUTC DEFAULT(GETUTCDATE()),
 	GTMM6_CreateAT		DATETIME		CONSTRAINT DFc_CategoryCreateAtGTM DEFAULT(SWITCHOFFSET(CONVERT(DATETIMEOFFSET, GETUTCDATE()), '-06:00')) 
-	CONSTRAINT [PKc_CategoryID] PRIMARY KEY CLUSTERED(CategoryID ASC, CompanyID ASC)
+	CONSTRAINT [PKc_CategoryID] PRIMARY KEY CLUSTERED(CompanyID ASC, CategoryID ASC)
 )
 GO
 
@@ -176,11 +178,13 @@ DROP TABLE IF EXISTS Products.SubCategory
 GO
 CREATE TABLE Products.SubCategory(
 	SubCategoryID int NOT NULL,
-	CategoryID int NOT NULL,
 	CompanyID int NOT NULL,
+	CategoryID int NOT NULL,
 	nSubCategory varchar(50) NOT NULL,
 	[Description] varchar(100) NULL,
-	CONSTRAINT [PKc_SubCategoryID] PRIMARY KEY CLUSTERED(SubCategoryID ASC)
+	UTC_CreateAT		DATETIME		CONSTRAINT DFc_SubCategoryCreateAtUTC DEFAULT(GETUTCDATE()),
+	GTMM6_CreateAT		DATETIME		CONSTRAINT DFc_SubCategoryCreateAtGTM DEFAULT(SWITCHOFFSET(CONVERT(DATETIMEOFFSET, GETUTCDATE()), '-06:00')) 
+	CONSTRAINT [PKc_SubCategoryID] PRIMARY KEY CLUSTERED(CompanyID ASC, SubCategoryID ASC)
 )
 GO
 
@@ -365,16 +369,16 @@ GO
 
 -- for products
 ALTER TABLE Products.Category  
-ADD  CONSTRAINT [FK_SuperCategoryID_Category] FOREIGN KEY(SuperCategoryID) REFERENCES Products.SuperCategory (SuperCategoryID)
+ADD  CONSTRAINT [FK_SuperCategoryID_Category] FOREIGN KEY(CompanyID, SuperCategoryID) REFERENCES Products.SuperCategory (CompanyID, SuperCategoryID)
 GO
 
 
 ALTER TABLE Products.SubCategory  
-ADD  CONSTRAINT [FK_CategoryID_SubCategory] FOREIGN KEY(CategoryID, CompanyID) REFERENCES Products.Category (CategoryID, CompanyID)
+ADD  CONSTRAINT [FK_CategoryID_SubCategory] FOREIGN KEY(CompanyID, CategoryID) REFERENCES Products.Category (CompanyID, CategoryID)
 GO
 
 ALTER TABLE Products.Product  
-ADD  CONSTRAINT [FK_SubCategoryID_Product] FOREIGN KEY(SubCategoryID) REFERENCES Products.SubCategory (SubCategoryID)
+ADD  CONSTRAINT [FK_SubCategoryID_Product] FOREIGN KEY(CompanyID, SubCategoryID) REFERENCES Products.SubCategory (CompanyID, SubCategoryID)
 GO
 
 ALTER TABLE Products.Product  
@@ -386,11 +390,11 @@ ADD  CONSTRAINT [FK_LineID_LineType] FOREIGN KEY(CompanyID, LineID) REFERENCES P
 GO
 
 ALTER TABLE Products.Product  
-ADD  CONSTRAINT [FK_ColorID_Color] FOREIGN KEY(ColorID) REFERENCES Products.Color (ColorID)
+ADD  CONSTRAINT [FK_ModelID_Model] FOREIGN KEY(CompanyID, ModelID) REFERENCES Products.Model (CompanyID, ModelID)
 GO
 
 ALTER TABLE Products.Product  
-ADD  CONSTRAINT [FK_ModelID_Model] FOREIGN KEY(CompanyID, ModelID) REFERENCES Products.Model (CompanyID, ModelID)
+ADD  CONSTRAINT [FK_ColorID_Color] FOREIGN KEY(ColorID) REFERENCES Products.Color (ColorID)
 GO
 
 ALTER TABLE Products.ProductMeasure  
@@ -1560,76 +1564,91 @@ DECLARE @jsonSuperCategory NVARCHAR(MAX) = '
 [
     {
         "SuperCategoryID": 1,
+		"CompanyID": 1,
         "nSuperCategory": "Electrodomésticos",
         "Description": "Aparatos electrónicos de uso cotidiano en el hogar."
     },
     {
         "SuperCategoryID": 2,
+		"CompanyID": 1,
         "nSuperCategory": "Tecnología y Gadgets",
         "Description": "Dispositivos electrónicos y accesorios tecnológicos."
     },
     {
         "SuperCategoryID": 3,
+		"CompanyID": 1,
         "nSuperCategory": "Alimentos y Bebidas",
         "Description": "Productos consumibles y bebidas para uso diario."
     },
     {
         "SuperCategoryID": 4,
+		"CompanyID": 1,
         "nSuperCategory": "Herramientas y Construcción",
         "Description": "Instrumentos y materiales para reparaciones o construcción."
     },
     {
         "SuperCategoryID": 5,
+		"CompanyID": 1,
         "nSuperCategory": "Hogar y Decoración",
         "Description": "Artículos para embellecer o mejorar los espacios interiores y exteriores."
     },
     {
         "SuperCategoryID": 6,
+		"CompanyID": 1,
         "nSuperCategory": "Moda y Vestimenta",
         "Description": "Ropa, calzado y accesorios para diferentes estilos."
     },
     {
         "SuperCategoryID": 7,
+		"CompanyID": 1,
         "nSuperCategory": "Mascotas y Animales",
         "Description": "Productos para el cuidado y entretenimiento de mascotas."
     },
     {
         "SuperCategoryID": 8,
+		"CompanyID": 1,
         "nSuperCategory": "Deportes y Aire Libre",
         "Description": "Equipos y accesorios para actividades deportivas y recreativas al aire libre."
     },
     {
         "SuperCategoryID": 9,
+		"CompanyID": 1,
         "nSuperCategory": "Automotriz y Vehículos",
         "Description": "Accesorios y repuestos para vehículos automotores."
     },
     {
         "SuperCategoryID": 10,
+		"CompanyID": 1,
         "nSuperCategory": "Juguetes y Entretenimiento",
         "Description": "Juguetes y artículos recreativos para todas las edades."
     },
     {
         "SuperCategoryID": 11,
+		"CompanyID": 1,
         "nSuperCategory": "Electrónica de Consumo",
         "Description": "Dispositivos electrónicos como televisores, cámaras y altavoces."
     },
     {
         "SuperCategoryID": 12,
+		"CompanyID": 1,
         "nSuperCategory": "Cuidado Personal y Belleza",
         "Description": "Productos para higiene, cosmética y cuidado personal."
     },
     {
         "SuperCategoryID": 13,
+		"CompanyID": 1,
         "nSuperCategory": "Papelería y Oficina",
         "Description": "Suministros para actividades escolares y profesionales."
     },
     {
         "SuperCategoryID": 14,
+		"CompanyID": 1,
         "nSuperCategory": "Jardinería y Exteriores",
         "Description": "Herramientas y productos para el cuidado de jardines y exteriores."
     },
     {
         "SuperCategoryID": 15,
+		"CompanyID": 1,
         "nSuperCategory": "Salud y Bienestar",
         "Description": "Equipos y productos médicos o relacionados con la salud."
     }
@@ -1681,10 +1700,11 @@ WITH (
     UnitSymbol VARCHAR(50) '$.UnitSymbol'
 );
 
-INSERT INTO Products.SuperCategory
+INSERT INTO Products.SuperCategory (SuperCategoryID, CompanyID, nSuperCategory, Description) 
 SELECT * FROM OPENJSON(@jsonSuperCategory)
 WITH (
 	SuperCategoryID INT '$.SuperCategoryID',
+	CompanyID INT '$.CompanyID',
     nSuperCategory VARCHAR(50) '$.nSuperCategory',
     Description VARCHAR(100) '$.Description'
 );

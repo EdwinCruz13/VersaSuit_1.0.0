@@ -33,10 +33,10 @@ export class SubCategoryService
   * @param CompanyID 
   * @returns 
   */
-  async GetByID(SubcategoryID: number): Promise<SubCategory | null> {
+  async GetByID(CompanyID: number, SubcategoryID: number): Promise<SubCategory | null> {
 
     //get the data from repository
-    const dt = await this.SubcategoryRepository.FetchByID(SubcategoryID);
+    const dt = await this.SubcategoryRepository.FetchByID(CompanyID, SubcategoryID);
     //if there is not data return null
     if(!dt) return null;
 

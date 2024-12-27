@@ -5,8 +5,8 @@ import { SubCategory } from "./subcategory.models";
  * this entity map the Category
  */
 export class Category {
-  CompanyID: number = 0;
   CategoryID: number = 0;
+  CompanyID: number = 0;
   nCategory: string = "";
   Description: string = "";
   SuperCategory?: SuperCategory;

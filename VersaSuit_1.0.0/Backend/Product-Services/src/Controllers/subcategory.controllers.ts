@@ -40,10 +40,10 @@ export class SubCategoryController {
    * @param resp
    */
   async GetSubCategory(req: Request, resp: Response): Promise<any> {
-    const { SubCategoryID } = req.params;
+    const { CompanyID, SubCategoryID } = req.params;
     try {
       //get data from services
-      const SubCategory = await this.SubCategoryService.GetByID(Number(SubCategoryID));
+      const SubCategory = await this.SubCategoryService.GetByID(Number(CompanyID), Number(SubCategoryID));
       //validate the result, in any case is null, send status 409
       if (!SubCategory) {
         return resp.sendResponse(null, "The SubCategory has not been found", false, 200)

@@ -21,9 +21,9 @@ export class SubCategoryRepository{
      * get an specific SubCategoryID 
      * @param SubCategoryID 
      */
-    async FetchByID(SubCategoryID: Number): Promise<any>{
+    async FetchByID(CompanyID: Number, SubCategoryID: Number): Promise<any>{
         return this.prisma.subCategory.findUnique({
-            where: { SubCategoryID: Number(SubCategoryID) },
+            where: { CompanyID_SubCategoryID: {SubCategoryID: Number(SubCategoryID), CompanyID: Number(CompanyID)}},
             include: {Category: {include: {SuperCategory: true}}}
         });
     }
@@ -62,10 +62,9 @@ export class SubCategoryRepository{
         try {
             //create a new data
             const updatedSubCategory = await this.prisma.subCategory.update({
-                where: { SubCategoryID: Number(SubCategory.SubCategoryID) },
+                where: { CompanyID_SubCategoryID: {SubCategoryID: Number(SubCategory.SubCategoryID), CompanyID: Number(SubCategory.CompanyID)}},
                 data: {
                     CategoryID: SubCategory.CategoryID,
-                    CompanyID: SubCategory.CompanyID,
                     nSubCategory: SubCategory.nSubCategory,
                     Description: SubCategory.Description
                 }

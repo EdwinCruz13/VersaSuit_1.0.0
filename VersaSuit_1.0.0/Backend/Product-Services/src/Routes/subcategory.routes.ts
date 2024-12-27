@@ -19,7 +19,7 @@ SubCategoryRouter.get("/getSubCategories/:CompanyID", controller.GetSubCategorie
  * GET  /api/v1/settings/getSubCategory/:SubCategoryID         ------>(gets a single SubCategory)
  * return an specific SubCategory
  */
-SubCategoryRouter.get("/getSubCategory/:SubCategoryID", controller.GetSubCategory.bind(controller));
+SubCategoryRouter.get("/getSubCategory/:CompanyID/:SubCategoryID", controller.GetSubCategory.bind(controller));
 
 // /**
 //  * POST /api/v1/settings/createSubCategory                 ------>(create a new SubCategory)
@@ -31,7 +31,7 @@ SubCategoryRouter.post("/createSubCategory", controller.CreateSubCategory.bind(c
 //  * PUT  /api/v1/settings/editSubCategory/:SubCategoryID        ------>(update a SubCategory)
 //  * update the SubCategory, return the changes applied return the SubCategoryID
 //  */
-SubCategoryRouter.put("/updateSubCategory/:SubCategoryID", controller.UpdateSubCategory.bind(controller));
+SubCategoryRouter.put("/updateSubCategory/:CompanyID/:SubCategoryID", controller.UpdateSubCategory.bind(controller));
 
 
 

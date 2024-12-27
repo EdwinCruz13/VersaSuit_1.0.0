@@ -5,6 +5,7 @@ import { Category } from "./category.models";
  */
 export class SuperCategory {
   SuperCategoryID: number = 0;
+  CompanyID: number = 0;
   nSuperCategory: string = "";
   Description: string = "";
   Category?: Category[] = [];

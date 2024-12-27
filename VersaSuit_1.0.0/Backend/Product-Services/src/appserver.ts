@@ -6,6 +6,7 @@ import BrandRouter from "./Routes/brand.routes";
 import ModelRouter from "./Routes/model.routes";
 import ColorRouter from "./Routes/color.routes";
 import UnitMeasureRouter from "./Routes/unitmeasure.routes";
+import SuperCategoryRouter from "./Routes/supercategory.routes";
 import CategoryRouter from "./Routes/category.routes";
 import SubCategoryRouter from "./Routes/subcategory.routes";
 import LineTypeRouter from "./Routes/line.routes";
@@ -29,6 +30,8 @@ AppServer.use("/api/v1/products/brands", BrandRouter)
 AppServer.use("/api/v1/products/models", ModelRouter)
 AppServer.use("/api/v1/products/colors", ColorRouter)
 AppServer.use("/api/v1/products/unitmeasure", UnitMeasureRouter)
+
+AppServer.use("/api/v1/products/supercategories", SuperCategoryRouter)
 AppServer.use("/api/v1/products/categories", CategoryRouter)
 AppServer.use("/api/v1/products/subcategories", SubCategoryRouter)
 AppServer.use("/api/v1/products/lines", LineTypeRouter)
