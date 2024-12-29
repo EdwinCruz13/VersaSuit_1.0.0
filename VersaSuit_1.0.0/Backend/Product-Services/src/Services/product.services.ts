@@ -49,12 +49,12 @@ export class ProductService {
       return await this.ProductRepository.Save(data);
     }
 
-  //   /**
-  //    * a service that update the Products
-  //    * @param companyData
-  //    * @returns
-  //    */
-  //   async Update(data: any): Promise<any> {
-  //     return await this.ProductRepository.Update(data);
-  //   }
+    /**
+     * a service that update the Products
+     * @param companyData
+     * @returns
+     */
+    async Update(data: any): Promise<any> {
+      return await this.ProductRepository.Update(data);
+    }
 }

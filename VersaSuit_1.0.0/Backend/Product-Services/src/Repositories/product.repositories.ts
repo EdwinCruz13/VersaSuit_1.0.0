@@ -108,21 +108,47 @@ export class ProductRepository {
     }
   }
 
-  // /**
-  //  * update a a especific Product
-  //  * return the updated Product
-  //  */
-  // async Update(Product: any): Promise<any>{
-  //     try {
-  //         //create a new data
-  //         const updatedProduct = await this.prisma.product.update({
-  //             where: { ProductID_CompanyID: {ProductID: Number(Product.ProductID), CompanyID: Number(Product.CompanyID)}},
-  //             data: {nProduct: Product.nProduct, Description: Product.Description, SuperProductID: Product.SuperProductID}
-  //         })
+  /**
+   * update a a especific Product
+   * return the updated Product
+   */
+  async Update(Product: any): Promise<any> {
+    try {
+      //create a new data
+      const updatedProduct = await this.prisma.product.update({
+        where: {
+          ProductID_CompanyID: {
+            ProductID: Number(Product.ProductID),
+            CompanyID: Number(Product.CompanyID)
+          }
+        },
+        data: {
+          SubCategoryID: Product.SubCategoryID,
+          LineID: Product.LineID,
+          BrandID: Product.BrandID,
+          ModelID: Product.ModelID,
+          ColorID: Product.ColorID,
+          nProduct: Product.nProduct,
+          Description: Product.Description,
+          ProductNumber: Product.ProductNumber,
+          ModelNumber: Product.ModelNumber,
+          Serie: Product.Serie,
+          Barcode: Product.Barcode,
+          QRCode: Product.QRCode,
+          Reference: Product.Reference,
+          SalePrice: Product.SalePrice,
+          PurchasePrice: Product.PurchasePrice,
+          Cost: Product.Cost,
+          CurrentStock: Product.CurrentStock,
+          MinimumStock: Product.MinimumStock,
+          MaximumStock: Product.MaximumStock,
+          Status: Product.Status
+        }
+      });
 
-  //         return { Message: "", data: updatedProduct };
-  //     } catch (error) {
-  //         return { Message: error, data: null };
-  //     }
-  // }
+      return { Message: "", data: updatedProduct };
+    } catch (error) {
+      return { Message: error, data: null };
+    }
+  }
 }

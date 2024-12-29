@@ -77,27 +77,27 @@ export class ProductController {
     }
   }
 
-  // /**
-  //  * this method update the an specific Product
-  //  * @param req 
-  //  * @param resp 
-  //  * @returns 
-  //  */
-  // async UpdateProduct(req: Request, resp: Response): Promise<any> {
-  //   const { product } = req.body;
-  //   try {
-  //     //save to Product 
-  //     const result = await this.ProductService.Update(Product);
+  /**
+   * this method update the an specific Product
+   * @param req 
+   * @param resp 
+   * @returns 
+   */
+  async UpdateProduct(req: Request, resp: Response): Promise<any> {
+    const { product } = req.body;
+    try {
+      //save to Product 
+      const result = await this.ProductService.Update(product);
 
-  //     //validate
-  //     if (!result.data)
-  //       return resp.sendResponse(null, "There is a problem editing a Product: " + result.Message, true, 409);
+      //validate
+      if (!result.data)
+        return resp.sendResponse(null, "There is a problem editing a Product: " + result.Message, true, 409);
 
-  //     else
-  //       return resp.sendResponse(result.data, "The Product has been saved", false, 201);
+      else
+        return resp.sendResponse(result.data, "The Product has been saved", false, 201);
 
-  //   } catch (error) {
-  //     return resp.sendResponse(null, "There is a fatal error editing the Product: " + error, true, 500)
-  //   }
-  // }
+    } catch (error) {
+      return resp.sendResponse(null, "There is a fatal error editing the Product: " + error, true, 500)
+    }
+  }
 }

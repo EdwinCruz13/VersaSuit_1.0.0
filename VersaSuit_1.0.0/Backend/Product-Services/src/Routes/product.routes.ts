@@ -27,11 +27,11 @@ ProductRouter.get("/getproduct/:CompanyID/:ProductID", controller.GetProduct.bin
 //  */
 ProductRouter.post("/createproduct", controller.CreateProduct.bind(controller));
 
-// // /**
-// //  * PUT  /api/v1/products/editproduct/:productID        ------>(update a product)
-// //  * update the product, return the changes applied return the productID
-// //  */
-// ProductRouter.put("/updateproduct/:productID", controller.UpdateProduct.bind(controller));
+// /**
+//  * PUT  /api/v1/products/editproduct/:productID        ------>(update a product)
+//  * update the product, return the changes applied return the productID
+//  */
+ProductRouter.put("/updateproduct/:CompanyID/:productID", controller.UpdateProduct.bind(controller));
 
 
 

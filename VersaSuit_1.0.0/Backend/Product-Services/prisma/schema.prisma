@@ -75,8 +75,8 @@ model Product {
   SalePrice          Decimal              @db.Decimal(18, 2)
   PurchasePrice      Decimal              @db.Decimal(18, 2)
   Cost               Decimal?             @db.Decimal(18, 2)
-  CurrentStock       Int?                 @default(0, map: "DF__Product__Current__46E78A0C")
-  MinimumStock       Int?                 @default(1, map: "DF__Product__Minimum__47DBAE45")
+  CurrentStock       Int?                 @default(0, map: "DF__Product__Current__48CFD27E")
+  MinimumStock       Int?                 @default(1, map: "DF__Product__Minimum__49C3F6B7")
   MaximumStock       Int?
   Status             Boolean
   UTC_CreateAT       DateTime?            @default(dbgenerated("getutcdate()"), map: "DFc_ProductCreateAtUTC") @db.DateTime
@@ -138,7 +138,7 @@ model ProductPhoto {
   Photo     Bytes?
   UrlPhoto  String    @db.Text
   isMail    Boolean
-  CreatedAt DateTime? @default(now(), map: "DF__ProductPh__Creat__4E88ABD4") @db.DateTime
+  CreatedAt DateTime? @default(now(), map: "DF__ProductPh__Creat__5070F446") @db.DateTime
   CreatedBy Int?
   Product   Product   @relation(fields: [ProductID, CompanyID], references: [ProductID, CompanyID], onUpdate: NoAction, map: "FK_ProductIDCompanyID_ProductPhoto")
 
