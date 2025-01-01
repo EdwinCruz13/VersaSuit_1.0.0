@@ -1,44 +1,47 @@
 import { Model } from "../Models/model.models";
 import { ModelRepository } from "../Repositories/model.repositories";
-import { ModelMapper } from "../../../Utils/mapping.utils"
-
+import { ModelMapper } from "../../../Utils/mapping.utils";
 
 /**
  * class that contain all the functions to get and set the
- * model "Model". 
+ * model "Model".
  */
-export class ModelService 
-{
-  private ModelRepository = new ModelRepository();
+export class ModelService {
+  private ModelRepository: ModelRepository;
+
+  /**
+   * use the inyection pattern
+   * @param repository
+   */
+  constructor(repository: ModelRepository) {
+    this.ModelRepository = repository;
+  }
 
   /**
    * this method return all the Models
    * @returns
    */
-  async GetAll(CompanyID: number): Promise<Model[] | null> 
-  {
+  async GetAll(CompanyID: number): Promise<Model[] | null> {
     //get data from repository
     const dt = await this.ModelRepository.FetchAll(CompanyID);
 
     //if there is not data return null
-    if(!dt) return null;
+    if (!dt) return null;
 
     //return the prisma object to model[]
     return ModelMapper.toMap(Model, dt) as Model[];
-
   }
   /**
-  * get the Models by ID
-  * Map to CompanyModel
-  * @param CompanyID 
-  * @returns 
-  */
+   * get the Models by ID
+   * Map to CompanyModel
+   * @param CompanyID
+   * @returns
+   */
   async GetByID(CompanyID: number, ModelID: number): Promise<Model | null> {
-
     //get the data from repository
     const dt = await this.ModelRepository.FetchByID(CompanyID, ModelID);
     //if there is not data return null
-    if(!dt) return null;
+    if (!dt) return null;
 
     //return the prisma object to model
     return ModelMapper.toMap(Model, dt) as Model;
@@ -61,6 +64,4 @@ export class ModelService
   async Update(data: any): Promise<any> {
     return await this.ModelRepository.Update(data);
   }
-
-
 }

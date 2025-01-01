@@ -1,12 +1,17 @@
 import Router from "express";
 import { SubCategoryController } from "../Controllers/subcategory.controllers";
+import { SubCategoryRepository } from "../Repositories/subcategory.repositories";
+import { SubCategoryService } from "../Services/subcategory.services";
 
 //create routers for all the endpoints
 const SubCategoryRouter = Router();
 
 
-//initializa the controller
-const controller = new SubCategoryController();
+// inyection the dependencies
+const subCategoryRepository = new SubCategoryRepository();
+const subCategoryService = new SubCategoryService(subCategoryRepository);
+//instance a new controllers
+const controller = new SubCategoryController(subCategoryService);
 
 
 /**

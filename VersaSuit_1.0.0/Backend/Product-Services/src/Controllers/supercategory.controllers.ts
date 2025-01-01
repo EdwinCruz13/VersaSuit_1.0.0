@@ -9,7 +9,18 @@ import { SuperCategoryService } from "../Services/supercategory.services";
  */
 export class SuperCategoryController {
  
-  private SuperCategoryService = new SuperCategoryService();
+  /**
+   * class tha communicates with services
+   */
+  private SuperCategoryService: SuperCategoryService;
+          
+  /**
+  * use the inyection pattern
+  * @param _categoryService 
+  */
+  constructor(service: SuperCategoryService) {
+    this.SuperCategoryService = service;
+  }
 
   /**
    * method http for get SuperCategorys

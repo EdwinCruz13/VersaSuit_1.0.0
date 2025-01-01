@@ -8,8 +8,15 @@ import { CategoryService } from "../Services/category.services";
  * use http request and response
  */
 export class CategoryController {
- 
-  private CategoryService = new CategoryService();
+  private CategoryService: CategoryService;
+
+  /**
+   * use the inyection pattern
+   * @param _categoryService 
+   */
+  constructor(service: CategoryService) {
+        this.CategoryService = service;
+  }
 
   /**
    * method http for get Categories

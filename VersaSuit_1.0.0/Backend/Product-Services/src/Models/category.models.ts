@@ -7,6 +7,7 @@ import { SubCategory } from "./subcategory.models";
 export class Category {
   CategoryID: number = 0;
   CompanyID: number = 0;
+  SuperCategoryID: number = 0;
   nCategory: string = "";
   Description: string = "";
   SuperCategory?: SuperCategory;

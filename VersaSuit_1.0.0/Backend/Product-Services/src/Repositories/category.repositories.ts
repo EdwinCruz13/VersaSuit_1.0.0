@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { Category } from "../Models/category.models";
 
 /**
  * class that contain all the functions to get and set the
@@ -32,16 +33,12 @@ export class CategoryRepository{
      * create a new Category using prismaORM
      * return the new Category
      */
-    async Save(Category: any): Promise<any>{
+    async Save(Category: Category): Promise<any>{
         try {
-            //get the last index of company Category
-            const LastCategory = await this.prisma.category.findFirst({where: {CompanyID: Category.CompanyID}, orderBy: {CategoryID: "desc"}})
-            const CategoryID = (!LastCategory) ? 1 : LastCategory.CategoryID + 1;
-
             //create a new data
             const newCategory = await this.prisma.category.create({
                 data: {
-                CategoryID: CategoryID,
+                CategoryID: Category.CategoryID,
                 CompanyID: Category.CompanyID,
                 SuperCategoryID: Category.SuperCategoryID,
                 nCategory: Category.nCategory,
@@ -70,5 +67,17 @@ export class CategoryRepository{
         } catch (error) {
             return { Message: error, data: null };
         }
+    }
+
+    /**
+     * method that help to get the last CategoryID
+     * @param CompanyID 
+     * @returns 
+     */
+    async FetchLastID(CompanyID: number): Promise<number>{
+        const LastCategory = await this.prisma.category.findFirst({where: {CompanyID: CompanyID}, orderBy: {CategoryID: "desc"}})
+        const CategoryID = (!LastCategory) ? 1 : LastCategory.CategoryID + 1;
+
+        return CategoryID;
     }
 }

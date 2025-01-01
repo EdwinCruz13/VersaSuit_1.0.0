@@ -9,7 +9,18 @@ import { SubCategoryService } from "../Services/subcategory.services";
  */
 export class SubCategoryController {
  
-  private SubCategoryService = new SubCategoryService();
+  /**
+   * class tha communicates with services
+   */
+  private SubCategoryService: SubCategoryService;
+          
+  /**
+  * use the inyection pattern
+  * @param _categoryService 
+  */
+  constructor(service: SubCategoryService) {
+    this.SubCategoryService = service;
+  }
 
   /**
    * method http for get SubCategorys

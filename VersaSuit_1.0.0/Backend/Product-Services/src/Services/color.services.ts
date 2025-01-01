@@ -1,44 +1,47 @@
 import { Color } from "../Models/color.models";
 import { ColorRepository } from "../Repositories/color.repository";
-import { ModelMapper } from "../../../Utils/mapping.utils"
-
+import { ModelMapper } from "../../../Utils/mapping.utils";
 
 /**
  * class that contain all the functions to get and set the
- * Color "Color". 
+ * Color "Color".
  */
-export class ColorService 
-{
-  private ColorRepository = new ColorRepository();
+export class ColorService {
+  private ColorRepository: ColorRepository;
+
+  /**
+   * use the inyection pattern
+   * @param repository
+   */
+  constructor(repository: ColorRepository) {
+    this.ColorRepository = repository;
+  }
 
   /**
    * this method return all the Colors
    * @returns
    */
-  async GetAll(): Promise<Color[] | null> 
-  {
+  async GetAll(): Promise<Color[] | null> {
     //get data from repository
     const dt = await this.ColorRepository.FetchAll();
 
     //if there is not data return null
-    if(!dt) return null;
+    if (!dt) return null;
 
     //return the prisma object to Color[]
     return ModelMapper.toMap(Color, dt) as Color[];
-
   }
   /**
-  * get the Colors by ID
-  * Map to CompanyColor
-  * @param CompanyID 
-  * @returns 
-  */
+   * get the Colors by ID
+   * Map to CompanyColor
+   * @param CompanyID
+   * @returns
+   */
   async GetByID(ColorID: number): Promise<Color | null> {
-
     //get the data from repository
     const dt = await this.ColorRepository.FetchByID(ColorID);
     //if there is not data return null
-    if(!dt) return null;
+    if (!dt) return null;
 
     //return the prisma object to Color
     return ModelMapper.toMap(Color, dt) as Color;
@@ -61,6 +64,4 @@ export class ColorService
   async Update(data: any): Promise<any> {
     return await this.ColorRepository.Update(data);
   }
-
-
 }

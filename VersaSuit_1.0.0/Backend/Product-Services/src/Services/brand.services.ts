@@ -9,7 +9,15 @@ import { ModelMapper } from "../../../Utils/mapping.utils"
  */
 export class BrandService 
 {
-  private BrandRepository = new BrandRepository();
+  private BrandRepository: BrandRepository;
+  
+  /**
+  * use the inyection pattern
+  * @param repository
+  */
+  constructor(repository: BrandRepository) {
+    this.BrandRepository = repository;
+  }
 
   /**
    * this method return all the Brands

@@ -9,7 +9,15 @@ import { ColorService } from "../Services/color.services";
  */
 export class ColorController {
  
-  private ColorService = new ColorService();
+  private ColorService: ColorService;
+    
+  /**
+  * use the inyection pattern
+  * @param _categoryService 
+  */
+  constructor(service: ColorService) {
+    this.ColorService = service;
+  }
 
   /**
    * method http for get Colors

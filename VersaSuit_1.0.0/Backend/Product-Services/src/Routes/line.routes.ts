@@ -1,12 +1,16 @@
 import Router from "express";
 import { LineTypeController } from "../Controllers/line.controllers";
+import { LineTypeRepository } from "../Repositories/line.repositories";
+import { LineTypeService } from "../Services/line.services";
 
 //create routers for all the endpoints
 const LineTypeRouter = Router();
 
-
+// inyection the dependencies
+const lineTypeRespository = new LineTypeRepository();
+const lineTypeService = new LineTypeService(lineTypeRespository);
 //initializa the controller
-const controller = new LineTypeController();
+const controller = new LineTypeController(lineTypeService);
 
 
 /**

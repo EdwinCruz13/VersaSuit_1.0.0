@@ -9,7 +9,15 @@ import { BrandService } from "../Services/brand.services";
  */
 export class BrandController {
  
-  private BrandService = new BrandService();
+  private BrandService: BrandService;
+  
+    /**
+     * use the inyection pattern
+     * @param _categoryService 
+     */
+    constructor(service: BrandService) {
+          this.BrandService = service;
+    }
 
   /**
    * method http for get brands

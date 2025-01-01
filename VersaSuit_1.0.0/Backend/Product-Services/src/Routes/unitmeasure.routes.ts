@@ -1,12 +1,17 @@
 import Router from "express";
 import { UnitMeasureController } from "../Controllers/unitmeasure.controllers";
+import { UnitMeasureRepository } from "../Repositories/unitmeasure.repositories";
+import { UnitMeasureService } from "../Services/unitmeasure.services";
 
 //create routers for all the endpoints
 const UnitMeasureRouter = Router();
 
 
-//initializa the controller
-const controller = new UnitMeasureController();
+// inyection the dependencies
+const UnitRepository = new UnitMeasureRepository();
+const UnitService = new UnitMeasureService(UnitRepository);
+//instance a new controllers
+const controller = new UnitMeasureController(UnitService);
 
 
 /**

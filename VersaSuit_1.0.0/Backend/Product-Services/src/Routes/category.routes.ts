@@ -1,12 +1,18 @@
 import Router from "express";
 import { CategoryController } from "../Controllers/category.controllers";
+import { CategoryService } from "../Services/category.services";
+import { CategoryRepository } from "../Repositories/category.repositories";
 
 //create routers for all the endpoints
 const CategoryRouter = Router();
 
 
-//initializa the controller
-const controller = new CategoryController();
+// inyection the dependencies
+const categoryRepository = new CategoryRepository();
+const categoryService = new CategoryService(categoryRepository);
+//instance a new controllers
+const controller = new CategoryController(categoryService);
+
 
 
 /**

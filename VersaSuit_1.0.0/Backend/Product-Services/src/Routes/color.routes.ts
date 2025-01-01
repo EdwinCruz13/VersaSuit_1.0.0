@@ -1,12 +1,16 @@
 import Router from "express";
 import { ColorController } from "../Controllers/color.controllers";
+import { ColorRepository } from "../Repositories/color.repository";
+import { ColorService } from "../Services/color.services";
 
 //create routers for all the endpoints
 const ColorRouter = Router();
 
 
-//initializa the controller
-const controller = new ColorController();
+// inyection the dependencies
+const colorRespository = new ColorRepository();
+const colorService = new ColorService(colorRespository);
+const controller = new ColorController(colorService);
 
 
 /**

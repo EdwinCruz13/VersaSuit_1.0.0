@@ -9,7 +9,15 @@ import { LineTypeService } from "../Services/line.services";
  */
 export class LineTypeController {
  
-  private LineTypeService = new LineTypeService();
+    private LineTypeService: LineTypeService;
+      
+    /**
+    * use the inyection pattern
+    * @param _categoryService 
+    */
+    constructor(service: LineTypeService) {
+      this.LineTypeService = service;
+    }
 
   /**
    * method http for get LineTypes

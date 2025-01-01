@@ -9,7 +9,18 @@ import { UnitMeasureService } from "../Services/unitmeasure.services";
  */
 export class UnitMeasureController {
  
-  private UnitMeasureService = new UnitMeasureService();
+  /**
+   * class tha communicates with services
+   */
+  private UnitMeasureService: UnitMeasureService;
+          
+  /**
+  * use the inyection pattern
+  * @param _categoryService 
+  */
+  constructor(service: UnitMeasureService) {
+    this.UnitMeasureService = service;
+  }
 
   /**
    * method http for get UnitMeasures

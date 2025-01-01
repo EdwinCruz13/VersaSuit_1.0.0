@@ -1,12 +1,17 @@
 import Router from "express";
 import { BrandController } from "../Controllers/brand.controllers";
+import { BrandService } from "../Services/brand.services";
+import { BrandRepository } from "../Repositories/brand.repositories";
 
 //create routers for all the endpoints
 const brandRouter = Router();
 
 
 //initializa the controller
-const controller = new BrandController();
+// inyection the dependencies
+const brandRespository = new BrandRepository();
+const brandService = new BrandService(brandRespository);
+const controller = new BrandController(brandService);
 
 
 /**

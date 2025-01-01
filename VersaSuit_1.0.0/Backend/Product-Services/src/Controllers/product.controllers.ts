@@ -11,7 +11,15 @@ export class ProductController {
   /**
    * class tha communicates with services
    */
-  private ProductService = new ProductService();
+  private ProductService: ProductService;
+          
+  /**
+  * use the inyection pattern
+  * @param _categoryService 
+  */
+  constructor(service: ProductService) {
+    this.ProductService = service;
+  }
 
   /**
    * method http for get Products

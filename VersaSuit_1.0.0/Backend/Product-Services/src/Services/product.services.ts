@@ -7,7 +7,15 @@ import { ModelMapper } from "../../../Utils/mapping.utils";
  * model "Product".
  */
 export class ProductService {
-  private ProductRepository = new ProductRepository();
+  private ProductRepository: ProductRepository;
+
+  /**
+   * use the inyection pattern
+   * @param repository
+   */
+  constructor(repository: ProductRepository) {
+    this.ProductRepository = repository;
+  }
 
   /**
    * this method return all the Products
@@ -40,21 +48,21 @@ export class ProductService {
     return ModelMapper.toMap(Product, dt) as Product;
   }
 
-    /**
-     * create a new Products,
-     * @param companyData
-     * @returns
-     */
-    async Create(data: any): Promise<any> {
-      return await this.ProductRepository.Save(data);
-    }
+  /**
+   * create a new Products,
+   * @param companyData
+   * @returns
+   */
+  async Create(data: any): Promise<any> {
+    return await this.ProductRepository.Save(data);
+  }
 
-    /**
-     * a service that update the Products
-     * @param companyData
-     * @returns
-     */
-    async Update(data: any): Promise<any> {
-      return await this.ProductRepository.Update(data);
-    }
+  /**
+   * a service that update the Products
+   * @param companyData
+   * @returns
+   */
+  async Update(data: any): Promise<any> {
+    return await this.ProductRepository.Update(data);
+  }
 }

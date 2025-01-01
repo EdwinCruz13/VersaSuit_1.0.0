@@ -1,44 +1,53 @@
 import { SubCategory } from "../Models/subcategory.models";
 import { SubCategoryRepository } from "../Repositories/subcategory.repositories";
-import { ModelMapper } from "../../../Utils/mapping.utils"
-
+import { ModelMapper } from "../../../Utils/mapping.utils";
 
 /**
  * class that contain all the functions to get and set the
- * model "Subcategory". 
+ * model "Subcategory".
  */
-export class SubCategoryService 
-{
-  private SubcategoryRepository = new SubCategoryRepository();
+export class SubCategoryService {
+  private SubcategoryRepository: SubCategoryRepository;
+
+  /**
+   * use the inyection pattern
+   * @param repository
+   */
+  constructor(repository: SubCategoryRepository) {
+    this.SubcategoryRepository = repository;
+  }
 
   /**
    * this method return all the Subcategories
    * @returns
    */
-  async GetAll(CompanyID: number): Promise<SubCategory[] | null> 
-  {
+  async GetAll(CompanyID: number): Promise<SubCategory[] | null> {
     //get data from repository
     const dt = await this.SubcategoryRepository.FetchAll(CompanyID);
 
     //if there is not data return null
-    if(!dt) return null;
+    if (!dt) return null;
 
     //return the prisma object to model[]
     return ModelMapper.toMap(SubCategory, dt) as SubCategory[];
-
   }
   /**
-  * get the Subcategorys by ID
-  * Map to CompanyModel
-  * @param CompanyID 
-  * @returns 
-  */
-  async GetByID(CompanyID: number, SubcategoryID: number): Promise<SubCategory | null> {
-
+   * get the Subcategorys by ID
+   * Map to CompanyModel
+   * @param CompanyID
+   * @returns
+   */
+  async GetByID(
+    CompanyID: number,
+    SubcategoryID: number
+  ): Promise<SubCategory | null> {
     //get the data from repository
-    const dt = await this.SubcategoryRepository.FetchByID(CompanyID, SubcategoryID);
+    const dt = await this.SubcategoryRepository.FetchByID(
+      CompanyID,
+      SubcategoryID
+    );
     //if there is not data return null
-    if(!dt) return null;
+    if (!dt) return null;
 
     //return the prisma object to model
     return ModelMapper.toMap(SubCategory, dt) as SubCategory;
@@ -61,6 +70,4 @@ export class SubCategoryService
   async Update(data: any): Promise<any> {
     return await this.SubcategoryRepository.Update(data);
   }
-
-
 }

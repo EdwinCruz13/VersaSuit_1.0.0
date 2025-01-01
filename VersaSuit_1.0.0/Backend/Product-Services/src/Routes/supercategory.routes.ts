@@ -1,12 +1,17 @@
 import Router from "express";
 import { SuperCategoryController } from "../Controllers/supercategory.controllers";
+import { SuperCategoryRepository } from "../Repositories/supercategory.repositories";
+import { SuperCategoryService } from "../Services/supercategory.services";
 
 //create routers for all the endpoints
 const SuperCategoryRouter = Router();
 
 
-//initializa the controller
-const controller = new SuperCategoryController();
+// inyection the dependencies
+const superCategoryRepository = new SuperCategoryRepository();
+const superCategoryService = new SuperCategoryService(superCategoryRepository);
+//instance a new controllers
+const controller = new SuperCategoryController(superCategoryService);
 
 
 /**

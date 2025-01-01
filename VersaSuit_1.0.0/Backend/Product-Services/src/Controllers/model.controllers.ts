@@ -9,7 +9,15 @@ import { ModelService } from "../Services/model.services";
  */
 export class ModelController {
  
-  private ModelService = new ModelService();
+  private ModelService: ModelService;
+        
+      /**
+      * use the inyection pattern
+      * @param _categoryService 
+      */
+      constructor(service: ModelService) {
+        this.ModelService = service;
+      }
 
   /**
    * method http for get Models
