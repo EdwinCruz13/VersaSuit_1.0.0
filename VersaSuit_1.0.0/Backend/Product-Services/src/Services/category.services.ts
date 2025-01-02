@@ -37,10 +37,7 @@ export class CategoryService {
    * @param CompanyID
    * @returns
    */
-  async GetByID(
-    CompanyID: number,
-    CategoryID: number
-  ): Promise<Category | null> {
+  async GetByID(CompanyID: number, CategoryID: number): Promise<Category | null> {
     //get the data from repository
     const dt = await this.CategoryRepository.FetchByID(CompanyID, CategoryID);
     //if there is not data return null
