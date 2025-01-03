@@ -8,7 +8,11 @@ import { ModelMapper } from "../../../../Utils/mapping.utils";
  * from database
  */
 export class CompanyService {
-  private CompanyRepository = new CompanyRepository();
+  private CompanyRepository: CompanyRepository;
+
+  constructor(repository: CompanyRepository){
+    this.CompanyRepository = repository;
+  }
 
   /**
    * this method return all the companies

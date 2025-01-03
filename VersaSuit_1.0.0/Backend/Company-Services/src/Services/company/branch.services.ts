@@ -12,7 +12,11 @@ export class BrachService
     /**
      * this method communicate the repository
      */
-    private BranchService = new BranchRepository();
+    private BranchRepository: BranchRepository;
+
+    constructor(repository: BranchRepository){
+        this.BranchRepository = repository;
+    }
 
     /**
      * this method gets and maps this branches
@@ -21,7 +25,7 @@ export class BrachService
     async GetAll() : Promise<Branch[] | null>
     {
         //get data from repository
-        const dt = await this.BranchService.FetchAll();
+        const dt = await this.BranchRepository.FetchAll();
 
         //map the result to branch
         return ModelMapper.toMap(Branch, dt) as Branch[];
@@ -35,7 +39,7 @@ export class BrachService
     async GetByID(CompanyID: number, BranchID: number) : Promise<Branch | null>
     {
         //get data from repository
-        const dt = await this.BranchService.FetchByID(CompanyID, BranchID);
+        const dt = await this.BranchRepository.FetchByID(CompanyID, BranchID);
         
         //map the result to branch
         return ModelMapper.toMap(Branch, dt) as Branch;
@@ -48,6 +52,6 @@ export class BrachService
      */
     async Create(Branch: Branch) : Promise<any>
     {
-        return await this.BranchService.Save(Branch);
+        return await this.BranchRepository.Save(Branch);
     }
 }

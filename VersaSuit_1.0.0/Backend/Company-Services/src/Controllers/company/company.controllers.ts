@@ -9,9 +9,14 @@ import { ContactService } from "../../Services/company/contact.services";
  * use http request and response
  */
 export class CompanyController {
-  private CompanyService = new CompanyService();
+  
   private SocialMediaService = new SocialMediaService();
   private ContactService = new ContactService();
+
+  private CompanyService : CompanyService;
+  constructor(service: CompanyService){
+    this.CompanyService = service;
+  }
 
   /**
    * method http for get companies

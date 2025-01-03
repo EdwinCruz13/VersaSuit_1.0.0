@@ -1,11 +1,16 @@
 import Router from "express";
 import { BranchController } from "../Controllers/company/branch.controllers";
+import { BranchRepository } from "../Repositories/company/branch.repositories";
+import { BrachService } from "../Services/company/branch.services";
 
 //create routers for all the endpoints
 const branchesRouter = Router();
 
+//use dependency injection for the layers
+const Repository = new BranchRepository();
+const Services = new BrachService(Repository);
 //initializa the controller
-const controller = new BranchController();
+const controller = new BranchController(Services);
 
 /**
  * GET  /api/v1/users/getcompanies                  ------>(gets all company)

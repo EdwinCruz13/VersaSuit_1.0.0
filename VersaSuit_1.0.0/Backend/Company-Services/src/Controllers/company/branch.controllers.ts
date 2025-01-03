@@ -9,7 +9,16 @@ import { BrachService } from "../../Services/company/branch.services";
 export class BranchController
 {
 
-    private BranchService = new BrachService();
+    private BranchService: BrachService;
+
+    /**
+     * instance the controller
+     * using the service as param
+     * @param service 
+     */
+    constructor(service: BrachService){
+      this.BranchService = service;
+    }
     /**
      * endpoints that get all the branches from services and return the object in json format
      * @param req 

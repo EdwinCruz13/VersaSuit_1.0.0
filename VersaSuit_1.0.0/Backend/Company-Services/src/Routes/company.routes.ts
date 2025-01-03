@@ -1,11 +1,16 @@
 import Router from "express";
 import { CompanyController } from "../Controllers/company/company.controllers";
+import { CompanyRepository } from "../Repositories/company/company.repositories";
+import { CompanyService } from "../Services/company/company.services";
 
 //create routers for all the endpoints
 const companyRouter = Router();
 
+//use dependency injection 
+const Repository = new CompanyRepository();
+const Service = new CompanyService(Repository);
 //initializa the controller
-const controller = new CompanyController();
+const controller = new CompanyController(Service);
 
 
 /**
