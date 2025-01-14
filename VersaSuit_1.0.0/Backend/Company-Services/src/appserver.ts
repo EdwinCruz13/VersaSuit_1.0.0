@@ -3,7 +3,7 @@ import express from "express";
 //import routers from route module
 import companyRouter from "./Routes/company.routes";
 import branchesRouter from "./Routes/branch.routes";
-import responseMiddleware from "./middleware/response.middleware";
+import responseMiddleware from "./Middleware/response.middleware";
 
 //create a new express server
 const AppServer = express();
